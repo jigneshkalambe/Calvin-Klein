@@ -1,0 +1,55 @@
+.card-box {
+    height: 100%;
+}
+.card-box img {
+    width: 100%;
+    height: 432px;
+    display: block;
+}
+
+.card-body {
+    padding: 10px 0px 0px;
+}
+
+.title h4 {
+    font-size: 14px;
+    color: #696969;
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+
+.old-price {
+    color: #696969;
+    text-decoration: line-through;
+    /* padding-right: 8px; */
+    font-size: 14px;
+}
+
+.new-price {
+    font-size: 14px;
+    /* padding-right: 8px; */
+    color: black;
+}
+
+.card-img-box {
+    position: relative;
+}
+
+.card-img-box span {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: white;
+    font-weight: 500;
+    width: 90px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+
+.discount {
+    color: #d7373d;
+    font-size: 14px;
+}

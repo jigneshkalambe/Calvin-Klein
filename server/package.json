@@ -1,0 +1,18 @@
+{
+    "name": "calvin_klein",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon ./src/index.js"
+    },
+    "author": "jignesh kalambe",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.19.2",
+        "mongoose": "^8.5.0",
+        "nodemon": "^3.1.4"
+    }
+}

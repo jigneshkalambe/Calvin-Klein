@@ -1,0 +1,66 @@
+.Filter_box {
+    position: sticky;
+    top: 0;
+}
+
+.accordion-button {
+    padding: 0px 20px;
+    height: 60px;
+    outline: none;
+    border: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: white !important;
+    color: black !important;
+    border: none !important;
+    outline: none !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+.check-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.check-box > div {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.check-box input {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.check-box label {
+    color: #696969;
+    font-size: 15px;
+}
+
+.price-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.price-box > div {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.price-box input {
+    width: 15px;
+    height: 15px;
+}
+
+.price-box label {
+    color: #000;
+    font-size: 15px;
+}

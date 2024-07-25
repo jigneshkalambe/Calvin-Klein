@@ -1,0 +1,105 @@
+.Product_img_box {
+    width: 440px;
+    height: 580px;
+    margin: auto;
+}
+
+.Product_img_box img {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.lil_Main_box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.lil_box {
+    width: 100px;
+    height: 120px;
+    border-radius: 10px;
+    border: none;
+    overflow: hidden;
+}
+
+.lil_box img {
+    width: 100%;
+    /* height: 100%; */
+    display: block;
+    border-radius: 10px;
+    scale: 1;
+    transition: all ease 0.3s;
+    border: none;
+}
+
+.lil_box img:hover {
+    cursor: pointer;
+    /* opacity: 0.6; */
+    scale: 1.1;
+}
+
+.Product_Box {
+    padding: 0px 0px 0px 40px;
+}
+
+.Product_Box span {
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: inline-block;
+    height: 30px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: black;
+}
+
+.Product_Box h4 {
+    font-size: 30px;
+    font-weight: 500;
+    color: black;
+    margin-bottom: 8px;
+}
+
+.Product_Box p {
+    font-size: 16px;
+    /* color: black; */
+}
+
+.Product_Box button {
+    width: 100%;
+    height: 60px;
+    color: white;
+    background-color: black;
+    border: none;
+    margin: 20px 0px 0px 0px;
+    border-radius: 10px;
+}
+
+.desc {
+    padding: 10px 0px 0px 0px;
+    margin-top: 10px;
+}
+
+.desc h5 {
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.desc p {
+    color: black;
+    font-size: 23px;
+}

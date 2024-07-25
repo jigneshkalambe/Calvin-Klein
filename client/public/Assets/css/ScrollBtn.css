@@ -1,0 +1,22 @@
+.scrollBtn {
+    width: 56px;
+    height: 56px;
+    display: none;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: #000;
+    position: fixed;
+    right: 40px;
+    top: 85%;
+    z-index: 10;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scrollBtn i {
+    font-size: 35px;
+    display: block;
+    height: 15px;
+    margin-bottom: 8px;
+}

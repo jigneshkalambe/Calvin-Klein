@@ -1,0 +1,297 @@
+* {
+    /* font-family: "Helvetica Neue", sans-serif !important; */
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box !important;
+}
+
+h1 {
+    margin: 0;
+}
+
+h2 {
+    margin: 0;
+}
+
+h3 {
+    margin: 0;
+}
+
+h4 {
+    margin: 0;
+}
+
+h5 {
+    margin: 0;
+}
+
+h6 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*                                                                  Home Page CSS */
+
+/* section 1 */
+
+.home-sec1-box {
+    display: flex;
+    justify-content: center;
+}
+
+.home-sec1-box h3 {
+    color: #222222;
+    font-size: clamp(32px, 4vw, 56px);
+}
+
+.home-sec1-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 70px;
+}
+
+.home-sec1-box p {
+    font-size: clamp(16px, 2vw, 24px);
+    color: #222222;
+    font-weight: 500;
+}
+
+.home-sec1-bor {
+    border-left: solid 1px rgba(0, 0, 0, 0.2);
+}
+.home-sec1-bor1 {
+    border-right: solid 1px rgba(0, 0, 0, 0.2);
+}
+
+.home-sec1-last {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.home-sec1-last a {
+    color: #222222;
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 500;
+    border-bottom: 1px solid #ccc;
+    transition: all 0.5s;
+}
+
+.home-sec1-last a:hover {
+    border-bottom: 1px solid black;
+}
+
+/* section 1 */
+
+/*                                                                  Home Page CSS */
+
+/*                                                                Men Page css */
+
+.scroll {
+    /* overflow-x: scroll; */
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 8px;
+    color: #ccc;
+}
+
+::-webkit-scrollbar-track {
+    /* -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.3); */
+    border-radius: 10px;
+    background-color: #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cac7c7;
+    border-radius: 10px;
+    /* -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5); */
+}
+
+.Men_sec1_imgBox {
+    width: 100%;
+    margin-bottom: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.Men_sec1_imgBox img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* margin-bottom: 10px; */
+    /* padding-bottom: 10px; */
+    border-radius: 10px;
+    /* background-image: linear-gradient(rgba(0, 0, 0, 0.8)); */
+}
+
+.Men_sec1_imgBox h5 {
+    position: absolute;
+    top: 86%;
+    left: 10%;
+    color: white;
+}
+
+.Men_sec1 h4 {
+    margin-bottom: 20px;
+    color: #000;
+    font-weight: 500;
+}
+
+/*                                                                Men Page css */
+
+@media (max-width: 576px) {
+    /* home page css */
+
+    /* section 1 */
+
+    .home-space-1 {
+        padding: 30px 12px 30px;
+    }
+
+    .home-sec1-mini {
+        padding: 0px 15px;
+    }
+
+    .home-sec1-last {
+        gap: 25px;
+    }
+
+    /* section 1 */
+
+    /* home page css */
+
+    /* men page css */
+
+    .Men-space-1 {
+        padding: 20px 24px 20px;
+    }
+
+    .Men_sec1_imgBox img {
+        width: 40vw;
+    }
+
+    .Men_sec1_imgBox h5 {
+        top: 80%;
+    }
+
+    /* men page css */
+}
+@media (min-width: 576px) {
+    /* home page css */
+
+    /* section 1 */
+
+    .home-space-1 {
+        padding: 50px 24px 50px;
+    }
+
+    /* section 1 */
+
+    /* home page css */
+
+    /* men page css */
+
+    .Men-space-1 {
+        padding: 20px 24px 20px;
+    }
+
+    .Men_sec1_imgBox img {
+        width: 40vw;
+    }
+
+    /* men page css */
+}
+@media (min-width: 768px) {
+    /* home page css */
+
+    /* section 1 */
+
+    .home-space-1 {
+        padding: 50px 24px 50px;
+    }
+
+    /* section 1 */
+
+    /* home page css */
+
+    /* men page css */
+
+    .Men-space-1 {
+        padding: 20px 24px 20px;
+    }
+
+    .Men_sec1_imgBox img {
+        width: 100%;
+    }
+
+    .Men_sec1_imgBox h5 {
+        top: 80%;
+    }
+
+    /* men page css */
+}
+@media (min-width: 992px) {
+    /* home page css */
+
+    /* section 1 */
+
+    .home-space-1 {
+        padding: 50px 50px 50px;
+    }
+
+    /* section 1 */
+
+    /* home page css */
+
+    /* men page css */
+
+    .Men-space-1 {
+        padding: 20px 24px 20px;
+    }
+
+    .Men_sec1_imgBox img {
+        width: 100%;
+    }
+
+    /* men page css */
+}
+@media (min-width: 1200px) {
+    /* home page css */
+
+    /* section 1 */
+
+    .home-space-1 {
+        padding: 70px 50px 70px;
+    }
+
+    /* section 1 */
+
+    /* home page css */
+
+    /* men page css */
+
+    .Men-space-1 {
+        padding: 20px 80px 20px;
+    }
+    .Men_sec1_imgBox img {
+        width: 100%;
+    }
+
+    .Men_sec1_imgBox h5 {
+        top: 85%;
+        left: 10%;
+    }
+
+    /* men page css */
+}
