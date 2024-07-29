@@ -1,20 +1,84 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-
+import Scrollbtn from "../Components/ScrollBtn";
 const Checkout = () => {
-    const [inputData, setInputData] = useState({});
+    const [inputData, setInputData] = useState({
+        firstName: "",
+        lastName: "",
+        Address: "",
+        Apartment: "",
+        City: "",
+        State: "",
+        ZipCode: "",
+        Email: "",
+        PhoneNumber: "",
+    });
+    const [err, setErr] = useState({
+        firstName: "",
+        lastName: "",
+        Address: "",
+        Apartment: "",
+        City: "",
+        State: "",
+        ZipCode: "",
+        Email: "",
+        PhoneNumber: "",
+    });
     const totalAmount = useSelector((state) => state.cart.totalAmount);
 
     const getValue = (e) => {
         setInputData({ ...inputData, [e.target.id]: e.target.value });
+        setErr({ ...err, [e.target.id]: "" });
     };
 
     const checkOutValidtion = (e) => {
         e.preventDefault();
+        let validationError = {};
+        if (inputData.firstName === "") {
+            validationError.firstName = "Please enter a first name.";
+        }
+
+        if (inputData.lastName === "") {
+            validationError.lastName = "Please enter a last name.";
+        }
+
+        if (inputData.Address === "") {
+            validationError.Address = "Please enter a street address.";
+        }
+
+        if (inputData.City === "") {
+            validationError.City = "Please enter a city.";
+        }
+
+        if (inputData.State === "") {
+            validationError.State = "Please enter a State.";
+        }
+
+        if (inputData.ZipCode === "") {
+            validationError.ZipCode = "Please enter a zip/postal code.";
+        }
+
+        if (inputData.Email === "") {
+            validationError.Email = "The email field cannot be blank.";
+        } else {
+            const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (!regex.test(inputData.Email)) {
+                validationError.Email = "Invalid email format";
+            }
+        }
+
+        if (inputData.PhoneNumber === "") {
+            validationError.PhoneNumber = "Please enter a phone number.";
+        } else if (inputData.PhoneNumber.length < 10) {
+            validationError.PhoneNumber = "Number length should be 10";
+        }
+
+        setErr(validationError);
     };
     // console.log(inputData);
     return (
         <>
+            <Scrollbtn></Scrollbtn>
             <div className="my-4 space-1">
                 <div className="row">
                     <div className="col-lg-8">
@@ -28,23 +92,27 @@ const Checkout = () => {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ borderColor: err.firstName ? "red" : "#ccc" }}
                                             value={inputData.firstName}
                                             onChange={getValue}
                                             id="firstName"
                                             placeholder="firstName"
                                         />
                                         <label htmlFor="firstName">First Name *</label>
+                                        {err.firstName && <p className="err">{err.firstName}</p>}
                                     </div>
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ borderColor: err.lastName ? "red" : "#ccc" }}
                                             value={inputData.lastName}
                                             onChange={getValue}
                                             id="lastName"
                                             placeholder="lastName"
                                         />
                                         <label htmlFor="lastName">Last Name *</label>
+                                        {err.lastName && <p className="err">{err.lastName}</p>}
                                     </div>
                                 </div>
                                 <div className="d-flex">
@@ -52,12 +120,14 @@ const Checkout = () => {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ borderColor: err.Address ? "red" : "#ccc" }}
                                             value={inputData.Address}
                                             onChange={getValue}
                                             id="Address"
                                             placeholder="Address"
                                         />
                                         <label htmlFor="Address">Address *</label>
+                                        {err.Address && <p className="err">{err.Address}</p>}
                                     </div>
                                 </div>
                                 <div className="d-flex">
@@ -65,12 +135,29 @@ const Checkout = () => {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ borderColor: err.City ? "red" : "#ccc" }}
+                                            value={inputData.City}
+                                            onChange={getValue}
+                                            id="City"
+                                            placeholder="City"
+                                        />
+                                        <label htmlFor="City">City *</label>
+                                        {err.City && <p className="err">{err.City}</p>}
+                                    </div>
+                                </div>
+                                <div className="d-flex">
+                                    <div className="form-floating w-100">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            style={{ borderColor: err.Apartment ? "red" : "#ccc" }}
                                             value={inputData.Apartment}
                                             onChange={getValue}
                                             id="Apartment"
                                             placeholder="Apartment"
                                         />
                                         <label htmlFor="Apartment">Apartment, Suite, Etc (optional) *</label>
+                                        {err.Apartment && <p className="err">{err.Apartment}</p>}
                                     </div>
                                 </div>
                                 <div className="d-flex gap-4 ">
@@ -78,23 +165,27 @@ const Checkout = () => {
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ borderColor: err.State ? "red" : "#ccc" }}
                                             value={inputData.State}
                                             onChange={getValue}
                                             id="State"
                                             placeholder="State"
                                         />
                                         <label htmlFor="State">State *</label>
+                                        {err.State && <p className="err">{err.State}</p>}
                                     </div>
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
                                             className="form-control"
+                                            style={{ borderColor: err.ZipCode ? "red" : "#ccc" }}
                                             value={inputData.ZipCode}
                                             onChange={getValue}
                                             id="ZipCode"
                                             placeholder="ZipCode"
                                         />
                                         <label htmlFor="ZipCode">Zip Code *</label>
+                                        {err.ZipCode && <p className="err">{err.ZipCode}</p>}
                                     </div>
                                 </div>
                                 <div>
@@ -103,14 +194,16 @@ const Checkout = () => {
                                 <div className="d-flex">
                                     <div className="form-floating w-100">
                                         <input
-                                            type="email"
+                                            type="text"
                                             className="form-control"
+                                            style={{ borderColor: err.Email ? "red" : "#ccc" }}
                                             value={inputData.Email}
                                             onChange={getValue}
                                             id="Email"
                                             placeholder="Email"
                                         />
                                         <label htmlFor="Email">Email *</label>
+                                        {err.Email && <p className="err">{err.Email}</p>}
                                     </div>
                                 </div>
                                 <div className="d-flex">
@@ -118,12 +211,14 @@ const Checkout = () => {
                                         <input
                                             type="number"
                                             className="form-control"
+                                            style={{ borderColor: err.PhoneNumber ? "red" : "#ccc" }}
                                             value={inputData.PhoneNumber}
                                             onChange={getValue}
                                             id="PhoneNumber"
                                             placeholder="Phone Number"
                                         />
                                         <label htmlFor="PhoneNumber">Phone Number *</label>
+                                        {err.PhoneNumber && <p className="err">{err.PhoneNumber}</p>}
                                     </div>
                                 </div>
                                 <div>

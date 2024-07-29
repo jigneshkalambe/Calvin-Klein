@@ -8,7 +8,7 @@
     margin: 20px 0px 0px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
 }
 
 .checkout_form input[type="submit"] {
@@ -67,4 +67,14 @@
     font-size: 16px;
     border: none;
     margin-top: 0px;
+}
+
+.err {
+    color: red;
+    font-size: 12px;
+    margin: 10px 0px 0px !important ;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
 }

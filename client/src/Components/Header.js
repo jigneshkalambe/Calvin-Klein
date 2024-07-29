@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import CartItems from "./cartItems";
 
 function Header() {
+    const [eyeIcon, setEyeIcon] = useState("text");
     // const [defaultTab, setDefaultTab] = useState("Women");
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
     useEffect(() => {
@@ -24,6 +25,8 @@ function Header() {
     const cartItem = useSelector((state) => state.cart.cartItems);
     // console.log(cartItem.length);
     const totalAmount = useSelector((state) => state.cart.totalAmount);
+    // console.log(eyeIcon);
+
     return (
         <div className="space-1">
             <div className="header">
@@ -195,7 +198,69 @@ function Header() {
                             </div>
                         </div>
                         <Link>
-                            <i className="bx bx-user"></i>
+                            <div className="dropdown-header">
+                                <i className="bx bx-user"></i>
+                                <div className="dropdown-header-content">
+                                    <Link data-bs-target="#SignInOffCanvas" data-bs-toggle="offcanvas">
+                                        Sign In
+                                    </Link>
+
+                                    <Link>Create Account</Link>
+                                </div>
+                            </div>
+                            <div className="offcanvas show sign_offcanvas offcanvas-end" id="SignInOffCanvas">
+                                <div className="offcanvas-header">
+                                    <i className="bx bx-x button" data-bs-dismiss="offcanvas"></i>
+                                </div>
+                                <div className="offcanvas-body">
+                                    <div>
+                                        <h5 className="signin_heading">Sign In</h5>
+                                    </div>
+                                    <div className="d-flex flex-column gap-4 mt-4">
+                                        <div className="form-floating w-100">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                // style={{ borderColor: err.firstName ? "red" : "#ccc" }}
+                                                id="SignEmail"
+                                                placeholder="SignEmail"
+                                            />
+                                            <label htmlFor="SignEmail">Email *</label>
+                                            {/* {err.firstName && <p className="err">{err.firstName}</p>} */}
+                                        </div>
+                                        <div className="form-floating position-relative w-100">
+                                            <input
+                                                type={eyeIcon}
+                                                className="form-control position-relative"
+                                                // style={{ borderColor: err.lastName ? "red" : "#ccc" }}
+
+                                                id="Password"
+                                                placeholder="Password"
+                                            />
+                                            <div className="pass-eyes-box">
+                                                <i
+                                                    className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
+                                                    onClick={() => {
+                                                        setEyeIcon((eyeIcon) => (eyeIcon === "text" ? "password" : "text"));
+                                                    }}
+                                                ></i>
+                                            </div>
+                                            <label htmlFor="Password">Password *</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button className="SignInBtn btn btn-dark"> Sign In</button>
+                                    </div>
+                                    <div className="d-flex justify-content-center mt-4">
+                                        <p className="d-flex gap-2 m-0">
+                                            Don't have an account?
+                                            <Link to="#" className="text-dark text-decoration-underline">
+                                                Create Accout
+                                            </Link>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </Link>
                         <Link className="cart-icon">
                             <i data-bs-toggle="offcanvas" data-bs-target="#offcanvasDark" className="bx bx-shopping-bag"></i>

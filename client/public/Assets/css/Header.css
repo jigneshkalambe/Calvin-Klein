@@ -336,6 +336,92 @@
     justify-content: center;
 }
 
+.dropdown-header {
+    display: inline-block;
+    position: relative;
+}
+
+.dropdown-header-content {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    max-width: 200px;
+    background-color: black;
+    padding: 15px;
+    z-index: 1;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 65px;
+}
+
+.dropdown-header-content a {
+    color: white;
+    display: block;
+    text-decoration: none;
+}
+
+.dropdown-header-content a:hover {
+    text-decoration: underline;
+}
+
+.dropdown-header:hover .dropdown-header-content {
+    display: flex;
+}
+
+.sign_offcanvas {
+    background-color: white !important;
+    width: 35% !important;
+    transition: all ease-in 0.5s;
+}
+
+.sign_offcanvas > .offcanvas-header {
+    padding: 50px 20px 50px 50px !important;
+}
+
+.sign_offcanvas > .offcanvas-header .button {
+    background-color: #fafafa;
+    width: 30px;
+    height: 30px;
+    font-size: 24px;
+    border-radius: 50%;
+    display: flex;
+    color: #000000;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin_heading {
+    font-size: 30px;
+    margin: 0;
+}
+
+.pass-eyes-box {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 60px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.password-eyes {
+    color: #000000;
+    /* font-size: 20px; */
+    display: block;
+}
+
+.SignInBtn {
+    width: 100%;
+    height: 58px;
+    background-color: black;
+    /* color: white; */
+    border: none;
+    margin-top: 20px;
+}
+
 @media (max-width: 576px) {
     /* section 1 */
     .space-1 {

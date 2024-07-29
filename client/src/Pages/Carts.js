@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartAction } from "../Store/Slice/CartSlice";
 import { Link } from "react-router-dom";
+import ScrollBtn from "../Components/ScrollBtn";
 
 const Carts = () => {
     const products = useSelector((state) => state.cart.cartItems);
@@ -13,6 +14,7 @@ const Carts = () => {
     // console.log(totalAmount);
     return (
         <>
+            <ScrollBtn></ScrollBtn>
             {products.length === 0 ? (
                 <div className="my-5">
                     <h2 className="cartp_h2">Your Cart is Empty</h2>
@@ -25,45 +27,7 @@ const Carts = () => {
                     </div>
                     <div className="row">
                         <div className="col-lg-9">
-                            {/* <div className="d-flex gap-4 flex-column">
-                                {products?.map((val, ind) => {
-                                    return (
-                                        <div className="cartP_box" key={ind}>
-                                            <div className="row">
-                                                <div className="col-lg-2">
-                                                    <div className="cartP_imgBox">
-                                                        <img alt="" src={val.img01}></img>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-7">
-                                                    <div className="cartP_contentBox">
-                                                        <h3>{val.title}</h3>
-                                                        <div className="d-flex align-items-center">
-                                                            <i className="bx bx-check"></i>
-                                                            <p>{val.discount}% off</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-3">
-                                                    <div className="cartP_priceBox">
-                                                        <div>
-                                                            <p className="mb-0">Quantity : {val.quantity}</p>
-                                                            <div className="d-flex align-items-center gap-2">
-                                                                <span className="old_price">${val.old_price}</span>
-                                                                <span className="new_price">${val.new_price}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <button onClick={deleteProduct}>Remove</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div> */}
-                            <table className="table table-bordered table-hover table-striped">
+                            <table className="table table-bordered table-hover ">
                                 <thead className="text-center">
                                     <tr>
                                         <th>id</th>
@@ -78,14 +42,14 @@ const Carts = () => {
                                     {products?.map((val, ind) => {
                                         return (
                                             <tr key={ind}>
-                                                <th>{ind + 1}</th>
+                                                <th className="cart_table_th">{ind + 1}</th>
                                                 <th className="d-flex justify-content-center ">
                                                     <img width={100} alt="" src={val.img01}></img>
                                                 </th>
-                                                <th>{val.title}</th>
-                                                <th>{val.quantity}</th>
-                                                <th>${val.totalPrice.toFixed()}</th>
-                                                <th>
+                                                <th className="cart_table_th">{val.title}</th>
+                                                <th className="cart_table_th">{val.quantity}</th>
+                                                <th className="cart_table_th">${val.totalPrice.toFixed()}</th>
+                                                <th className="cart_table_th">
                                                     <button onClick={() => deleteProduct(val.id)} className="btn border-0 fs-4">
                                                         <i className="bx bx-trash"></i>
                                                     </button>

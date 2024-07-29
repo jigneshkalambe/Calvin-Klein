@@ -113,3 +113,8 @@
     align-items: center;
     justify-content: center;
 }
+
+.cart_table_th {
+    color: black;
+    font-weight: 500;
+}
