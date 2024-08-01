@@ -41,7 +41,7 @@ const ProductDetails = () => {
         );
         try {
             const response = await axios
-                .post(`http://localhost:5000/api/items`, {
+                .post(`http://localhost:5000/v1/data`, {
                     id,
                     desc,
                     img01,

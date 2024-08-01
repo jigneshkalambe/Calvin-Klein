@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const items = require("./route/item_route");
+const router = require("./route/v1");
 const app = express();
 
 const PORT = 5000;
@@ -18,7 +18,8 @@ mongoose
 
 app.use(express.json());
 
-app.use("/api/items", items);
+// app.use("/api/items", items);
+app.use("/v1", router);
 
 app.listen(PORT, () => {
     console.log(`Server is running at ${PORT}`);

@@ -1,10 +1,10 @@
 const express = require("express");
-const Item = require("../model/data_model");
+const { Data } = require("../../model");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
-        const newItem = await Item.find();
+        const newItem = await Data.find();
         res.json(newItem);
     } catch (error) {
         res.status(400).json({ message: "Bad request" });
@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     const { id, desc, img01, img02, img03, img04, line, title, new_price, discount, old_price } = req.body;
     try {
-        let item = await Item.findOne({ id });
+        let item = await Data.findOne({ id });
         if (item) {
             // item.id = id;
             item.desc = desc;
@@ -29,9 +29,9 @@ router.post("/", async (req, res) => {
             item.old_price = old_price;
             item.quantity += 1;
             item.totalPrice += new_price;
-            await Item.create(item);
+            await Data.create(item);
         } else {
-            item = await Item.create({
+            item = await Data.create({
                 id,
                 desc,
                 img01,
@@ -46,10 +46,10 @@ router.post("/", async (req, res) => {
                 quantity: 1,
                 totalPrice: new_price,
             });
-            await Item.create(item);
+            await Data.create(item);
         }
         res.json(item);
-        // const newItem = await Item.create(req.body);
+        // const newItem = await Data.create(req.body);
     } catch (error) {
         res.status(400).json({ message: "Bad request" });
     }
@@ -58,7 +58,7 @@ router.post("/", async (req, res) => {
 router.post("/remove", async (req, res) => {
     const { id } = req.body;
     try {
-        let exitingItems = await Item.findOne({ id });
+        let exitingItems = await Data.findOne({ id });
         // console.log(exitingItems.quantity);
 
         if (!exitingItems) {
@@ -66,7 +66,7 @@ router.post("/remove", async (req, res) => {
         }
 
         if (exitingItems.quantity === 1) {
-            await Item.deleteOne({ id });
+            await Data.deleteOne({ id });
             // await Item.create()
         } else {
             exitingItems.quantity -= 1;

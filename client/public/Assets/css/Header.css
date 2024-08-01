@@ -409,8 +409,8 @@
 
 .password-eyes {
     color: #000000;
-    /* font-size: 20px; */
     display: block;
+    cursor: pointer;
 }
 
 .SignInBtn {

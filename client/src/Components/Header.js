@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItems from "./cartItems";
+import ScrollBtn from "./ScrollBtn";
 
 function Header() {
     const [eyeIcon, setEyeIcon] = useState("text");
-    // const [defaultTab, setDefaultTab] = useState("Women");
+    const [loginErr, setLoginErr] = useState({});
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
     useEffect(() => {
         const tabs = document.querySelectorAll(".tab-btn");
         const allContent = document.querySelectorAll(".tab-content");
-        // const defaultTabIndex = Array.from(tabs).findIndex((tab) => tab.textContent.trim() === defaultTab);
-        // tabs[defaultTabIndex].classList.add("active");
-        // allContent[defaultTabIndex].classList?.add("active");
         tabs.forEach((tab, index) => {
             tab.addEventListener("click", () => {
                 tabs.forEach((tab) => tab.classList?.remove("active"));
@@ -22,13 +20,24 @@ function Header() {
             });
         });
     }, []);
+
+    // window.onload = function () {
+    //     let SignEmail = document.getElementById("SignEmail");
+    //     let SignPass = document.getElementById("SignPass");
+
+    //     let SignValidationErr = {};
+
+    //     if (SignEmail === "") {
+    //         SignValidationErr = "The email field cannot be blank";
+    //     }
+    // };
+
     const cartItem = useSelector((state) => state.cart.cartItems);
-    // console.log(cartItem.length);
     const totalAmount = useSelector((state) => state.cart.totalAmount);
-    // console.log(eyeIcon);
 
     return (
         <div className="space-1">
+            <ScrollBtn></ScrollBtn>
             <div className="header">
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4">
                     <div className="ul-box">
@@ -205,10 +214,10 @@ function Header() {
                                         Sign In
                                     </Link>
 
-                                    <Link>Create Account</Link>
+                                    <Link to={`/createaccount`}>Create Account</Link>
                                 </div>
                             </div>
-                            <div className="offcanvas show sign_offcanvas offcanvas-end" id="SignInOffCanvas">
+                            <div className="offcanvas sign_offcanvas offcanvas-end" id="SignInOffCanvas">
                                 <div className="offcanvas-header">
                                     <i className="bx bx-x button" data-bs-dismiss="offcanvas"></i>
                                 </div>
@@ -233,9 +242,8 @@ function Header() {
                                                 type={eyeIcon}
                                                 className="form-control position-relative"
                                                 // style={{ borderColor: err.lastName ? "red" : "#ccc" }}
-
-                                                id="Password"
-                                                placeholder="Password"
+                                                id="SignPass"
+                                                placeholder="SignPass"
                                             />
                                             <div className="pass-eyes-box">
                                                 <i
@@ -254,7 +262,7 @@ function Header() {
                                     <div className="d-flex justify-content-center mt-4">
                                         <p className="d-flex gap-2 m-0">
                                             Don't have an account?
-                                            <Link to="#" className="text-dark text-decoration-underline">
+                                            <Link to="/createaccount" className="text-dark text-decoration-underline">
                                                 Create Accout
                                             </Link>
                                         </p>

@@ -30,7 +30,7 @@ const CartItems = (props) => {
 
         try {
             const response = await axios
-                .post(`http://localhost:5000/api/items`, {
+                .post(`http://localhost:5000/v1/data`, {
                     id,
                     desc,
                     img01,
@@ -62,7 +62,7 @@ const CartItems = (props) => {
         }
         dispatch(cartAction.removeProducts({ id }));
         try {
-            const response = await axios.post(`http://localhost:5000/api/items/remove`, { id });
+            const response = await axios.post(`http://localhost:5000/v1/data/remove`, { id });
             console.log(response);
         } catch (error) {
             console.log(error);
