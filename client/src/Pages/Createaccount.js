@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const Createaccount = () => {
     const [eyeIcon, setEyeIcon] = useState("text");
     const [CreateFromData, setCreateFromData] = useState({
@@ -27,33 +29,6 @@ const Createaccount = () => {
         // console.log(id, value);
         const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-        // switch (id) {
-        //     case "firstName":
-        //         if (value === "") {
-        //             CreateValidationErr.firstName = "Please enter your first name";
-        //         }
-        //         break;
-        //     case "lastName":
-        //         if (value === "") {
-        //             CreateValidationErr.lastName = "Please enter your last name";
-        //         }
-        //         break;
-        //     case "email":
-        //         if (value === "") {
-        //             CreateValidationErr.email = "Please enter your email";
-        //         } else if (!regex.test(value)) {
-        //             CreateValidationErr.email = "Invalid email format";
-        //         }
-        //         break;
-        //     case "password":
-        //         if (value === "") {
-        //             CreateValidationErr.password = "Please enter your password";
-        //         }
-        //         break;
-        //     default:
-        //         break;
-        // }
-
         if (id === "firstName") {
             if (value === "") {
                 CreateValidationErr.firstName = "Please enter your first name";
@@ -75,15 +50,21 @@ const Createaccount = () => {
         }
 
         setCreateErr(CreateValidationErr);
-        // console.log(CreateValidationErr);
     };
-
+    const navigate = useNavigate();
     const CreateaccountHandler = async (e) => {
         e.preventDefault();
         await axios
-            .post(`http://localhost:5000/v1/accout/createAccout`, CreateFromData)
+            .post(`http://localhost:5000/v1/account/createAccount`, CreateFromData)
             .then((res) => {
                 console.log(res);
+                Swal.fire({
+                    title: "Account Created",
+                    text: "Account created successfully",
+                    icon: "success",
+                }).then(() => {
+                    navigate("/");
+                });
                 setCreateFromData({
                     firstName: "",
                     lastName: "",
@@ -91,7 +72,14 @@ const Createaccount = () => {
                     password: "",
                 });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "There was an error creating your account. Please try again.",
+                });
+            });
     };
 
     return (

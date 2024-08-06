@@ -9,6 +9,7 @@ import Kids from "../Pages/Kids";
 import Carts from "../Pages/Carts";
 import Checkout from "../Pages/Checkout";
 import Createaccount from "../Pages/Createaccount";
+import Account from "../Components/account";
 function Routers() {
     const [component, setComponent] = useState();
     useEffect(() => {});
@@ -26,6 +27,7 @@ function Routers() {
                     <Route path="/cart" element={<Carts />}></Route>
                     <Route path="/checkout" element={<Checkout />}></Route>
                     <Route path="/createaccount" element={<Createaccount />}></Route>
+                    <Route path="/account" element={<Account />}></Route>
                 </Routes>
             </context_ex.Provider>
         </div>

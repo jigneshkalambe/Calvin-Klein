@@ -3,10 +3,13 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItems from "./cartItems";
 import ScrollBtn from "./ScrollBtn";
+import axios from "axios";
 
 function Header() {
     const [eyeIcon, setEyeIcon] = useState("text");
     const [loginErr, setLoginErr] = useState({});
+    const [accData, setAccData] = useState(null);
+
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
     useEffect(() => {
         const tabs = document.querySelectorAll(".tab-btn");
@@ -21,19 +24,26 @@ function Header() {
         });
     }, []);
 
-    // window.onload = function () {
-    //     let SignEmail = document.getElementById("SignEmail");
-    //     let SignPass = document.getElementById("SignPass");
-
-    //     let SignValidationErr = {};
-
-    //     if (SignEmail === "") {
-    //         SignValidationErr = "The email field cannot be blank";
-    //     }
-    // };
+    useEffect(() => {
+        axios
+            .get(`http://localhost:5000/v1/account`)
+            .then((res) => {
+                console.log(res);
+                if (res.data && res.data.length > 0) {
+                    setAccData(res.data);
+                } else {
+                    setAccData(null);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                setAccData(null);
+            });
+    }, []);
 
     const cartItem = useSelector((state) => state.cart.cartItems);
     const totalAmount = useSelector((state) => state.cart.totalAmount);
+    console.log(accData);
 
     return (
         <div className="space-1">
@@ -206,71 +216,85 @@ function Header() {
                                 </div>
                             </div>
                         </div>
-                        <Link>
+                        {/* <div> */}
+                        {accData ? (
+                            <Link to={`/account`}>
+                                <i className="bx bx-user"></i>
+                            </Link>
+                        ) : (
                             <div className="dropdown-header">
                                 <i className="bx bx-user"></i>
                                 <div className="dropdown-header-content">
                                     <Link data-bs-target="#SignInOffCanvas" data-bs-toggle="offcanvas">
                                         Sign In
                                     </Link>
-
                                     <Link to={`/createaccount`}>Create Account</Link>
                                 </div>
                             </div>
-                            <div className="offcanvas sign_offcanvas offcanvas-end" id="SignInOffCanvas">
-                                <div className="offcanvas-header">
-                                    <i className="bx bx-x button" data-bs-dismiss="offcanvas"></i>
+                        )}
+                        {/* </div> */}
+                        {/* <div className="dropdown-header">
+                            <i className="bx bx-user"></i>
+                            <div className="dropdown-header-content">
+                                <Link data-bs-target="#SignInOffCanvas" data-bs-toggle="offcanvas">
+                                    Sign In
+                                </Link>
+                                <Link to={`/createaccount`}>Create Account</Link>
+                            </div>
+                        </div> */}
+                        <div className="offcanvas sign_offcanvas offcanvas-end" id="SignInOffCanvas">
+                            <div className="offcanvas-header">
+                                <i className="bx bx-x button" data-bs-dismiss="offcanvas"></i>
+                            </div>
+                            <div className="offcanvas-body">
+                                <div>
+                                    <h5 className="signin_heading">Sign In</h5>
                                 </div>
-                                <div className="offcanvas-body">
-                                    <div>
-                                        <h5 className="signin_heading">Sign In</h5>
+                                <div className="d-flex flex-column gap-4 mt-4">
+                                    <div className="form-floating w-100">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            // style={{ borderColor: err.firstName ? "red" : "#ccc" }}
+                                            id="SignEmail"
+                                            placeholder="SignEmail"
+                                        />
+                                        <label htmlFor="SignEmail">Email *</label>
+                                        {/* {err.firstName && <p className="err">{err.firstName}</p>} */}
                                     </div>
-                                    <div className="d-flex flex-column gap-4 mt-4">
-                                        <div className="form-floating w-100">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                // style={{ borderColor: err.firstName ? "red" : "#ccc" }}
-                                                id="SignEmail"
-                                                placeholder="SignEmail"
-                                            />
-                                            <label htmlFor="SignEmail">Email *</label>
-                                            {/* {err.firstName && <p className="err">{err.firstName}</p>} */}
+                                    <div className="form-floating position-relative w-100">
+                                        <input
+                                            type={eyeIcon}
+                                            className="form-control position-relative"
+                                            // style={{ borderColor: err.lastName ? "red" : "#ccc" }}
+                                            id="SignPass"
+                                            placeholder="SignPass"
+                                        />
+                                        <div className="pass-eyes-box">
+                                            <i
+                                                className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
+                                                onClick={() => {
+                                                    setEyeIcon((eyeIcon) => (eyeIcon === "text" ? "password" : "text"));
+                                                }}
+                                            ></i>
                                         </div>
-                                        <div className="form-floating position-relative w-100">
-                                            <input
-                                                type={eyeIcon}
-                                                className="form-control position-relative"
-                                                // style={{ borderColor: err.lastName ? "red" : "#ccc" }}
-                                                id="SignPass"
-                                                placeholder="SignPass"
-                                            />
-                                            <div className="pass-eyes-box">
-                                                <i
-                                                    className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
-                                                    onClick={() => {
-                                                        setEyeIcon((eyeIcon) => (eyeIcon === "text" ? "password" : "text"));
-                                                    }}
-                                                ></i>
-                                            </div>
-                                            <label htmlFor="Password">Password *</label>
-                                        </div>
+                                        <label htmlFor="Password">Password *</label>
                                     </div>
-                                    <div>
-                                        <button className="SignInBtn btn btn-dark"> Sign In</button>
-                                    </div>
-                                    <div className="d-flex justify-content-center mt-4">
-                                        <p className="d-flex gap-2 m-0">
-                                            Don't have an account?
-                                            <Link to="/createaccount" className="text-dark text-decoration-underline">
-                                                Create Accout
-                                            </Link>
-                                        </p>
-                                    </div>
+                                </div>
+                                <div>
+                                    <button className="SignInBtn btn btn-dark"> Sign In</button>
+                                </div>
+                                <div className="d-flex justify-content-center mt-4">
+                                    <p className="d-flex gap-2 m-0">
+                                        Don't have an account?
+                                        <Link to="/createaccount" className="text-dark text-decoration-underline">
+                                            Create Accout
+                                        </Link>
+                                    </p>
                                 </div>
                             </div>
-                        </Link>
-                        <Link className="cart-icon">
+                        </div>
+                        <div className="cart-icon">
                             <i data-bs-toggle="offcanvas" data-bs-target="#offcanvasDark" className="bx bx-shopping-bag"></i>
                             <div className="offcanvas offcanvasCart offcanvas-end " data-bs-backdrop="static" id="offcanvasDark">
                                 <div className="offcanvas-header">
@@ -304,7 +328,7 @@ function Header() {
                                 </div>
                             </div>
                             {totalQuantity === 0 ? "" : <span>{totalQuantity}</span>}
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </div>

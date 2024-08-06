@@ -15,6 +15,7 @@
         "react-scripts": "5.0.1",
         "react-slick": "^0.30.2",
         "redux": "^5.0.1",
+        "sweetalert2": "^11.12.4",
         "web-vitals": "^2.1.4"
     },
     "scripts": {
