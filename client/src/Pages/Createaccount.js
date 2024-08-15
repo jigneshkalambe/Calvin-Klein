@@ -58,12 +58,14 @@ const Createaccount = () => {
             .post(`http://localhost:5000/v1/account/createAccount`, CreateFromData)
             .then((res) => {
                 console.log(res);
+                localStorage.setItem("userAccId", res.data.Users._id);
                 Swal.fire({
                     title: "Account Created",
-                    text: "Account created successfully",
+                    text: "Account Created successfully",
                     icon: "success",
                 }).then(() => {
                     navigate("/");
+                    // window.location.reload();
                 });
                 setCreateFromData({
                     firstName: "",
@@ -71,13 +73,15 @@ const Createaccount = () => {
                     email: "",
                     password: "",
                 });
+                // console.log(res.data.token);
+                // localStorage.setItem("user token", res.data.token);
             })
-            .catch((err) => {
-                console.log(err);
+            .catch((error) => {
+                console.log(error);
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: "There was an error creating your account. Please try again.",
+                    text: error.response.data.message,
                 });
             });
     };

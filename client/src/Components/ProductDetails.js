@@ -17,6 +17,7 @@ const ProductDetails = () => {
             behavior: "smooth",
         });
     });
+
     const dispatch = useDispatch();
     const addFn = async () => {
         if (!id) {
@@ -39,9 +40,12 @@ const ProductDetails = () => {
                 old_price,
             })
         );
+        let accId = localStorage.getItem("userAccId");
+        // console.log(accId);
         try {
             const response = await axios
                 .post(`http://localhost:5000/v1/data`, {
+                    accId,
                     id,
                     desc,
                     img01,
@@ -55,15 +59,17 @@ const ProductDetails = () => {
                     old_price,
                 })
                 .then((res) => {
-                    // console.log(res);
+                    console.log(res);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-            console.log(response);
+            // console.log(response);
+            // localStorage.removeItem("userAccId");
         } catch (err) {
             console.log(err);
         }
+        // localStorage.removeItem("userAccId");
     };
 
     return (
@@ -103,7 +109,6 @@ const ProductDetails = () => {
                             <div className="d-flex gap-2 align-items-center">
                                 {old_price ? <p className="old-price">${old_price}</p> : null}
                                 <p className="new-price">${new_price}</p>
-                                {/* {discount === "" ? "" : <p className="discount">{discount}%</p>} */}
                                 {discount ? <p className="discount">{discount}% off</p> : null}
                             </div>
                             <div className="w-100">

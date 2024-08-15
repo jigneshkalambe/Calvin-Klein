@@ -1,20 +1,23 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 
-const items = localStorage.getItem("cartItems") !== null ? JSON.parse(localStorage.getItem("cartItems")) : [];
-const totalQuantity = localStorage.getItem("totalQuantity") !== null ? JSON.parse(localStorage.getItem("totalQuantity")) : 0;
-const totalAmount = localStorage.getItem("totalAmount") !== null ? JSON.parse(localStorage.getItem("totalAmount")) : 0;
+// const items = localStorage.getItem("cartItems") !== null ? JSON.parse(localStorage.getItem("cartItems")) : [];
+// const totalQuantity = localStorage.getItem("totalQuantity") !== null ? JSON.parse(localStorage.getItem("totalQuantity")) : 0;
+// const totalAmount = localStorage.getItem("totalAmount") !== null ? JSON.parse(localStorage.getItem("totalAmount")) : 0;
 
-const setItem = (item, totalAmount, totalQuantity) => {
-    localStorage.setItem("cartItems", JSON.stringify(item));
-    localStorage.setItem("totalQuantity", JSON.stringify(totalQuantity));
-    localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
-};
+// const setItem = (item, totalAmount, totalQuantity) => {
+//     localStorage.setItem("cartItems", JSON.stringify(item));
+//     localStorage.setItem("totalQuantity", JSON.stringify(totalQuantity));
+//     localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
+// };
 
 const initialState = {
     Component: true,
-    cartItems: items,
-    totalQuantity: totalQuantity,
-    totalAmount: totalAmount,
+    // cartItems: items,
+    // totalQuantity: totalQuantity,
+    // totalAmount: totalAmount,
+    cartItems: [],
+    totalQuantity: 0,
+    totalAmount: 0,
 };
 
 const cartSlice = createSlice({
@@ -51,11 +54,11 @@ const cartSlice = createSlice({
             }
 
             state.totalAmount = state.cartItems.reduce((total, item) => total + Number(item.new_price) * Number(item.quantity), 0);
-            setItem(
-                state.cartItems.map((item) => item),
-                state.totalAmount,
-                state.totalQuantity
-            );
+            // setItem(
+            //     state.cartItems.map((item) => item),
+            //     state.totalAmount,
+            //     state.totalQuantity
+            // );
             return state;
             // console.log(current(state.cartItems));
         },
@@ -74,11 +77,11 @@ const cartSlice = createSlice({
             }
 
             state.totalAmount = state.cartItems.reduce((total, item) => total + Number(item.new_price) * Number(item.quantity), 0);
-            setItem(
-                state.cartItems.map((item) => item),
-                state.totalAmount,
-                state.totalQuantity
-            );
+            // setItem(
+            //     state.cartItems.map((item) => item),
+            //     state.totalAmount,
+            //     state.totalQuantity
+            // );
             return state;
         },
         deleteProducts(state, action) {
@@ -90,11 +93,11 @@ const cartSlice = createSlice({
                 state.totalQuantity = state.totalQuantity - exitingItems.quantity;
             }
             state.totalAmount = state.cartItems.reduce((total, item) => total + Number(item.new_price) * Number(item.quantity), 0);
-            setItem(
-                state.cartItems.map((item) => item),
-                state.totalAmount,
-                state.totalQuantity
-            );
+            // setItem(
+            //     state.cartItems.map((item) => item),
+            //     state.totalAmount,
+            //     state.totalQuantity
+            // );
             return state;
         },
     },

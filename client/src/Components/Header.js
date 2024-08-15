@@ -4,13 +4,20 @@ import { Link } from "react-router-dom";
 import CartItems from "./cartItems";
 import ScrollBtn from "./ScrollBtn";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function Header() {
     const [eyeIcon, setEyeIcon] = useState("text");
-    const [loginErr, setLoginErr] = useState({});
     const [accData, setAccData] = useState(null);
+    const [loginData, setLoginData] = useState({
+        email: "",
+        password: "",
+    });
 
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+    const cartItem = useSelector((state) => state.cart.cartItems);
+    const totalAmount = useSelector((state) => state.cart.totalAmount);
+
     useEffect(() => {
         const tabs = document.querySelectorAll(".tab-btn");
         const allContent = document.querySelectorAll(".tab-content");
@@ -24,26 +31,55 @@ function Header() {
         });
     }, []);
 
-    useEffect(() => {
-        axios
-            .get(`http://localhost:5000/v1/account`)
+    const getData = (e) => {
+        setLoginData({ ...loginData, [e.target.id]: e.target.value });
+    };
+
+    const submitData = async (e) => {
+        e.preventDefault();
+        await axios
+            .post(`http://localhost:5000/v1/login`, loginData)
             .then((res) => {
                 console.log(res);
-                if (res.data && res.data.length > 0) {
-                    setAccData(res.data);
-                } else {
-                    setAccData(null);
+                if (res.status === 200) {
+                    Swal.fire({
+                        title: "Login Success",
+                        text: "You have been logged in successfully",
+                        icon: "success",
+                    });
                 }
             })
             .catch((err) => {
                 console.log(err);
-                setAccData(null);
+                Swal.fire({
+                    title: "Login Failed",
+                    text: "Invalid email or password",
+                    icon: "error",
+                });
             });
+    };
+
+    useEffect(() => {
+        const accDataFetch = async () => {
+            await axios
+                .get(`http://localhost:5000/v1/account`)
+                .then((res) => {
+                    // console.log(res);
+                    if (res.data && res.data.length > 0) {
+                        setAccData(res.data);
+                    } else {
+                        setAccData(null);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setAccData(null);
+                });
+        };
+        accDataFetch();
     }, []);
 
-    const cartItem = useSelector((state) => state.cart.cartItems);
-    const totalAmount = useSelector((state) => state.cart.totalAmount);
-    console.log(accData);
+    // console.log(accData);
 
     return (
         <div className="space-1">
@@ -217,7 +253,7 @@ function Header() {
                             </div>
                         </div>
                         {/* <div> */}
-                        {accData ? (
+                        {/* {accData ? (
                             <Link to={`/account`}>
                                 <i className="bx bx-user"></i>
                             </Link>
@@ -231,9 +267,9 @@ function Header() {
                                     <Link to={`/createaccount`}>Create Account</Link>
                                 </div>
                             </div>
-                        )}
+                        )} */}
                         {/* </div> */}
-                        {/* <div className="dropdown-header">
+                        <div className="dropdown-header">
                             <i className="bx bx-user"></i>
                             <div className="dropdown-header-content">
                                 <Link data-bs-target="#SignInOffCanvas" data-bs-toggle="offcanvas">
@@ -241,58 +277,66 @@ function Header() {
                                 </Link>
                                 <Link to={`/createaccount`}>Create Account</Link>
                             </div>
-                        </div> */}
+                        </div>
                         <div className="offcanvas sign_offcanvas offcanvas-end" id="SignInOffCanvas">
-                            <div className="offcanvas-header">
-                                <i className="bx bx-x button" data-bs-dismiss="offcanvas"></i>
-                            </div>
-                            <div className="offcanvas-body">
-                                <div>
-                                    <h5 className="signin_heading">Sign In</h5>
+                            <form onSubmit={submitData}>
+                                <div className="offcanvas-header">
+                                    <i className="bx bx-x button" data-bs-dismiss="offcanvas"></i>
                                 </div>
-                                <div className="d-flex flex-column gap-4 mt-4">
-                                    <div className="form-floating w-100">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            // style={{ borderColor: err.firstName ? "red" : "#ccc" }}
-                                            id="SignEmail"
-                                            placeholder="SignEmail"
-                                        />
-                                        <label htmlFor="SignEmail">Email *</label>
-                                        {/* {err.firstName && <p className="err">{err.firstName}</p>} */}
+                                <div className="offcanvas-body">
+                                    <div>
+                                        <h5 className="signin_heading">Sign In</h5>
                                     </div>
-                                    <div className="form-floating position-relative w-100">
-                                        <input
-                                            type={eyeIcon}
-                                            className="form-control position-relative"
-                                            // style={{ borderColor: err.lastName ? "red" : "#ccc" }}
-                                            id="SignPass"
-                                            placeholder="SignPass"
-                                        />
-                                        <div className="pass-eyes-box">
-                                            <i
-                                                className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
-                                                onClick={() => {
-                                                    setEyeIcon((eyeIcon) => (eyeIcon === "text" ? "password" : "text"));
-                                                }}
-                                            ></i>
+                                    <div className="d-flex flex-column gap-4 mt-4">
+                                        <div className="form-floating w-100">
+                                            <input
+                                                type="text"
+                                                onChange={getData}
+                                                value={loginData.email}
+                                                className="form-control"
+                                                // style={{ borderColor: err.firstName ? "red" : "#ccc" }}
+                                                id="email"
+                                                placeholder="email"
+                                            />
+                                            <label htmlFor="email">Email *</label>
+                                            {/* {err.firstName && <p className="err">{err.firstName}</p>} */}
                                         </div>
-                                        <label htmlFor="Password">Password *</label>
+                                        <div className="form-floating position-relative w-100">
+                                            <input
+                                                type={eyeIcon}
+                                                onChange={getData}
+                                                value={loginData.password}
+                                                className="form-control position-relative"
+                                                // style={{ borderColor: err.lastName ? "red" : "#ccc" }}
+                                                id="password"
+                                                placeholder="password"
+                                            />
+                                            <div className="pass-eyes-box">
+                                                <i
+                                                    className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
+                                                    onClick={() => {
+                                                        setEyeIcon((eyeIcon) => (eyeIcon === "text" ? "password" : "text"));
+                                                    }}
+                                                ></i>
+                                            </div>
+                                            <label htmlFor="password">Password *</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button className="SignInBtn btn btn-dark" type="submit">
+                                            Sign In
+                                        </button>
+                                    </div>
+                                    <div className="d-flex justify-content-center mt-4">
+                                        <p className="d-flex gap-2 m-0">
+                                            Don't have an account?
+                                            <Link to="/createaccount" className="text-dark text-decoration-underline">
+                                                Create Accout
+                                            </Link>
+                                        </p>
                                     </div>
                                 </div>
-                                <div>
-                                    <button className="SignInBtn btn btn-dark"> Sign In</button>
-                                </div>
-                                <div className="d-flex justify-content-center mt-4">
-                                    <p className="d-flex gap-2 m-0">
-                                        Don't have an account?
-                                        <Link to="/createaccount" className="text-dark text-decoration-underline">
-                                            Create Accout
-                                        </Link>
-                                    </p>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                         <div className="cart-icon">
                             <i data-bs-toggle="offcanvas" data-bs-target="#offcanvasDark" className="bx bx-shopping-bag"></i>

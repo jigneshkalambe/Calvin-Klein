@@ -21,8 +21,14 @@ const Accounts_Schema = mongoose.Schema({
         trim: true,
         required: true,
     },
+    products: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "Item",
+        },
+    ],
 });
 
-const account = mongoose.model("Account", Accounts_Schema);
+const Account = mongoose.model("Account", Accounts_Schema);
 
-module.exports = account;
+module.exports = Account;
