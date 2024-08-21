@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function ProductCard(props) {
-    const { img01, img02, img03, old_price, new_price, title, line, id, discount } = props.items;
+    const { img01, img02, img03, old_price, new_price, title, line, id, discount, category } = props.items;
 
     return (
         <div className="card-box ">
             <div className="card-img-box">
-                <Link to={`/men/${id}`}>
+                <Link to={`/${category.toLowerCase()}/${id}`}>
                     <img alt="" src={img01}></img>
                 </Link>
                 {line ? <span>{line}</span> : null}

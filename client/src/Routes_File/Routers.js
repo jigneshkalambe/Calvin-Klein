@@ -12,17 +12,16 @@ import Createaccount from "../Pages/Createaccount";
 import Account from "../Components/account";
 function Routers() {
     const [component, setComponent] = useState();
-    useEffect(() => {});
     return (
         <div>
             <context_ex.Provider value={{ component, setComponent }}>
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
                     <Route path="/men" element={<Men />}></Route>
-                    <Route path="/men/:id" element={<ProductDetails />}></Route>
                     <Route path="/women" element={<Women />}></Route>
-                    <Route path="/women/:id" element={<ProductDetails />}></Route>
                     <Route path="/kids" element={<Kids />}></Route>
+                    <Route path="/men/:id" element={<ProductDetails />}></Route>
+                    <Route path="/women/:id" element={<ProductDetails />}></Route>
                     <Route path="/kids/:id" element={<ProductDetails />}></Route>
                     <Route path="/cart" element={<Carts />}></Route>
                     <Route path="/checkout" element={<Checkout />}></Route>

@@ -1,11 +1,34 @@
-import React from "react";
-// import img1 from "../Web_Data/images/11171050_061_main.webp";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { cartAction } from "../Store/Slice/CartSlice";
 import axios from "axios";
 const CartItems = (props) => {
     const { id, desc, img01, img02, img03, img04, line, discount, title, quantity, old_price, new_price } = props.items;
     const dispatch = useDispatch();
+    const userId = localStorage.getItem("userAccId");
+    useEffect(() => {
+        const fetchCart = async () => {
+            try {
+                await axios.get(`http://localhost:5000/v1/account`).then((res) => {
+                    console.log(res, "cartItems");
+                    const accounts = res.data.Accounts;
+                    const currentAccount = accounts.find((account) => account._id === userId);
+                    console.log("CurrentAccInCartItem", currentAccount);
+
+                    if (currentAccount && currentAccount.products) {
+                        const cartItems = currentAccount.products;
+                        console.log("Products in current account:", cartItems); // Check if all items are logged
+                        dispatch(cartAction.initializeCart(cartItems));
+                    } else {
+                        console.error("No products found for the current account");
+                    }
+                });
+            } catch (err) {
+                console.error("Failed to fetch cart items:", err);
+            }
+        };
+        fetchCart();
+    }, [dispatch]);
 
     const addItem = async () => {
         if (!id) {
@@ -44,7 +67,7 @@ const CartItems = (props) => {
                     old_price,
                 })
                 .then((res) => {
-                    console.log(res);
+                    // console.log(res);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -56,21 +79,27 @@ const CartItems = (props) => {
     };
 
     const removeItem = async () => {
-        if (!id) {
-            console.error("product is missing");
+        if (!id || !userId) {
+            console.error("product is missing or userId is missing");
             return;
         }
+        await axios
+            .post(`http://localhost:5000/v1/data/remove`, { id, userId })
+            .then((res) => {
+                console.log("frontProducts", res);
+            })
+            .catch((err) => console.log(err));
         dispatch(cartAction.removeProducts({ id }));
-        try {
-            const response = await axios.post(`http://localhost:5000/v1/data/remove`, { id });
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-        }
     };
 
-    const deleteItem = () => {
+    const deleteItem = async () => {
         dispatch(cartAction.deleteProducts({ id }));
+        await axios
+            .post(`http://localhost:5000/v1/data/delete`, { id, userId })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => console.log(err));
     };
 
     return (

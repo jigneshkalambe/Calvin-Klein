@@ -6,7 +6,7 @@ const Account = () => {
             await axios
                 .get(`http://localhost:5000/v1/account`)
                 .then((res) => {
-                    // console.log(res);
+                    console.log(res);
                 })
                 .catch((err) => {
                     console.log(err);

@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import CartItems from "./cartItems";
 import ScrollBtn from "./ScrollBtn";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { cartAction } from "../Store/Slice/CartSlice";
 
 function Header() {
+    const [cartItems, setCartItems] = useState([]);
     const [eyeIcon, setEyeIcon] = useState("text");
     const [accData, setAccData] = useState(null);
     const [loginData, setLoginData] = useState({
         email: "",
         password: "",
     });
-
+    const navigate = useNavigate();
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
-    const cartItem = useSelector((state) => state.cart.cartItems);
     const totalAmount = useSelector((state) => state.cart.totalAmount);
+    const cartItem = useSelector((state) => state.cart.cartItems);
 
     useEffect(() => {
         const tabs = document.querySelectorAll(".tab-btn");
@@ -35,17 +37,45 @@ function Header() {
         setLoginData({ ...loginData, [e.target.id]: e.target.value });
     };
 
+    const dispatch = useDispatch();
+
     const submitData = async (e) => {
         e.preventDefault();
         await axios
             .post(`http://localhost:5000/v1/login`, loginData)
             .then((res) => {
                 console.log(res);
+                localStorage.setItem("userAccId", res.data.User._id);
                 if (res.status === 200) {
+                    const fetchCart = async () => {
+                        try {
+                            await axios.get(`http://localhost:5000/v1/account`).then((res) => {
+                                console.log(res, "cartItems");
+                                const accounts = res.data.Accounts;
+                                const userId = localStorage.getItem("userAccId");
+                                const currentAccount = accounts.find((account) => account._id === userId);
+                                console.log("CurrentAccInCartItem", currentAccount);
+
+                                if (currentAccount && currentAccount.products) {
+                                    const cartItems = currentAccount.products;
+                                    console.log("Products in current account:", cartItems);
+                                    dispatch(cartAction.initializeCart(cartItems));
+                                } else {
+                                    console.error("No products found for the current account");
+                                }
+                            });
+                        } catch (err) {
+                            console.error("Failed to fetch cart items:", err);
+                        }
+                    };
+                    fetchCart();
                     Swal.fire({
                         title: "Login Success",
                         text: "You have been logged in successfully",
                         icon: "success",
+                    }).then(() => {
+                        navigate("/");
+                        window.location.reload();
                     });
                 }
             })
@@ -61,25 +91,31 @@ function Header() {
 
     useEffect(() => {
         const accDataFetch = async () => {
-            await axios
-                .get(`http://localhost:5000/v1/account`)
-                .then((res) => {
-                    // console.log(res);
-                    if (res.data && res.data.length > 0) {
-                        setAccData(res.data);
-                    } else {
-                        setAccData(null);
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    setAccData(null);
-                });
+            const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
+            if (storedCartItems) {
+                dispatch(cartAction.initializeCart(storedCartItems));
+            } else {
+                await axios
+                    .get(`http://localhost:5000/v1/account`)
+                    .then((res) => {
+                        console.log(res, "Response");
+                        console.log("Accounts array", res.data.Accounts);
+                        const accounts = res.data.Accounts;
+                        const userId = localStorage.getItem("userAccId");
+                        console.log("userIDFromLocal", userId);
+                        const currentUserId = accounts.find((account) => account._id === userId);
+                        if (currentUserId && currentUserId.products) {
+                            dispatch(cartAction.initializeCart(currentUserId.products));
+                        }
+                        console.log("Current User", currentUserId);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
         };
         accDataFetch();
     }, []);
-
-    // console.log(accData);
 
     return (
         <div className="space-1">
@@ -88,11 +124,6 @@ function Header() {
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4">
                     <div className="ul-box">
                         <ul className="menu">
-                            {/* <li>
-                                    <Link data-bs-toggle="offcanvas" to="#offcanvasWithBothOptions2">
-                                        New
-                                    </Link>
-                                </li> */}
                             <li>
                                 <Link className="tab-btn" id="women" data-bs-toggle="offcanvas" to="#offcanvasWithBothOptions2">
                                     Women
@@ -108,27 +139,11 @@ function Header() {
                                     Kids
                                 </Link>
                             </li>
-                            {/* <li>
-                                    <Link data-bs-toggle="offcanvas" to="#offcanvasWithBothOptions2">
-                                        Essebtials
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link data-bs-toggle="offcanvas" to="#offcanvasWithBothOptions2">
-                                        Sale
-                                    </Link>
-                                </li> */}
                         </ul>
                     </div>
                     <i className="bx bx-menu menu-off" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions2"></i>
 
-                    <div
-                        className="offcanvas offcanvas-start offcanvas2"
-                        data-bs-scroll="true"
-                        tabIndex="-1"
-                        id="offcanvasWithBothOptions2"
-                        aria-labelledby="offcanvasWithBothOptionsLabel"
-                    >
+                    <div className="offcanvas offcanvas-start offcanvas2" data-bs-scroll="true" tabIndex="-1" id="offcanvasWithBothOptions2" aria-labelledby="offcanvasWithBothOptionsLabel">
                         <div className="offcanvas-header justify-content-between align-items-center mt-4">
                             <div className="offcanvas2-a-box">
                                 {/* <ul id="offcanvas2-a">
@@ -159,11 +174,7 @@ function Header() {
                                         </div>
                                     </div>
                                     <div className="col-4">
-                                        <img
-                                            alt=""
-                                            className="img-fluid d-block"
-                                            src="https://media1.calvinklein.com/images/20240430/Nav/SP24_MD_W_SMTH_CTN_SWTR_3_2x.webp"
-                                        ></img>
+                                        <img alt="" className="img-fluid d-block" src="https://media1.calvinklein.com/images/20240430/Nav/SP24_MD_W_SMTH_CTN_SWTR_3_2x.webp"></img>
                                     </div>
                                 </div>
                             </div>
@@ -179,11 +190,7 @@ function Header() {
                                         </div>
                                     </div>
                                     <div className="col-4">
-                                        <img
-                                            alt=""
-                                            className="img-fluid d-block"
-                                            src="https://media1.calvinklein.com/images/20240326/Nav/Nav_Drop_Down_Men_Apparel_2x.webp"
-                                        ></img>
+                                        <img alt="" className="img-fluid d-block" src="https://media1.calvinklein.com/images/20240326/Nav/Nav_Drop_Down_Men_Apparel_2x.webp"></img>
                                     </div>
                                 </div>
                             </div>
@@ -199,11 +206,7 @@ function Header() {
                                         </div>
                                     </div>
                                     <div className="col-4">
-                                        <img
-                                            alt=""
-                                            className="img-fluid d-block"
-                                            src="https://media1.calvinklein.com/images/20240319/Nav/Nav_Drop_Down_Girls_2x.webp"
-                                        ></img>
+                                        <img alt="" className="img-fluid d-block" src="https://media1.calvinklein.com/images/20240319/Nav/Nav_Drop_Down_Girls_2x.webp"></img>
                                     </div>
                                 </div>
                             </div>
@@ -221,24 +224,12 @@ function Header() {
                             <i className="bx bx-search"></i>
                         </Link>
 
-                        <div
-                            className="offcanvas offcanvas-end"
-                            data-bs-scroll="true"
-                            tabIndex="-1"
-                            id="offcanvasWithBothOptions"
-                            aria-labelledby="offcanvasWithBothOptionsLabel"
-                        >
+                        <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
                             <div className="offcanvas-header">
                                 {/* <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>  */}
                                 <div className="input-group">
                                     <i className="bx bx-search input-group-text search"></i>
-                                    <input
-                                        type="text"
-                                        className="form-control header-input"
-                                        placeholder="What are you looking for..."
-                                        name=""
-                                        id=""
-                                    />
+                                    <input type="text" className="form-control header-input" placeholder="What are you looking for..." name="" id="" />
                                     <i className="bx bx-x input-group-text close" data-bs-dismiss="offcanvas"></i>
                                 </div>
                             </div>
@@ -289,28 +280,11 @@ function Header() {
                                     </div>
                                     <div className="d-flex flex-column gap-4 mt-4">
                                         <div className="form-floating w-100">
-                                            <input
-                                                type="text"
-                                                onChange={getData}
-                                                value={loginData.email}
-                                                className="form-control"
-                                                // style={{ borderColor: err.firstName ? "red" : "#ccc" }}
-                                                id="email"
-                                                placeholder="email"
-                                            />
+                                            <input type="text" onChange={getData} value={loginData.email} className="form-control" id="email" placeholder="email" />
                                             <label htmlFor="email">Email *</label>
-                                            {/* {err.firstName && <p className="err">{err.firstName}</p>} */}
                                         </div>
                                         <div className="form-floating position-relative w-100">
-                                            <input
-                                                type={eyeIcon}
-                                                onChange={getData}
-                                                value={loginData.password}
-                                                className="form-control position-relative"
-                                                // style={{ borderColor: err.lastName ? "red" : "#ccc" }}
-                                                id="password"
-                                                placeholder="password"
-                                            />
+                                            <input type={eyeIcon} onChange={getData} value={loginData.password} className="form-control position-relative" id="password" placeholder="password" />
                                             <div className="pass-eyes-box">
                                                 <i
                                                     className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
@@ -351,7 +325,7 @@ function Header() {
                                             <h1>You have no items in your bag.</h1>
                                         ) : (
                                             cartItem?.map((val, ind) => {
-                                                return <CartItems key={ind} items={val}></CartItems>;
+                                                return <CartItems key={val.id || ind} items={val}></CartItems>;
                                             })
                                         )}
                                     </div>

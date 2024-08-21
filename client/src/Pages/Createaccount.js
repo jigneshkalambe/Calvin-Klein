@@ -65,7 +65,7 @@ const Createaccount = () => {
                     icon: "success",
                 }).then(() => {
                     navigate("/");
-                    // window.location.reload();
+                    window.location.reload();
                 });
                 setCreateFromData({
                     firstName: "",
@@ -74,7 +74,7 @@ const Createaccount = () => {
                     password: "",
                 });
                 // console.log(res.data.token);
-                // localStorage.setItem("user token", res.data.token);
+                localStorage.setItem("user token", res.data.token);
             })
             .catch((error) => {
                 console.log(error);

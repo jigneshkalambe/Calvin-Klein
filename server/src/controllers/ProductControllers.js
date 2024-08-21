@@ -67,25 +67,65 @@ const productsAdd = async (req, res) => {
 };
 
 const productsRemove = async (req, res) => {
-    const { id } = req.body;
     try {
-        let exitingItems = await Item.findOne({ id });
+        const { id, userId } = req.body;
 
-        if (!exitingItems) {
-            throw new Error("Item Not Found");
+        // Log the incoming request data
+        console.log("Received request to remove product with data:", { id, userId });
+
+        if (!id || !userId) {
+            throw new Error("Missing required parameters: id or userId");
         }
 
-        if (exitingItems.quantity === 1) {
-            await Item.deleteOne({ id });
+        const userAcc = await Account.findById(userId).populate("products");
+
+        if (!userAcc) {
+            throw new Error("Account not found");
+        }
+
+        const item = await userAcc.products.find((product) => product.id === id);
+
+        if (!item) {
+            throw new Error("Item not found");
+        }
+
+        console.log("User account:", userAcc);
+        console.log("Item to remove:", item);
+
+        if (item.quantity === 1) {
+            userAcc.products = userAcc.products.filter((product) => product.id !== id);
         } else {
-            exitingItems.quantity -= 1;
-            exitingItems.totalPrice -= exitingItems.new_price;
-            await exitingItems.save();
-            res.json(exitingItems);
+            item.quantity--;
+            item.totalPrice = Number(item.totalPrice) - Number(item.new_price);
         }
+        await item.save();
+        await userAcc.save();
+        res.status(200).json({ message: "Item processed successfully" });
     } catch (error) {
+        console.error("Error during product removal:", error.message);
         res.status(400).json({ message: error.message });
     }
 };
 
-module.exports = { productLists, productsAdd, productsRemove };
+const productsDelete = async (req, res) => {
+    try {
+        const { id, userId } = req.body;
+        const userAccount = await Account.findById(userId).populate("products");
+
+        if (!userAccount) {
+            throw new Error("acc not found");
+        }
+
+        const product = await userAccount.products.find((product) => product.id === id);
+
+        if (product) {
+            userAccount.products = userAccount.products.filter((product) => product.id !== id);
+        }
+        await userAccount.save();
+    } catch (error) {
+        console.error(error.message);
+        res.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = { productLists, productsAdd, productsRemove, productsDelete };

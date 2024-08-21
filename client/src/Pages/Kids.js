@@ -10,10 +10,12 @@ const Kids = () => {
     const [kids_products, setkids_Products] = useState(All_Product);
     const { component, setComponent } = useContext(context_ex);
     useEffect(() => {
-        const BoyProducts = All_Product.filter((products) => products.category === "Boy");
-        const GirlProducts = All_Product.filter((products) => products.category === "Girl");
-        const FilterProduct = BoyProducts.concat(GirlProducts);
-        setkids_Products(FilterProduct);
+        // const BoyProducts = All_Product.filter((products) => products.category === "Boy");
+        // const GirlProducts = All_Product.filter((products) => products.category === "Girl");
+        // const FilterProduct = BoyProducts.concat(GirlProducts);
+        // setkids_Products(FilterProduct);
+        const kidsProducts = All_Product.filter((products) => products.category === "kids");
+        setkids_Products(kidsProducts);
     }, [All_Product]);
 
     setComponent("kids");
