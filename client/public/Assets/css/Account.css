@@ -1,0 +1,100 @@
+.User_SideBar {
+    display: flex;
+    flex-direction: column;
+}
+
+.User_SideBar h2 {
+    color: black;
+}
+
+.User_SideBar > div {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px 0px;
+}
+
+.User_SideBar > div > button {
+    color: #696969;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    background-color: transparent;
+    text-align: start;
+}
+
+.User_SideBar > div > button:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+.User_SideBar > div > button:active {
+    color: black;
+    text-decoration: underline;
+}
+
+.User_SideBar > div > a {
+    color: #696969;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 1px 6px;
+}
+
+.User_SideBar > div > a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+.User_SideBar > div > a:active {
+    color: black;
+    text-decoration: underline;
+}
+
+.OverviewBox,
+.UserInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.OverviewBox h2,
+.UserInfo h2 {
+    font-size: 28px;
+    color: black;
+}
+
+.OverviewBox a,
+.UserInfo a {
+    color: black;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.OverviewBox p {
+    font-size: 16px;
+    color: #696969;
+}
+
+.OverviewBox h4 {
+    color: black;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.OverviewBox > div > div {
+    margin-bottom: 15px;
+}
+
+.UserInfoForm {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.UserInfoForm button {
+    background-color: black;
+    color: white;
+    height: 56px;
+    width: 100%;
+    border: none;
+}

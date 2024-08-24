@@ -10,6 +10,8 @@ import Carts from "../Pages/Carts";
 import Checkout from "../Pages/Checkout";
 import Createaccount from "../Pages/Createaccount";
 import Account from "../Components/account";
+import Overview from "../Components/Overview";
+import UserInfo from "../Components/UserInfo";
 function Routers() {
     const [component, setComponent] = useState();
     return (
@@ -27,6 +29,8 @@ function Routers() {
                     <Route path="/checkout" element={<Checkout />}></Route>
                     <Route path="/createaccount" element={<Createaccount />}></Route>
                     <Route path="/account" element={<Account />}></Route>
+                    <Route path="/overview" element={<Overview />}></Route>
+                    <Route path="/userinfo" element={<UserInfo />}></Route>
                 </Routes>
             </context_ex.Provider>
         </div>

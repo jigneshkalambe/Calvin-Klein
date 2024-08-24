@@ -8,9 +8,9 @@ import Swal from "sweetalert2";
 import { cartAction } from "../Store/Slice/CartSlice";
 
 function Header() {
-    const [cartItems, setCartItems] = useState([]);
+    const userId = localStorage.getItem("userAccId");
     const [eyeIcon, setEyeIcon] = useState("text");
-    const [accData, setAccData] = useState(null);
+    const [accData, setAccData] = useState(false);
     const [loginData, setLoginData] = useState({
         email: "",
         password: "",
@@ -55,7 +55,6 @@ function Header() {
                                 const userId = localStorage.getItem("userAccId");
                                 const currentAccount = accounts.find((account) => account._id === userId);
                                 console.log("CurrentAccInCartItem", currentAccount);
-
                                 if (currentAccount && currentAccount.products) {
                                     const cartItems = currentAccount.products;
                                     console.log("Products in current account:", cartItems);
@@ -91,19 +90,23 @@ function Header() {
 
     useEffect(() => {
         const accDataFetch = async () => {
+            console.log("accDataFetch Fn worked");
+
             const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
             if (storedCartItems) {
                 dispatch(cartAction.initializeCart(storedCartItems));
+                console.log("got stored items from api");
             } else {
+                console.log("No stored cart items found, fetching from API...");
                 await axios
                     .get(`http://localhost:5000/v1/account`)
                     .then((res) => {
                         console.log(res, "Response");
                         console.log("Accounts array", res.data.Accounts);
                         const accounts = res.data.Accounts;
-                        const userId = localStorage.getItem("userAccId");
                         console.log("userIDFromLocal", userId);
                         const currentUserId = accounts.find((account) => account._id === userId);
+
                         if (currentUserId && currentUserId.products) {
                             dispatch(cartAction.initializeCart(currentUserId.products));
                         }
@@ -115,7 +118,15 @@ function Header() {
             }
         };
         accDataFetch();
-    }, []);
+
+        if (userId) {
+            setAccData(true);
+        } else {
+            setAccData(false);
+        }
+    }, [dispatch]);
+
+    console.log(accData);
 
     return (
         <div className="space-1">
@@ -243,31 +254,22 @@ function Header() {
                                 </div>
                             </div>
                         </div>
-                        {/* <div> */}
-                        {/* {accData ? (
-                            <Link to={`/account`}>
-                                <i className="bx bx-user"></i>
-                            </Link>
-                        ) : (
-                            <div className="dropdown-header">
-                                <i className="bx bx-user"></i>
-                                <div className="dropdown-header-content">
-                                    <Link data-bs-target="#SignInOffCanvas" data-bs-toggle="offcanvas">
-                                        Sign In
-                                    </Link>
-                                    <Link to={`/createaccount`}>Create Account</Link>
-                                </div>
-                            </div>
-                        )} */}
-                        {/* </div> */}
-                        <div className="dropdown-header">
-                            <i className="bx bx-user"></i>
-                            <div className="dropdown-header-content">
-                                <Link data-bs-target="#SignInOffCanvas" data-bs-toggle="offcanvas">
-                                    Sign In
+                        <div>
+                            {accData === true ? (
+                                <Link to={`/account`}>
+                                    <i className="bx bx-user"></i>
                                 </Link>
-                                <Link to={`/createaccount`}>Create Account</Link>
-                            </div>
+                            ) : (
+                                <div className="dropdown-header">
+                                    <i className="bx bx-user"></i>
+                                    <div className="dropdown-header-content">
+                                        <Link data-bs-target="#SignInOffCanvas" data-bs-toggle="offcanvas">
+                                            Sign In
+                                        </Link>
+                                        <Link to={`/createaccount`}>Create Account</Link>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <div className="offcanvas sign_offcanvas offcanvas-end" id="SignInOffCanvas">
                             <form onSubmit={submitData}>

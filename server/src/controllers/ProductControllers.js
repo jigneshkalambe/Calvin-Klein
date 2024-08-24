@@ -71,7 +71,7 @@ const productsRemove = async (req, res) => {
         const { id, userId } = req.body;
 
         // Log the incoming request data
-        console.log("Received request to remove product with data:", { id, userId });
+        // console.log("Received request to remove product with data:", { id, userId });
 
         if (!id || !userId) {
             throw new Error("Missing required parameters: id or userId");
@@ -89,8 +89,8 @@ const productsRemove = async (req, res) => {
             throw new Error("Item not found");
         }
 
-        console.log("User account:", userAcc);
-        console.log("Item to remove:", item);
+        // console.log("User account:", userAcc);
+        // console.log("Item to remove:", item);
 
         if (item.quantity === 1) {
             userAcc.products = userAcc.products.filter((product) => product.id !== id);

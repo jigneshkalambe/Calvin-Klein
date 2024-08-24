@@ -5,12 +5,16 @@ import { useDispatch } from "react-redux";
 import { cartAction } from "../Store/Slice/CartSlice";
 import ScrollBtn from "./ScrollBtn";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
     const { id } = useParams();
     const FilterProduct = All_Product.find((product) => product.id == id);
     const { desc, img01, img02, img03, img04, line, title, new_price, discount, old_price } = FilterProduct;
     const [defaultImg, setDefaultImg] = useState(img01);
+    const [isData, setIsData] = useState(false);
+    const dispatch = useDispatch();
+
     useEffect(() => {
         window.scrollTo({
             top: 0,
@@ -18,8 +22,36 @@ const ProductDetails = () => {
         });
     });
 
-    const dispatch = useDispatch();
+    const userAccId = localStorage.getItem("userAccId");
+
+    // const accCheckHandler = async () => {
+    //     await axios.get(`http://localhost:5000/v1/account`).then((res) => {
+    //         console.log(res, "cartItems");
+    //         const accounts = res.data.Accounts;
+    //         const currentAccount = accounts.find((account) => account._id === userAccId);
+    //         console.log("CurrentAccInDetails", currentAccount);
+
+    //         if (!currentAccount) {
+    //             Swal.fire({
+    //                 text: "Login Or Create Account first",
+    //                 icon: "error",
+    //             });
+    //             setIsData(false);
+    //         } else {
+    //             setIsData(true);
+    //         }
+    //     });
+    // };
+
     const addFn = async () => {
+        if (!userAccId) {
+            Swal.fire({
+                text: "Login Or Create Account first",
+                icon: "error",
+            });
+            return;
+        }
+
         if (!id) {
             console.error("product is missing");
             return;
@@ -64,12 +96,9 @@ const ProductDetails = () => {
                 .catch((err) => {
                     console.log(err);
                 });
-            // console.log(response);
-            // localStorage.removeItem("userAccId");
         } catch (err) {
             console.log(err);
         }
-        // localStorage.removeItem("userAccId");
     };
 
     return (

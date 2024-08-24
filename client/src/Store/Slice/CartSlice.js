@@ -24,10 +24,10 @@ const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        Toggle(state) {
-            // return { Component: !initialState.Component };
-            state.Component = !state.Component;
-        },
+        // Toggle(state) {
+        //     // return { Component: !initialState.Component };
+        //     state.Component = !state.Component;
+        // },
         initializeCart(state, action) {
             state.cartItems = action.payload;
             state.totalQuantity = action.payload.reduce((total, item) => total + item.quantity, 0);
@@ -128,6 +128,14 @@ const cartSlice = createSlice({
         //     state.totalQuantity = action.payload.cartItems.reduce((total, item) => total + item.quantity, 0);
         //     state.totalAmount = action.payload.cartItems.reduce((total, item) => total + item.quantity * item.new_price, 0);
         // },
+        clearCart(state, action) {
+            state.cartItems = [];
+            state.totalQuantity = 0;
+            state.totalAmount = 0;
+            localStorage.removeItem("cartItems");
+            localStorage.removeItem("totalQuantity");
+            localStorage.removeItem("totalAmount");
+        },
     },
 });
 

@@ -21,6 +21,16 @@ const Accounts_Schema = mongoose.Schema({
         trim: true,
         required: true,
     },
+    number: {
+        type: Number,
+        required: false,
+        default: 0,
+    },
+    gender: {
+        type: String,
+        required: false,
+        trim: true,
+    },
     products: [
         {
             type: mongoose.Types.ObjectId,
