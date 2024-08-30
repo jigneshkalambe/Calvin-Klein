@@ -1,21 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Helmet from "../Components/Helmet";
 import { Link } from "react-router-dom";
 import ScrollBtn from "../Components/ScrollBtn";
-import axios from "axios";
 
 function Home() {
-    // const [web, setWeb] = useState();
-    // useEffect(() => {
-    //     axios
-    //         .get(`http://localhost:5000/api/items`)
-    //         .then((res) => {
-    //             console.log(res);
-    //             setWeb(res.data);
-    //         })
-    //         .catch((err) => console.log(err));
-    // }, []);
-    // console.log(web);
     return (
         <Helmet title="Home">
             <ScrollBtn></ScrollBtn>
@@ -37,11 +25,6 @@ function Home() {
                         <Link to="/kids">Shop Kids</Link>
                     </div>
                 </div>
-            </div>
-            <div>
-                {/* {web?.map((val, ind) => {
-                    return <img alt="" src={val.img01}></img>;
-                })} */}
             </div>
         </Helmet>
     );

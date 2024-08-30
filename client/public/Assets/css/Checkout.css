@@ -78,3 +78,14 @@
 .form-control:focus {
     box-shadow: none !important;
 }
+
+.downloadLink {
+    background-color: black;
+    color: white;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    margin-top: 10px;
+}

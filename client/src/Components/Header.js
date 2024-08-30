@@ -6,6 +6,8 @@ import ScrollBtn from "./ScrollBtn";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { cartAction } from "../Store/Slice/CartSlice";
+import All_Product from "../Web_Data/Data";
+import ProductCard from "./ProductCard";
 
 function Header() {
     const userId = localStorage.getItem("userAccId");
@@ -15,10 +17,18 @@ function Header() {
         email: "",
         password: "",
     });
+    const [headerProducts, setHeaderProducts] = useState([]);
+    const [searchProducts, setSearchProducts] = useState("");
     const navigate = useNavigate();
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
     const totalAmount = useSelector((state) => state.cart.totalAmount);
     const cartItem = useSelector((state) => state.cart.cartItems);
+
+    useEffect(() => {
+        const headerProducts = [...All_Product].sort(() => Math.random() - 0.5);
+        const sliceProducts = headerProducts.slice(0, 4);
+        setHeaderProducts(sliceProducts);
+    }, []);
 
     useEffect(() => {
         const tabs = document.querySelectorAll(".tab-btn");
@@ -125,8 +135,6 @@ function Header() {
             setAccData(false);
         }
     }, [dispatch]);
-
-    console.log(accData);
 
     return (
         <div className="space-1">
@@ -235,12 +243,19 @@ function Header() {
                             <i className="bx bx-search"></i>
                         </Link>
 
-                        <div className="offcanvas offcanvas-end" data-bs-scroll="true" tabIndex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                        <div className="offcanvas  offcanvas-search offcanvas-end" data-bs-scroll="true" tabIndex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
                             <div className="offcanvas-header">
                                 {/* <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>  */}
                                 <div className="input-group">
                                     <i className="bx bx-search input-group-text search"></i>
-                                    <input type="text" className="form-control header-input" placeholder="What are you looking for..." name="" id="" />
+                                    <input
+                                        type="text"
+                                        className="form-control header-input"
+                                        placeholder="What are you looking for..."
+                                        name=""
+                                        id=""
+                                        onChange={(e) => setSearchProducts(e.target.value)}
+                                    />
                                     <i className="bx bx-x input-group-text close" data-bs-dismiss="offcanvas"></i>
                                 </div>
                             </div>
@@ -251,6 +266,28 @@ function Header() {
                                     <Link to="/men">Men</Link>
                                     <Link to="/women">Women</Link>
                                     <Link to="/kids">Kids</Link>
+                                </div>
+
+                                <p>Products</p>
+
+                                <div className="row ">
+                                    {searchProducts === ""
+                                        ? headerProducts?.map((val, ind) => {
+                                              return (
+                                                  <div className="col-6">
+                                                      <ProductCard items={val} key={ind} />
+                                                  </div>
+                                              );
+                                          })
+                                        : All_Product.filter((item) => {
+                                              return item.title.toLowerCase().includes(searchProducts.toLowerCase());
+                                          }).map((val, ind) => {
+                                              return (
+                                                  <div className="col-6">
+                                                      <ProductCard items={val} key={ind} />
+                                                  </div>
+                                              );
+                                          })}
                                 </div>
                             </div>
                         </div>

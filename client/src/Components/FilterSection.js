@@ -11,9 +11,10 @@ const FilterSection = (props) => {
             const filtereProduct = All_Product.filter((men) => men.category === "Men");
             setFullData(filtereProduct);
         } else if (component === "kids") {
-            const BoyProducts = All_Product.filter((products) => products.category === "Boy");
-            const GirlProducts = All_Product.filter((products) => products.category === "Girl");
-            const FilterProduct = BoyProducts.concat(GirlProducts);
+            // const BoyProducts = All_Product.filter((products) => products.category === "Boy");
+            // const GirlProducts = All_Product.filter((products) => products.category === "Girl");
+            // const FilterProduct = BoyProducts.concat(GirlProducts);
+            const FilterProduct = All_Product.filter((products) => products.category === "kids");
             setFullData(FilterProduct);
         } else {
             const filtereProduct = All_Product.filter((women) => women.category === "Women");

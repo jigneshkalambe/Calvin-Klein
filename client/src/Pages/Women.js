@@ -7,14 +7,14 @@ import FilterSection from "../Components/FilterSection";
 import context_ex from "../Components/Maincontext";
 
 const Women = (props) => {
-    const [Women_products, setWomen_products] = useState(Data);
+    const [Women_products, setWomen_products] = useState([]);
     const { component, setComponent } = useContext(context_ex);
     useEffect(() => {
+        setComponent("Women");
         const filtere_Product = Data.filter((filter) => filter.category === "Women");
         setWomen_products(filtere_Product);
     }, [Data]);
 
-    setComponent("Women");
     const totalData_Women = Women_products.length;
 
     return (

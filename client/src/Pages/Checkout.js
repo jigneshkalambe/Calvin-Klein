@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Scrollbtn from "../Components/ScrollBtn";
+import axios from "axios";
+import Pdf from "../Components/Pdf";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+
 const Checkout = () => {
+    const [generatePDF, setGeneratePDF] = useState(false);
     const [inputData, setInputData] = useState({
         firstName: "",
         lastName: "",
@@ -24,14 +29,17 @@ const Checkout = () => {
         Email: "",
         PhoneNumber: "",
     });
+
     const totalAmount = useSelector((state) => state.cart.totalAmount);
+    const cartItems = useSelector((state) => state.cart.cartItems);
+    console.log("checkout", cartItems);
 
     const getValue = (e) => {
         setInputData({ ...inputData, [e.target.id]: e.target.value });
         setErr({ ...err, [e.target.id]: "" });
     };
 
-    const checkOutValidtion = (e) => {
+    const checkOutValidtion = async (e) => {
         e.preventDefault();
         let validationError = {};
         if (inputData.firstName === "") {
@@ -74,8 +82,19 @@ const Checkout = () => {
         }
 
         setErr(validationError);
+
+        if (Object.keys(validationError).length === 0) {
+            try {
+                const res = await axios.post(`http://localhost:5000/v1/checkout`, inputData);
+                console.log(res);
+                if (res.status === 200) {
+                    setGeneratePDF(true);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
     };
-    // console.log(inputData);
     return (
         <>
             <Scrollbtn></Scrollbtn>
@@ -264,6 +283,11 @@ const Checkout = () => {
                                     </div>
                                 </div>
                             </div>
+                            {generatePDF && (
+                                <PDFDownloadLink className="downloadLink" document={<Pdf inputData={inputData} cartItems={cartItems} totalAmount={totalAmount} />} fileName="order_receipt.pdf">
+                                    {({ loading }) => (loading ? "Generating PDF..." : "Download Receipt")}
+                                </PDFDownloadLink>
+                            )}
                         </div>
                     </div>
                 </div>

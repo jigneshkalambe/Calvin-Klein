@@ -6,13 +6,14 @@ import { cartAction } from "../Store/Slice/CartSlice";
 import ScrollBtn from "./ScrollBtn";
 import axios from "axios";
 import Swal from "sweetalert2";
+import ProductCard from "./ProductCard";
 
 const ProductDetails = () => {
     const { id } = useParams();
     const FilterProduct = All_Product.find((product) => product.id == id);
-    const { desc, img01, img02, img03, img04, line, title, new_price, discount, old_price } = FilterProduct;
+    const { desc, img01, img02, img03, img04, category, line, title, new_price, discount, old_price } = FilterProduct;
     const [defaultImg, setDefaultImg] = useState(img01);
-    const [isData, setIsData] = useState(false);
+    const [relatedProducts, setRelatedProducts] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -101,6 +102,13 @@ const ProductDetails = () => {
         }
     };
 
+    useEffect(() => {
+        const products = All_Product.filter((product) => product.category.toLowerCase() === category.toLowerCase());
+        const randomProducts = [...products].sort(() => Math.random() - 0.5);
+        const slicedProducts = randomProducts.slice(0, 4);
+        setRelatedProducts(slicedProducts);
+    }, []);
+
     return (
         <>
             <ScrollBtn></ScrollBtn>
@@ -149,6 +157,18 @@ const ProductDetails = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="d-flex my-5 justify-content-center pt-5">
+                    <h2 className="m-0">You May Also Like</h2>
+                </div>
+                <div className="row">
+                    {relatedProducts?.map((val, ind) => {
+                        return (
+                            <div className="col-lg-3">
+                                <ProductCard items={val} key={ind} />
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </>

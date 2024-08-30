@@ -125,7 +125,7 @@
 
 .offcanvas-body p {
     color: grey;
-    margin: 30px 0px 30px;
+    margin: 0px 0px 30px;
 }
 
 .first-a a {
@@ -420,6 +420,10 @@
     /* color: white; */
     border: none;
     margin-top: 20px;
+}
+
+.offcanvas-search {
+    width: 35% !important;
 }
 
 @media (max-width: 576px) {

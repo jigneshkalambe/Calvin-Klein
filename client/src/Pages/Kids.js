@@ -7,18 +7,13 @@ import ProductCard from "../Components/ProductCard";
 import context_ex from "../Components/Maincontext";
 
 const Kids = () => {
-    const [kids_products, setkids_Products] = useState(All_Product);
+    const [kids_products, setkids_Products] = useState([]);
     const { component, setComponent } = useContext(context_ex);
     useEffect(() => {
-        // const BoyProducts = All_Product.filter((products) => products.category === "Boy");
-        // const GirlProducts = All_Product.filter((products) => products.category === "Girl");
-        // const FilterProduct = BoyProducts.concat(GirlProducts);
-        // setkids_Products(FilterProduct);
+        setComponent("kids");
         const kidsProducts = All_Product.filter((products) => products.category === "kids");
         setkids_Products(kidsProducts);
     }, [All_Product]);
-
-    setComponent("kids");
 
     const totalData_Kids = kids_products.length;
     return (

@@ -3,15 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartAction } from "../Store/Slice/CartSlice";
 import { Link } from "react-router-dom";
 import ScrollBtn from "../Components/ScrollBtn";
+import axios from "axios";
 
 const Carts = () => {
+    const userId = localStorage.getItem("userAccId");
     const products = useSelector((state) => state.cart.cartItems);
     const dispatch = useDispatch();
-    const deleteProduct = (id) => {
+
+    const deleteItem = async (id) => {
         dispatch(cartAction.deleteProducts({ id }));
+        await axios
+            .post(`http://localhost:5000/v1/data/delete`, { id, userId })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => console.log(err));
     };
+
     const totalAmount = useSelector((state) => state.cart.totalAmount);
-    // console.log(totalAmount);
     return (
         <>
             <ScrollBtn></ScrollBtn>
@@ -50,7 +59,7 @@ const Carts = () => {
                                                 <th className="cart_table_th">{val.quantity}</th>
                                                 <th className="cart_table_th">${val.totalPrice.toFixed()}</th>
                                                 <th className="cart_table_th">
-                                                    <button onClick={() => deleteProduct(val.id)} className="btn border-0 fs-4">
+                                                    <button onClick={() => deleteItem(val.id)} className="btn border-0 fs-4">
                                                         <i className="bx bx-trash"></i>
                                                     </button>
                                                 </th>
