@@ -164,7 +164,7 @@ const ProductDetails = () => {
                 <div className="row">
                     {relatedProducts?.map((val, ind) => {
                         return (
-                            <div className="col-lg-3">
+                            <div className="col-lg-3" key={ind}>
                                 <ProductCard items={val} key={ind} />
                             </div>
                         );

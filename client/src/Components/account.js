@@ -10,6 +10,8 @@ const Account = () => {
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
     const [email, setEmail] = useState();
+    const [number, setNumber] = useState();
+    const [gender, setGender] = useState();
     const userId = localStorage.getItem("userAccId");
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -26,6 +28,8 @@ const Account = () => {
                     setFirstName(currentAccount.firstName);
                     setLastName(currentAccount.lastName);
                     setEmail(currentAccount.email);
+                    setNumber(currentAccount.number);
+                    setGender(currentAccount.gender);
                 }
             })
             .catch((err) => {
@@ -35,9 +39,9 @@ const Account = () => {
 
     const componentRender = (name) => {
         if (name === "overview") {
-            return <Overview firstName={firstName} lastName={lastName} email={email}></Overview>;
+            return <Overview firstName={firstName} lastName={lastName} email={email} number={number} gender={gender}></Overview>;
         } else {
-            return <UserInfo firstName={firstName} lastName={lastName} email={email}></UserInfo>;
+            return <UserInfo firstName={firstName} lastName={lastName} email={email} number={number} gender={gender}></UserInfo>;
         }
     };
 

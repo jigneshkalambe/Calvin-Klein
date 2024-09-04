@@ -5,14 +5,15 @@ import axios from "axios";
 const CartItems = (props) => {
     const { id, desc, img01, img02, img03, img04, line, discount, title, quantity, old_price, new_price } = props.items;
     const dispatch = useDispatch();
-    const userId = localStorage.getItem("userAccId");
+    const accId = localStorage.getItem("userAccId");
+
     useEffect(() => {
         const fetchCart = async () => {
             try {
                 await axios.get(`http://localhost:5000/v1/account`).then((res) => {
                     console.log(res, "cartItems");
                     const accounts = res.data.Accounts;
-                    const currentAccount = accounts.find((account) => account._id === userId);
+                    const currentAccount = accounts.find((account) => account._id === accId);
                     console.log("CurrentAccInCartItem", currentAccount);
 
                     if (currentAccount && currentAccount.products) {
@@ -54,6 +55,7 @@ const CartItems = (props) => {
         try {
             const response = await axios
                 .post(`http://localhost:5000/v1/data`, {
+                    accId,
                     id,
                     desc,
                     img01,
@@ -79,12 +81,12 @@ const CartItems = (props) => {
     };
 
     const removeItem = async () => {
-        if (!id || !userId) {
-            console.error("product is missing or userId is missing");
+        if (!id || !accId) {
+            console.error("product is missing or accId is missing");
             return;
         }
         await axios
-            .post(`http://localhost:5000/v1/data/remove`, { id, userId })
+            .post(`http://localhost:5000/v1/data/remove`, { id, accId })
             .then((res) => {
                 console.log("frontProducts", res);
             })
@@ -95,7 +97,7 @@ const CartItems = (props) => {
     const deleteItem = async () => {
         dispatch(cartAction.deleteProducts({ id }));
         await axios
-            .post(`http://localhost:5000/v1/data/delete`, { id, userId })
+            .post(`http://localhost:5000/v1/data/delete`, { id, accId })
             .then((res) => {
                 console.log(res);
             })

@@ -4,6 +4,7 @@ import Scrollbtn from "../Components/ScrollBtn";
 import axios from "axios";
 import Pdf from "../Components/Pdf";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import Swal from "sweetalert2";
 
 const Checkout = () => {
     const [generatePDF, setGeneratePDF] = useState(false);
@@ -284,7 +285,18 @@ const Checkout = () => {
                                 </div>
                             </div>
                             {generatePDF && (
-                                <PDFDownloadLink className="downloadLink" document={<Pdf inputData={inputData} cartItems={cartItems} totalAmount={totalAmount} />} fileName="order_receipt.pdf">
+                                <PDFDownloadLink
+                                    className="downloadLink"
+                                    document={<Pdf inputData={inputData} cartItems={cartItems} totalAmount={totalAmount} />}
+                                    onClick={() => {
+                                        setGeneratePDF(false);
+                                        Swal.fire({
+                                            title: "Thank You for Your Purchase!",
+                                            text: "Your order has been successfully placed.",
+                                        });
+                                    }}
+                                    fileName="order_receipt.pdf"
+                                >
                                     {({ loading }) => (loading ? "Generating PDF..." : "Download Receipt")}
                                 </PDFDownloadLink>
                             )}

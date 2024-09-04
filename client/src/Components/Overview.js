@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import UserInfo from "./UserInfo";
 
-const Overview = ({ firstName, lastName, email }) => {
+const Overview = ({ firstName, lastName, email, number, gender }) => {
     const [component, setComponent] = useState(false);
     const renderComponent = () => {
         setComponent(true);
@@ -61,17 +61,13 @@ const Overview = ({ firstName, lastName, email }) => {
                         <div className="col-lg-3">
                             <p>Phone Number</p>
                         </div>
-                        <div className="col-lg-9">
-                            <Link onClick={renderComponent}>Add Phone Number</Link>
-                        </div>
+                        <div className="col-lg-9">{number ? number : <Link onClick={renderComponent}>Add Phone Number</Link>}</div>
                     </div>
                     <div className="row">
                         <div className="col-lg-3">
                             <p>Gender</p>
                         </div>
-                        <div className="col-lg-9">
-                            <Link onClick={renderComponent}>Add Gender</Link>
-                        </div>
+                        <div className="col-lg-9">{gender ? gender : <Link onClick={renderComponent}>Add Gender</Link>}</div>
                     </div>
                 </div>
             </div>

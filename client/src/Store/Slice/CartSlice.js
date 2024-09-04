@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const items = localStorage.getItem("cartItems") !== null ? JSON.parse(localStorage.getItem("cartItems")) : [];
 const totalQuantity = localStorage.getItem("totalQuantity") !== null ? JSON.parse(localStorage.getItem("totalQuantity")) : 0;
@@ -11,7 +11,6 @@ const setItem = (item, totalAmount, totalQuantity) => {
 };
 
 const initialState = {
-    Component: true,
     cartItems: items,
     totalQuantity: totalQuantity,
     totalAmount: totalAmount,
@@ -24,10 +23,6 @@ const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        // Toggle(state) {
-        //     // return { Component: !initialState.Component };
-        //     state.Component = !state.Component;
-        // },
         initializeCart(state, action) {
             state.cartItems = action.payload;
             state.totalQuantity = action.payload.reduce((total, item) => total + item.quantity, 0);
@@ -83,8 +78,6 @@ const cartSlice = createSlice({
         removeProducts(state, action) {
             const newItem = action.payload;
             const exitingItems = state.cartItems.find((item) => item.id === newItem.id);
-            // console.log("New Items", newItem);
-            // console.log("exitingItems", exitingItems);
             state.totalQuantity--;
 
             if (exitingItems.quantity === 1) {

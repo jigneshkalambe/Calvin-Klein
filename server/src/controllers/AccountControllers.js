@@ -57,4 +57,27 @@ const AccountLists = async (req, res) => {
     }
 };
 
-module.exports = { createAccount, AccountLists };
+const AccountUpdate = async (req, res) => {
+    try {
+        const { firstName, lastName, email, number, gender } = req.body;
+        const nameExits = await Account.findOne({ firstName, lastName });
+        if (nameExits) {
+            return res.status(400).json({ message: "Name Already Exits" });
+        }
+        const exitsAccount = await Account.findOne({ email });
+        console.log("ExitsAccount", exitsAccount);
+        if (exitsAccount) {
+            exitsAccount.firstName = firstName;
+            exitsAccount.lastName = lastName;
+            exitsAccount.email = email;
+            exitsAccount.number = number;
+            exitsAccount.gender = gender;
+        }
+        await exitsAccount.save();
+        res.status(200).json({ message: "Account Updated Successfully", exitsAccount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { createAccount, AccountLists, AccountUpdate };

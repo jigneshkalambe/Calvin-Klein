@@ -5,35 +5,41 @@ import context_ex from "./Maincontext";
 const FilterSection = (props) => {
     const { setMenData, setWomenData, setKidsData } = props;
     const [fullData, setFullData] = useState(All_Product);
+    const [priceLength, setPriceLength] = useState(All_Product);
     const { component, setComponent } = useContext(context_ex);
+    const [filter, setFilter] = useState();
+
     useEffect(() => {
         if (component === "Men") {
             const filtereProduct = All_Product.filter((men) => men.category === "Men");
+            setPriceLength(filtereProduct);
+            setFilter(filtereProduct);
             setFullData(filtereProduct);
         } else if (component === "kids") {
-            // const BoyProducts = All_Product.filter((products) => products.category === "Boy");
-            // const GirlProducts = All_Product.filter((products) => products.category === "Girl");
-            // const FilterProduct = BoyProducts.concat(GirlProducts);
             const FilterProduct = All_Product.filter((products) => products.category === "kids");
+            setPriceLength(FilterProduct);
+            setFilter(FilterProduct);
             setFullData(FilterProduct);
         } else {
             const filtereProduct = All_Product.filter((women) => women.category === "Women");
+            setPriceLength(filtereProduct);
+            setFilter(filtereProduct);
             setFullData(filtereProduct);
         }
     }, [component]);
 
     var priceLength1, priceLength2, priceLength3, priceLength4;
 
-    priceLength1 = fullData.sort((a, b) => {
+    priceLength1 = priceLength.sort((a, b) => {
         return a.id - b.id;
     });
-    priceLength2 = fullData.filter((Price) => {
+    priceLength2 = priceLength.filter((Price) => {
         return Price.new_price > 0 && Price.new_price < 25;
     });
-    priceLength3 = fullData.filter((Price) => {
+    priceLength3 = priceLength.filter((Price) => {
         return Price.new_price > 25 && Price.new_price < 50;
     });
-    priceLength4 = fullData.filter((Price) => {
+    priceLength4 = priceLength.filter((Price) => {
         return Price.new_price > 50 && Price.new_price < 200;
     });
 
@@ -49,6 +55,7 @@ const FilterSection = (props) => {
             const filterPrice = fullData.sort((a, b) => {
                 return a.id - b.id;
             });
+            setFilter(filterPrice);
             if (component === "Men") {
                 setMenData(filterPrice);
             } else if (component === "kids") {
@@ -62,7 +69,7 @@ const FilterSection = (props) => {
             const filterPrice1 = fullData.filter((Price) => {
                 return Price.new_price > 0 && Price.new_price < 25;
             });
-
+            setFilter(filterPrice1);
             if (component === "Men") {
                 setMenData(filterPrice1);
             } else if (component === "kids") {
@@ -76,7 +83,7 @@ const FilterSection = (props) => {
             const filterPrice2 = fullData.filter((Price) => {
                 return Price.new_price > 25 && Price.new_price < 50;
             });
-
+            setFilter(filterPrice2);
             if (component === "Men") {
                 setMenData(filterPrice2);
             } else if (component === "kids") {
@@ -90,6 +97,7 @@ const FilterSection = (props) => {
             const filterPrice3 = fullData.filter((Price) => {
                 return Price.new_price > 50 && Price.new_price < 200;
             });
+            setFilter(filterPrice3);
             if (component === "Men") {
                 setMenData(filterPrice3);
             } else if (component === "kids") {
@@ -103,7 +111,7 @@ const FilterSection = (props) => {
     const price_Filter = (e) => {
         const price_id = e.target.id;
         if (price_id === "priceF1") {
-            const filterdData = [...fullData].sort((a, b) => {
+            const filterdData = [...filter].sort((a, b) => {
                 return a.id - b.id;
             });
             if (component === "Men") {
@@ -115,7 +123,7 @@ const FilterSection = (props) => {
             }
         }
         if (price_id === "priceF2") {
-            const filterdData = [...fullData].sort((a, b) => {
+            const filterdData = [...filter].sort((a, b) => {
                 return a.new_price - b.new_price;
             });
             if (component === "Men") {
@@ -127,7 +135,7 @@ const FilterSection = (props) => {
             }
         }
         if (price_id === "priceF3") {
-            const filterdData = [...fullData].sort((a, b) => {
+            const filterdData = [...filter].sort((a, b) => {
                 return b.new_price - a.new_price;
             });
             if (component === "Men") {
@@ -140,19 +148,14 @@ const FilterSection = (props) => {
         }
     };
 
+    console.log("FILTER", filter);
+
     return (
         <div className="Filter_box">
             <div className="accordion accordion-flush" id="accordionFlushExample">
                 <div className="accordion-item">
                     <h2 className="accordion-header">
-                        <button
-                            className="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseOne"
-                            aria-expanded="false"
-                            aria-controls="flush-collapseOne"
-                        >
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">
                             Category
                         </button>
                     </h2>
@@ -201,7 +204,7 @@ const FilterSection = (props) => {
                             <form>
                                 <div className="price-box">
                                     <div>
-                                        <input onClick={Price_target_filter} type="radio" name="radio-ex" id="price0"></input>
+                                        <input defaultChecked onClick={Price_target_filter} type="radio" name="radio-ex" id="price0"></input>
                                         <label htmlFor="price0">Default ({priceLength1_})</label>
                                     </div>
                                     <div>
@@ -239,7 +242,7 @@ const FilterSection = (props) => {
                             <form>
                                 <div className="price-box">
                                     <div>
-                                        <input onClick={price_Filter} type="radio" name="radio-ex1" id="priceF1"></input>
+                                        <input defaultChecked onClick={price_Filter} type="radio" name="radio-ex1" id="priceF1"></input>
                                         <label>default</label>
                                     </div>
                                     <div>

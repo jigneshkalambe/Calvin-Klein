@@ -11,9 +11,7 @@ import axios from "axios";
 const Men = () => {
     const [Men_products, setMen_products] = useState(Data);
     const [Men_page, setMen_page] = useState("Men");
-    // const Menpage = useSelector((state) => state.cart.Component);
     const { component, setComponent } = useContext(context_ex);
-    // console.log(Menpage);
     useEffect(() => {
         const filtere_Product = Data.filter((filter) => filter.category === "Men");
         setMen_products(filtere_Product);
@@ -29,9 +27,6 @@ const Men = () => {
         //         console.log(err);
         //     });
     }, [Data]);
-
-    // console.log(component, "Men page");
-    // console.log(Men_products.length);
 
     const totalData_Men = Men_products.length;
 
