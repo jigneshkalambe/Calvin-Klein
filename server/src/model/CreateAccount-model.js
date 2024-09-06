@@ -24,7 +24,6 @@ const Accounts_Schema = mongoose.Schema({
     number: {
         type: Number,
         required: false,
-        default: 0,
     },
     gender: {
         type: String,

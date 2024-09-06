@@ -5,11 +5,11 @@ import Swal from "sweetalert2";
 
 const UserInfo = ({ firstName, lastName, email, number, gender }) => {
     const [updateData, setUpdateData] = useState({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        number: "",
-        gender: "",
+        firstName: firstName || "",
+        lastName: lastName || "",
+        email: email || "",
+        number: number || "",
+        gender: gender || "",
     });
     const [userInfo, setUserInfo] = useState({
         firstName: firstName,
@@ -18,6 +18,13 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
         number: number,
         gender: gender,
     });
+    const [passData, setPassData] = useState({
+        email,
+        currentPassword: "",
+        newPassword: "",
+    });
+    const [CurrentIcon, setCurrentIcon] = useState("text");
+    const [eyeIcon, setEyeIcon] = useState("text");
 
     const backtoOverview = () => {
         return (window.location.href = "/account");
@@ -37,6 +44,37 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
                         title: "Success",
                         text: "Your account has been updated successfully",
                         icon: "success",
+                    });
+                }
+            });
+        } catch (error) {
+            console.log(error);
+            if (error.response.status === 400) {
+                Swal.fire({
+                    title: "Error",
+                    text: error.response.data.message,
+                    icon: "error",
+                });
+            }
+        }
+    };
+
+    const getPass = (e) => {
+        setPassData({ ...passData, [e.target.id]: e.target.value });
+    };
+
+    const passUpdateHandler = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post(`http://localhost:5000/v1/account/passUpdate`, passData).then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    Swal.fire({
+                        title: "Success",
+                        text: res.data.message,
+                        icon: "success",
+                    }).then(() => {
+                        backtoOverview();
                     });
                 }
             });
@@ -74,7 +112,52 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
                         </div>
                         <div className="col-lg-9">
                             <span>****** </span>
-                            <Link>Change</Link>
+                            <Link data-bs-target="#offcanvas_pass" data-bs-toggle="offcanvas">
+                                Change
+                            </Link>
+                            <div className="offcanvas  offcanvas-white offcanvas-end " id="offcanvas_pass">
+                                <div className="offcanvas-header pt-5">
+                                    <i className="bx bx-x button" data-bs-dismiss="offcanvas"></i>
+                                </div>
+                                <div className="offcanvas-body passUpdateBox">
+                                    <h2>Change Your Password</h2>
+                                    <p>You can update your password. If you want to update your email, you’ll have to create a new account.</p>
+                                    <form onSubmit={passUpdateHandler}>
+                                        <div className="d-flex flex-column gap-3">
+                                            <div className="form-floating position-relative w-100">
+                                                <input onChange={getPass} type={CurrentIcon} className="form-control position-relative" id="currentPassword" placeholder="currentPassword" />
+                                                <div className="pass-eyes-box">
+                                                    <i
+                                                        className={`bx ${CurrentIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
+                                                        onClick={() => {
+                                                            setCurrentIcon((CurrentIcon) => (CurrentIcon === "text" ? "password" : "text"));
+                                                        }}
+                                                    ></i>
+                                                </div>
+                                                <label htmlFor="currentPassword">Current Password *</label>
+                                            </div>
+                                            <div className="form-floating position-relative w-100">
+                                                <input onChange={getPass} type={eyeIcon} className="form-control position-relative" id="newPassword" placeholder="newPassword" />
+                                                <div className="pass-eyes-box">
+                                                    <i
+                                                        className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
+                                                        onClick={() => {
+                                                            setEyeIcon((eyeIcon) => (eyeIcon === "text" ? "password" : "text"));
+                                                        }}
+                                                    ></i>
+                                                </div>
+                                                <label htmlFor="newPassword">New Password *</label>
+                                            </div>
+                                            <button type="submit" className="passBtn">
+                                                Update my Password
+                                            </button>
+                                            <Link className="d-block link-dark text-center" data-bs-dismiss="offcanvas">
+                                                Cancel
+                                            </Link>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -98,3 +98,49 @@
     width: 100%;
     border: none;
 }
+
+.offcanvas-white {
+    background-color: white !important;
+}
+
+.button {
+    background-color: #fafafa;
+    color: black;
+    width: 30px;
+    height: 30px;
+    font-size: 25px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.password-eyes {
+    font-size: 25px;
+}
+
+.passBtn {
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    display: block;
+    height: 58px;
+    border: none;
+    border-radius: 8px;
+}
+
+.passUpdateBox {
+    padding: 30px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.passUpdateBox h2 {
+    margin: 0;
+}
+
+.passUpdateBox p {
+    margin: 0;
+}

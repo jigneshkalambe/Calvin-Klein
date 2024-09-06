@@ -60,19 +60,19 @@ const AccountLists = async (req, res) => {
 const AccountUpdate = async (req, res) => {
     try {
         const { firstName, lastName, email, number, gender } = req.body;
-        const nameExits = await Account.findOne({ firstName, lastName });
-        if (nameExits) {
-            return res.status(400).json({ message: "Name Already Exits" });
-        }
+        // const nameExits = await Account.findOne({ firstName, lastName });
+        // if (nameExits) {
+        //     return res.status(400).json({ message: "Name Already Exits" });
+        // }
         const exitsAccount = await Account.findOne({ email });
         console.log("ExitsAccount", exitsAccount);
-        if (exitsAccount) {
-            exitsAccount.firstName = firstName;
-            exitsAccount.lastName = lastName;
-            exitsAccount.email = email;
-            exitsAccount.number = number;
-            exitsAccount.gender = gender;
-        }
+
+        if (firstName) exitsAccount.firstName = firstName;
+        if (lastName) exitsAccount.lastName = lastName;
+        if (email) exitsAccount.email = email;
+        if (number) exitsAccount.number = number;
+        if (gender) exitsAccount.gender = gender;
+
         await exitsAccount.save();
         res.status(200).json({ message: "Account Updated Successfully", exitsAccount });
     } catch (error) {
@@ -80,4 +80,22 @@ const AccountUpdate = async (req, res) => {
     }
 };
 
-module.exports = { createAccount, AccountLists, AccountUpdate };
+const passUpdate = async (req, res) => {
+    try {
+        const { currentPassword, newPassword, email } = req.body;
+        const User = await Account.findOne({ email });
+        const passCheck = await bcrypt.compare(currentPassword, User.password);
+        if (passCheck) {
+            const convertPass = await bcrypt.hash(newPassword, 10);
+            User.password = convertPass;
+            await User.save();
+            return res.status(200).json({ message: "Password Updated Successfully :D" });
+        } else {
+            return res.status(400).json({ message: "Current Password is Wrong!!!" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { createAccount, AccountLists, AccountUpdate, passUpdate };

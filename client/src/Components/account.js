@@ -54,8 +54,7 @@ const Account = () => {
 
     useEffect(() => {
         accName();
-        console.log("userId", userId);
-    }, []);
+    });
 
     return (
         <>
