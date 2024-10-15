@@ -21,28 +21,10 @@ const ProductDetails = () => {
             top: 0,
             behavior: "smooth",
         });
-    });
+        setDefaultImg(img01);
+    }, [img01]);
 
     const userAccId = localStorage.getItem("userAccId");
-
-    // const accCheckHandler = async () => {
-    //     await axios.get(`http://localhost:5000/v1/account`).then((res) => {
-    //         console.log(res, "cartItems");
-    //         const accounts = res.data.Accounts;
-    //         const currentAccount = accounts.find((account) => account._id === userAccId);
-    //         console.log("CurrentAccInDetails", currentAccount);
-
-    //         if (!currentAccount) {
-    //             Swal.fire({
-    //                 text: "Login Or Create Account first",
-    //                 icon: "error",
-    //             });
-    //             setIsData(false);
-    //         } else {
-    //             setIsData(true);
-    //         }
-    //     });
-    // };
 
     const addFn = async () => {
         if (!userAccId) {
@@ -103,20 +85,20 @@ const ProductDetails = () => {
     };
 
     useEffect(() => {
-        const products = All_Product.filter((product) => product.category.toLowerCase() === category.toLowerCase());
+        const products = All_Product.filter((product) => product.category === category);
         const randomProducts = [...products].sort(() => Math.random() - 0.5);
         const slicedProducts = randomProducts.slice(0, 4);
         setRelatedProducts(slicedProducts);
-    }, []);
+    }, [category]);
 
     return (
         <>
             <ScrollBtn></ScrollBtn>
             <div className="Men-space-1">
                 <div className="row">
-                    <div className="col-lg-6">
-                        <div className="row g-3">
-                            <div className="col-lg-2">
+                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div className="product_row g-3">
+                            <div className="col-lg-3 col-md-3 col-sm-3 col-12">
                                 <div className="lil_Main_box">
                                     <div className="lil_box">
                                         <img alt="" onClick={() => setDefaultImg(img01)} src={img01}></img>
@@ -132,14 +114,14 @@ const ProductDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-10 ">
+                            <div className="col-lg-9 col-md-9 col-sm-9 col-12">
                                 <div className="Product_img_box">
                                     <img alt="" src={defaultImg}></img>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                         <div className="Product_Box">
                             {line && <span>{line}</span>}
                             <h4>{title}</h4>
@@ -161,10 +143,10 @@ const ProductDetails = () => {
                 <div className="d-flex my-5 justify-content-center pt-5">
                     <h2 className="m-0">You May Also Like</h2>
                 </div>
-                <div className="row">
+                <div className="row g-3">
                     {relatedProducts?.map((val, ind) => {
                         return (
-                            <div className="col-lg-3" key={ind}>
+                            <div className="col-lg-3 col-md-6 col-sm-6 col-12" key={ind}>
                                 <ProductCard items={val} key={ind} />
                             </div>
                         );

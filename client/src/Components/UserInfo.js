@@ -99,18 +99,18 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
                 <div className="d-flex flex-column gap-3">
                     <h4 className="mb-2">Sign In Information</h4>
                     <div className="row">
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 col-md-4 col-4">
                             <p>Email</p>
                         </div>
-                        <div className="col-lg-9">
+                        <div className="col-lg-9 col-md-8 col-8">
                             <p>{email ? email : "loading..."}</p>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 col-md-4 col-4">
                             <p>Password</p>
                         </div>
-                        <div className="col-lg-9">
+                        <div className="col-lg-9 col-md-8 col-8">
                             <span>****** </span>
                             <Link data-bs-target="#offcanvas_pass" data-bs-toggle="offcanvas">
                                 Change
@@ -125,7 +125,14 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
                                     <form onSubmit={passUpdateHandler}>
                                         <div className="d-flex flex-column gap-3">
                                             <div className="form-floating position-relative w-100">
-                                                <input onChange={getPass} type={CurrentIcon} className="form-control position-relative" id="currentPassword" placeholder="currentPassword" />
+                                                <input
+                                                    autoComplete="off"
+                                                    onChange={getPass}
+                                                    type={CurrentIcon}
+                                                    className="form-control position-relative"
+                                                    id="currentPassword"
+                                                    placeholder="currentPassword"
+                                                />
                                                 <div className="pass-eyes-box">
                                                     <i
                                                         className={`bx ${CurrentIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
@@ -137,7 +144,7 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
                                                 <label htmlFor="currentPassword">Current Password *</label>
                                             </div>
                                             <div className="form-floating position-relative w-100">
-                                                <input onChange={getPass} type={eyeIcon} className="form-control position-relative" id="newPassword" placeholder="newPassword" />
+                                                <input autoComplete="off" onChange={getPass} type={eyeIcon} className="form-control position-relative" id="newPassword" placeholder="newPassword" />
                                                 <div className="pass-eyes-box">
                                                     <i
                                                         className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}

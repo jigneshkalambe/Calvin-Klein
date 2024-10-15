@@ -39,9 +39,10 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.7);
     font-weight: 500;
-    width: 90px;
+    width: auto;
+    padding: 0px 5px;
     height: 25px;
     display: flex;
     align-items: center;

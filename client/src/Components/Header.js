@@ -7,7 +7,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { cartAction } from "../Store/Slice/CartSlice";
 import All_Product from "../Web_Data/Data";
-import ProductCard from "./ProductCard";
 
 function Header() {
     const userId = localStorage.getItem("userAccId");
@@ -83,8 +82,8 @@ function Header() {
                         text: "You have been logged in successfully",
                         icon: "success",
                     }).then(() => {
-                        navigate("/");
-                        window.location.reload();
+                        // navigate("/");
+                        // window.location.reload();
                     });
                 }
             })
@@ -92,7 +91,7 @@ function Header() {
                 console.log(err);
                 Swal.fire({
                     title: "Login Failed",
-                    text: "Invalid email or password",
+                    text: err.response.data.message,
                     icon: "error",
                 });
             });
@@ -134,7 +133,7 @@ function Header() {
         } else {
             setAccData(false);
         }
-    }, [dispatch]);
+    }, [userId, dispatch]);
 
     return (
         <div className="space-1">
@@ -160,23 +159,45 @@ function Header() {
                             </li>
                         </ul>
                     </div>
-                    <i className="bx bx-menu menu-off" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions2"></i>
-
+                    <div className="d-flex gap-3 align-items-center">
+                        <i className="bx bx-menu menu-off" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu"></i>
+                        <div className="d-flex align-items-center">
+                            {accData === true ? (
+                                <Link to={`/account`}>
+                                    <i className="bx bx-user userIcon"></i>
+                                </Link>
+                            ) : (
+                                <div className="dropdown-header">
+                                    <i className="bx bx-user userIcon"></i>
+                                    <div className="dropdown-header-content">
+                                        <Link data-bs-target="#SignInOffCanvas" data-bs-toggle="offcanvas">
+                                            Sign In
+                                        </Link>
+                                        <Link to={`/createaccount`}>Create Account</Link>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="offcanvas offcanvas-start offcanvas-menu" id="offcanvas-menu">
+                        <div className="offcanvas-header">
+                            <i className="bx bx-x input-group-text close" data-bs-dismiss="offcanvas"></i>
+                        </div>
+                        <ul id="offcanvas2-a">
+                            <li>
+                                <Link to={`/women`}>Women</Link>
+                            </li>
+                            <li>
+                                <Link to={`/men`}>Men</Link>
+                            </li>
+                            <li>
+                                <Link to={`/kids`}>Kids</Link>
+                            </li>
+                        </ul>
+                    </div>
                     <div className="offcanvas offcanvas-start offcanvas2" data-bs-scroll="true" tabIndex="-1" id="offcanvasWithBothOptions2" aria-labelledby="offcanvasWithBothOptionsLabel">
                         <div className="offcanvas-header justify-content-between align-items-center mt-4">
-                            <div className="offcanvas2-a-box">
-                                {/* <ul id="offcanvas2-a">
-                                        <li>
-                                            <Link className="tab-btn">Women</Link>
-                                        </li>
-                                        <li>
-                                            <Link className="tab-btn">Men</Link>
-                                        </li>
-                                        <li>
-                                            <Link className="tab-btn">Kids</Link>
-                                        </li>
-                                    </ul> */}
-                            </div>
+                            <div className="offcanvas2-a-box"></div>
                             <img src="Assets/img/ck-logo-white.svg" className="logo2 mx-auto" alt="" />
                             <i className="bx bx-x input-group-text close" data-bs-dismiss="offcanvas"></i>
                         </div>
@@ -242,18 +263,16 @@ function Header() {
                         <Link to="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">
                             <i className="bx bx-search"></i>
                         </Link>
-
+                        
                         <div className="offcanvas  offcanvas-search offcanvas-end" data-bs-scroll="true" tabIndex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
                             <div className="offcanvas-header">
-                                {/* <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>  */}
                                 <div className="input-group">
                                     <i className="bx bx-search input-group-text search"></i>
                                     <input
                                         type="text"
+                                        autoComplete="off"
                                         className="form-control header-input"
                                         placeholder="What are you looking for..."
-                                        name=""
-                                        id=""
                                         onChange={(e) => setSearchProducts(e.target.value)}
                                     />
                                     <i className="bx bx-x input-group-text close" data-bs-dismiss="offcanvas"></i>
@@ -274,17 +293,49 @@ function Header() {
                                     {searchProducts === ""
                                         ? headerProducts?.map((val, ind) => {
                                               return (
-                                                  <div className="col-6">
-                                                      <ProductCard items={val} key={ind} />
+                                                  <div className="col-6" key={ind}>
+                                                      <div className="search-box ">
+                                                          <div className="search-img-box">
+                                                              <Link to={`/${val.category}/${val.id}`}>
+                                                                  <img alt="" src={val.img01}></img>
+                                                              </Link>
+                                                          </div>
+                                                          <div className="search-body">
+                                                              <Link className="title">
+                                                                  <h4>{val.title}</h4>
+                                                              </Link>
+                                                              <div className="d-flex gap-2 align-items-center">
+                                                                  {val.old_price ? <p className="old-price">${val.old_price}</p> : null}
+                                                                  <p className="new-price">${val.new_price}</p>
+                                                                  {val.discount ? <p className="discount">{val.discount}%</p> : null}
+                                                              </div>
+                                                          </div>
+                                                      </div>
                                                   </div>
                                               );
                                           })
                                         : All_Product.filter((item) => {
-                                              return item.title.toLowerCase().includes(searchProducts.toLowerCase());
+                                              return item.title && item.title.toLowerCase().includes(searchProducts.toLowerCase());
                                           }).map((val, ind) => {
                                               return (
-                                                  <div className="col-6">
-                                                      <ProductCard items={val} key={ind} />
+                                                  <div className="col-6" key={ind}>
+                                                      <div className="search-box ">
+                                                          <div className="search-img-box">
+                                                              <Link to={`/${val.category}/${val.id}`}>
+                                                                  <img alt="" src={val.img01}></img>
+                                                              </Link>
+                                                          </div>
+                                                          <div className="search-body">
+                                                              <Link className="title">
+                                                                  <h4>{val.title}</h4>
+                                                              </Link>
+                                                              <div className="d-flex gap-2 align-items-center">
+                                                                  {val.old_price ? <p className="old-price">${val.old_price}</p> : null}
+                                                                  <p className="new-price">${val.new_price}</p>
+                                                                  {val.discount ? <p className="discount">{val.discount}%</p> : null}
+                                                              </div>
+                                                          </div>
+                                                      </div>
                                                   </div>
                                               );
                                           })}
@@ -294,11 +345,11 @@ function Header() {
                         <div>
                             {accData === true ? (
                                 <Link to={`/account`}>
-                                    <i className="bx bx-user"></i>
+                                    <i className="bx bx-user userIcon2"></i>
                                 </Link>
                             ) : (
                                 <div className="dropdown-header">
-                                    <i className="bx bx-user"></i>
+                                    <i className="bx bx-user userIcon2"></i>
                                     <div className="dropdown-header-content">
                                         <Link data-bs-target="#SignInOffCanvas" data-bs-toggle="offcanvas">
                                             Sign In
@@ -319,11 +370,19 @@ function Header() {
                                     </div>
                                     <div className="d-flex flex-column gap-4 mt-4">
                                         <div className="form-floating w-100">
-                                            <input type="text" onChange={getData} value={loginData.email} className="form-control" id="email" placeholder="email" />
+                                            <input type="text" autoComplete="off" onChange={getData} value={loginData.email} className="form-control" id="email" placeholder="email" />
                                             <label htmlFor="email">Email *</label>
                                         </div>
                                         <div className="form-floating position-relative w-100">
-                                            <input type={eyeIcon} onChange={getData} value={loginData.password} className="form-control position-relative" id="password" placeholder="password" />
+                                            <input
+                                                type={eyeIcon}
+                                                autoComplete="off"
+                                                onChange={getData}
+                                                value={loginData.password}
+                                                className="form-control position-relative"
+                                                id="password"
+                                                placeholder="password"
+                                            />
                                             <div className="pass-eyes-box">
                                                 <i
                                                     className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes`}
@@ -344,7 +403,7 @@ function Header() {
                                         <p className="d-flex gap-2 m-0">
                                             Don't have an account?
                                             <Link to="/createaccount" className="text-dark text-decoration-underline">
-                                                Create Accout
+                                                Create Account
                                             </Link>
                                         </p>
                                     </div>
@@ -353,7 +412,7 @@ function Header() {
                         </div>
                         <div className="cart-icon">
                             <i data-bs-toggle="offcanvas" data-bs-target="#offcanvasDark" className="bx bx-shopping-bag"></i>
-                            <div className="offcanvas offcanvasCart offcanvas-end " data-bs-backdrop="static" id="offcanvasDark">
+                            <div className="offcanvas  offcanvasCart offcanvas-end " id="offcanvasDark">
                                 <div className="offcanvas-header">
                                     <h2>Shopping Bag</h2>
                                     <i className="bx bx-x input-group-text close" data-bs-dismiss="offcanvas"></i>

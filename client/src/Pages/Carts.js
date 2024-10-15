@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartAction } from "../Store/Slice/CartSlice";
 import { Link } from "react-router-dom";
 import ScrollBtn from "../Components/ScrollBtn";
 import axios from "axios";
-
+import Helmet from "../Components/Helmet";
+import Coupons from "../Components/Coupons";
 const Carts = () => {
     const userId = localStorage.getItem("userAccId");
     const products = useSelector((state) => state.cart.cartItems);
+    const [couponCode, setCouponCode] = useState("");
     const dispatch = useDispatch();
+    const appliedCouponCode = useSelector((state) => state.cart.appliedCouponCode);
 
     const deleteItem = async (id) => {
         dispatch(cartAction.deleteProducts({ id }));
@@ -21,8 +24,21 @@ const Carts = () => {
     };
 
     const totalAmount = useSelector((state) => state.cart.totalAmount);
+
+    const couponCodeHandler = (e) => {
+        e.preventDefault();
+        const couponCodeOg = couponCode;
+
+        if (!appliedCouponCode) {
+            dispatch(cartAction.discount(couponCodeOg));
+        } else {
+            alert(`Coupon "${appliedCouponCode}" has already been applied`);
+        }
+    };
+
     return (
-        <>
+        <Helmet title="Cart">
+            {products.length === 0 ? "" : <Coupons />}
             <ScrollBtn></ScrollBtn>
             {products.length === 0 ? (
                 <div className="my-5">
@@ -34,10 +50,10 @@ const Carts = () => {
                         <h2 className="text-center m-0 text-dark">Shopping Bag</h2>
                         <span className="mt-3">({products.length} itmes)</span>
                     </div>
-                    <div className="row">
-                        <div className="col-lg-9">
-                            <table className="table table-bordered table-hover ">
-                                <thead className="text-center">
+                    <div className="d-flex flex-lg-row  flex-column-reverse">
+                        <div className="col-lg-9 col-md-12 col-12 table-responsive">
+                            <table className="table table-bordered table-hover mt-lg-0 mt-5">
+                                <thead className="text-center align-middle">
                                     <tr>
                                         <th>id</th>
                                         <th>Image</th>
@@ -69,8 +85,8 @@ const Carts = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="col-lg-3 position-relative">
-                            <div className="cartP_totalbox">
+                        <div className="col-lg-3 col-md-12 position-relative ">
+                            <div className="cartP_totalbox ps-lg-4 ps-0">
                                 <h2>Order Summary</h2>
                                 <div>
                                     <div>
@@ -97,6 +113,28 @@ const Carts = () => {
                                     </div>
                                 </div>
                                 <div>
+                                    <p>Apply Coupon</p>
+                                </div>
+                                <form onSubmit={couponCodeHandler}>
+                                    <div className="d-flex gap-2 mt-1">
+                                        <div className="w-100">
+                                            <input
+                                                type="text"
+                                                className="form-control w-100"
+                                                value={couponCode}
+                                                onChange={(e) => setCouponCode(e.target.value)}
+                                                id="couponCode"
+                                                disabled={!!appliedCouponCode}
+                                            />
+                                        </div>
+                                        <div>
+                                            <button type="submit" className="applyBtn" disabled={!!appliedCouponCode}>
+                                                {appliedCouponCode ? "Applied" : "Apply"}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div>
                                     <div>
                                         <h3>Estimated Total</h3>
                                     </div>
@@ -104,6 +142,7 @@ const Carts = () => {
                                         <h3>${totalAmount.toFixed()}</h3>
                                     </div>
                                 </div>
+
                                 <div>
                                     <Link to={`/checkout`}>Check Out</Link>
                                 </div>
@@ -112,7 +151,7 @@ const Carts = () => {
                     </div>
                 </div>
             )}
-        </>
+        </Helmet>
     );
 };
 

@@ -13,7 +13,7 @@ const Kids = () => {
         setComponent("kids");
         const kidsProducts = All_Product.filter((products) => products.category === "kids");
         setkids_Products(kidsProducts);
-    }, [All_Product]);
+    }, [setComponent, setkids_Products]);
 
     const totalData_Kids = kids_products.length;
     return (

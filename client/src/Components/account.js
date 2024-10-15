@@ -58,9 +58,9 @@ const Account = () => {
 
     return (
         <>
-            <div className="home-space-1">
+            <div className="Men-space-1">
                 <div className="row">
-                    <div className="col-lg-3">
+                    <div className="col-lg-3 col-md-4 col-12">
                         <div className="User_SideBar">
                             <h2>Hi, {firstName}</h2>
                             <div>
@@ -70,7 +70,7 @@ const Account = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-9">
+                    <div className="col-lg-9 col-md-8 col-12">
                         {componentRender(component)}
                         <div className="mt-4">
                             <button className="btn btn-danger d-block" onClick={signoutHandler}>

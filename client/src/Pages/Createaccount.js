@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 const Createaccount = () => {
-    const [eyeIcon, setEyeIcon] = useState("text");
+    const [eyeIcon, setEyeIcon] = useState("password");
     const [CreateFromData, setCreateFromData] = useState({
         firstName: "",
         lastName: "",
@@ -78,90 +78,98 @@ const Createaccount = () => {
             })
             .catch((error) => {
                 console.log(error);
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: error.response.data.message,
-                });
+                // Swal.fire({
+                //     icon: "error",
+                //     title: "Error",
+                //     text: error.response.data.message,
+                // });
             });
     };
 
     return (
-        <div className="create_page">
-            <div>
-                <h3>Create an Account</h3>
-            </div>
-            <form onSubmit={CreateaccountHandler}>
-                <div className="d-flex flex-column  mt-4">
-                    <div className="form-floating mb-3 w-100">
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={CreateFromData.firstName}
-                            onBlur={CreateValidation}
-                            onChange={CreateGetValue}
-                            style={{ borderColor: CreateErr.firstName ? "red" : "#ccc" }}
-                            id="firstName"
-                            placeholder="firstName"
-                        />
-                        <label htmlFor="firstName">First Name *</label>
-                        {CreateErr.firstName && <p className="err">{CreateErr.firstName}</p>}
-                    </div>
-                    <div className="form-floating mb-3 w-100">
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={CreateFromData.lastName}
-                            onBlur={CreateValidation}
-                            onChange={CreateGetValue}
-                            style={{ borderColor: CreateErr.lastName ? "red" : "#ccc" }}
-                            id="lastName"
-                            placeholder="lastName"
-                        />
-                        <label htmlFor="lastName">Last Name *</label>
-                        {CreateErr.lastName && <p className="err">{CreateErr.lastName}</p>}
-                    </div>
-                    <div className="form-floating mb-3 w-100">
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={CreateFromData.email}
-                            onBlur={CreateValidation}
-                            onChange={CreateGetValue}
-                            style={{ borderColor: CreateErr.email ? "red" : "#ccc" }}
-                            id="email"
-                            placeholder="email"
-                        />
-                        <label htmlFor="email">Email *</label>
-                        {CreateErr.email && <p className="err">{CreateErr.email}</p>}
-                    </div>
-                    <div className="form-floating  w-100">
-                        <input
-                            type={eyeIcon}
-                            className="form-control position-relative"
-                            value={CreateFromData.password}
-                            onBlur={CreateValidation}
-                            onChange={CreateGetValue}
-                            style={{ borderColor: CreateErr.password ? "red" : "#ccc" }}
-                            id="password"
-                            placeholder="password"
-                        />
-                        <div className="pass-eyes-box">
-                            <i
-                                className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes fs-4`}
-                                onClick={() => {
-                                    setEyeIcon((eyeIcon) => (eyeIcon === "text" ? "password" : "text"));
-                                }}
-                            ></i>
-                        </div>
-                        <label htmlFor="password">Create a Password *</label>
-                    </div>
-                    <div>{CreateErr.password && <p className="err">{CreateErr.password}</p>}</div>
-                    <div className="mt-3">
-                        <button type="submit">Create an Account</button>
-                    </div>
+        <div className="Men-space-1">
+            <div className="create_page">
+                <div>
+                    <h3>Create an Account</h3>
                 </div>
-            </form>
+                <form onSubmit={CreateaccountHandler}>
+                    <div className="d-flex flex-column  mt-4">
+                        <div className="form-floating mb-3 w-100">
+                            <input
+                                autoComplete="off"
+                                type="text"
+                                className="form-control"
+                                value={CreateFromData.firstName}
+                                onBlur={CreateValidation}
+                                onChange={CreateGetValue}
+                                style={{ borderColor: CreateErr.firstName ? "red" : "#ccc" }}
+                                id="firstName"
+                                placeholder="firstName"
+                            />
+                            <label htmlFor="firstName">First Name *</label>
+                            {CreateErr.firstName && <p className="err">{CreateErr.firstName}</p>}
+                        </div>
+                        <div className="form-floating mb-3 w-100">
+                            <input
+                                autoComplete="off"
+                                type="text"
+                                className="form-control"
+                                value={CreateFromData.lastName}
+                                onBlur={CreateValidation}
+                                onChange={CreateGetValue}
+                                style={{ borderColor: CreateErr.lastName ? "red" : "#ccc" }}
+                                id="lastName"
+                                placeholder="lastName"
+                            />
+                            <label htmlFor="lastName">Last Name *</label>
+                            {CreateErr.lastName && <p className="err">{CreateErr.lastName}</p>}
+                        </div>
+                        <div className="form-floating mb-3 w-100">
+                            <input
+                                autoComplete="off"
+                                type="text"
+                                className="form-control"
+                                value={CreateFromData.email}
+                                onBlur={CreateValidation}
+                                onChange={CreateGetValue}
+                                style={{ borderColor: CreateErr.email ? "red" : "#ccc" }}
+                                id="email"
+                                placeholder="email"
+                            />
+                            <label htmlFor="email">Email *</label>
+                            {CreateErr.email && <p className="err">{CreateErr.email}</p>}
+                        </div>
+                        <div className="form-floating  w-100">
+                            <input
+                                autoComplete="off"
+                                type={eyeIcon}
+                                className="form-control position-relative"
+                                value={CreateFromData.password}
+                                onBlur={CreateValidation}
+                                onChange={CreateGetValue}
+                                style={{ borderColor: CreateErr.password ? "red" : "#ccc" }}
+                                id="password"
+                                placeholder="password"
+                            />
+                            <div className="pass-eyes-box">
+                                <i
+                                    className={`bx ${eyeIcon === "password" ? "bxs-show" : "bxs-hide"} password-eyes fs-4`}
+                                    onClick={() => {
+                                        setEyeIcon((eyeIcon) => (eyeIcon === "text" ? "password" : "text"));
+                                    }}
+                                ></i>
+                            </div>
+                            <label htmlFor="password">Create a Password *</label>
+                        </div>
+                        <div>{CreateErr.password && <p className="err">{CreateErr.password}</p>}</div>
+                        <div className="mt-3">
+                            <button type="submit" disabled={Object.values(CreateErr).some((error) => error !== "")}>
+                                Create an Account
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

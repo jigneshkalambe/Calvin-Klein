@@ -33,6 +33,7 @@ const Checkout = () => {
 
     const totalAmount = useSelector((state) => state.cart.totalAmount);
     const cartItems = useSelector((state) => state.cart.cartItems);
+    const appliedCouponCode = useSelector((state) => state.cart.appliedCouponCode);
     console.log("checkout", cartItems);
 
     const getValue = (e) => {
@@ -90,18 +91,35 @@ const Checkout = () => {
                 console.log(res);
                 if (res.status === 200) {
                     setGeneratePDF(true);
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Your order was placed successfully. Download your receipt below.",
+                        icon: "success",
+                    });
                 }
             } catch (error) {
                 console.log(error);
+                Swal.fire({
+                    title: "Oops!",
+                    text: "Something went wrong with the checkout process. Please try again.",
+                    icon: "error",
+                });
             }
+        } else {
+            Swal.fire({
+                title: "Incomplete Information",
+                text: "Please fill out all the required fields correctly before proceeding.",
+                icon: "warning",
+            });
         }
     };
+
     return (
         <>
             <Scrollbtn></Scrollbtn>
             <div className="my-4 space-1">
                 <div className="row">
-                    <div className="col-lg-8">
+                    <div className="col-lg-8 col-12">
                         <div>
                             <h2 className="checkout_heading">Checkout</h2>
                         </div>
@@ -111,6 +129,7 @@ const Checkout = () => {
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
+                                            autoComplete="off"
                                             className="form-control"
                                             style={{ borderColor: err.firstName ? "red" : "#ccc" }}
                                             value={inputData.firstName}
@@ -124,6 +143,7 @@ const Checkout = () => {
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
+                                            autoComplete="off"
                                             className="form-control"
                                             style={{ borderColor: err.lastName ? "red" : "#ccc" }}
                                             value={inputData.lastName}
@@ -139,6 +159,7 @@ const Checkout = () => {
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
+                                            autoComplete="off"
                                             className="form-control"
                                             style={{ borderColor: err.Address ? "red" : "#ccc" }}
                                             value={inputData.Address}
@@ -154,6 +175,7 @@ const Checkout = () => {
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
+                                            autoComplete="off"
                                             className="form-control"
                                             style={{ borderColor: err.City ? "red" : "#ccc" }}
                                             value={inputData.City}
@@ -169,6 +191,7 @@ const Checkout = () => {
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
+                                            autoComplete="off"
                                             className="form-control"
                                             style={{ borderColor: err.Apartment ? "red" : "#ccc" }}
                                             value={inputData.Apartment}
@@ -176,7 +199,7 @@ const Checkout = () => {
                                             id="Apartment"
                                             placeholder="Apartment"
                                         />
-                                        <label htmlFor="Apartment">Apartment, Suite, Etc (optional) *</label>
+                                        <label htmlFor="Apartment">Apartment (optional) *</label>
                                         {err.Apartment && <p className="err">{err.Apartment}</p>}
                                     </div>
                                 </div>
@@ -184,6 +207,7 @@ const Checkout = () => {
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
+                                            autoComplete="off"
                                             className="form-control"
                                             style={{ borderColor: err.State ? "red" : "#ccc" }}
                                             value={inputData.State}
@@ -197,6 +221,7 @@ const Checkout = () => {
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
+                                            autoComplete="off"
                                             className="form-control"
                                             style={{ borderColor: err.ZipCode ? "red" : "#ccc" }}
                                             value={inputData.ZipCode}
@@ -215,6 +240,7 @@ const Checkout = () => {
                                     <div className="form-floating w-100">
                                         <input
                                             type="text"
+                                            autoComplete="off"
                                             className="form-control"
                                             style={{ borderColor: err.Email ? "red" : "#ccc" }}
                                             value={inputData.Email}
@@ -247,8 +273,8 @@ const Checkout = () => {
                             </div>
                         </form>
                     </div>
-                    <div className="col-lg-4">
-                        <div className="ps-lg-5">
+                    <div className="col-lg-4 col-12">
+                        <div className="ps-lg-5 mt-lg-0 mt-4">
                             <div className="checkout_totalbox">
                                 <h2>Order Summary</h2>
                                 <div>
@@ -284,18 +310,17 @@ const Checkout = () => {
                                     </div>
                                 </div>
                             </div>
-                            {generatePDF && (
+                            {generatePDF && inputData.firstName && (
                                 <PDFDownloadLink
                                     className="downloadLink"
-                                    document={<Pdf inputData={inputData} cartItems={cartItems} totalAmount={totalAmount} />}
+                                    document={<Pdf inputData={inputData} cartItems={cartItems} totalAmount={totalAmount} appliedCouponCode={appliedCouponCode} />}
+                                    fileName="order_receipt.pdf"
                                     onClick={() => {
-                                        setGeneratePDF(false);
                                         Swal.fire({
                                             title: "Thank You for Your Purchase!",
                                             text: "Your order has been successfully placed.",
                                         });
                                     }}
-                                    fileName="order_receipt.pdf"
                                 >
                                     {({ loading }) => (loading ? "Generating PDF..." : "Download Receipt")}
                                 </PDFDownloadLink>

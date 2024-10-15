@@ -117,8 +117,8 @@ const CartItems = (props) => {
                         {new_price ? <p className="cart_new_price">${new_price}</p> : ""}
                     </div>
                 </div>
-                <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex align-items-center gap-4">
+                <div className="d-flex justify-content-lg-between gapC justify-content-md-center align-items-center">
+                    <div className="d-flex align-items-center gap-lg-4 gap-md-4 gap-lg-4 gap-2">
                         <p>Quantity:</p>
                         <div className="cart_inc_dec">
                             <button onClick={removeItem}>

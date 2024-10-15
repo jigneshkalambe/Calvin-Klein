@@ -1,17 +1,24 @@
 .scrollBtn {
     width: 56px;
     height: 56px;
-    display: none;
+    opacity: 0;
+    visibility: hidden;
     border-radius: 50%;
     border: 1px solid #ccc;
     background-color: white;
     color: #000;
     position: fixed;
     right: 40px;
-    top: 85%;
+    bottom: 20px;
     z-index: 10;
     flex-direction: column;
     align-items: center;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.scrollBtn.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .scrollBtn i {

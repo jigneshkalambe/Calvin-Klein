@@ -68,16 +68,20 @@ const productsAdd = async (req, res) => {
 
 const productsRemove = async (req, res) => {
     try {
-        const { id, userId } = req.body;
+        const { id, accId } = req.body;
 
         // Log the incoming request data
-        // console.log("Received request to remove product with data:", { id, userId });
+        // console.log("Received request to remove product with data:", { id, accId });
 
-        if (!id || !userId) {
-            throw new Error("Missing required parameters: id or userId");
+        if (!id) {
+            throw new Error("Missing required parameters: id");
         }
 
-        const userAcc = await Account.findById(userId).populate("products");
+        if (!accId) {
+            throw new Error("Missing required parameters: accId");
+        }
+
+        const userAcc = await Account.findById(accId).populate("products");
 
         if (!userAcc) {
             throw new Error("Account not found");
@@ -109,8 +113,8 @@ const productsRemove = async (req, res) => {
 
 const productsDelete = async (req, res) => {
     try {
-        const { id, userId } = req.body;
-        const userAccount = await Account.findById(userId).populate("products");
+        const { id, accId } = req.body;
+        const userAccount = await Account.findById(accId).populate("products");
 
         if (!userAccount) {
             throw new Error("acc not found");

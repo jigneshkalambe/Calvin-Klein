@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../Pages/Home";
 import Men from "../Pages/Men";
@@ -15,7 +15,7 @@ import UserInfo from "../Components/UserInfo";
 function Routers() {
     const [component, setComponent] = useState();
     return (
-        <div>
+        <>
             <context_ex.Provider value={{ component, setComponent }}>
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
@@ -25,6 +25,16 @@ function Routers() {
                     <Route path="/men/:id" element={<ProductDetails />}></Route>
                     <Route path="/women/:id" element={<ProductDetails />}></Route>
                     <Route path="/kids/:id" element={<ProductDetails />}></Route>
+                    <Route path="/men_top/:id" element={<ProductDetails />}></Route>
+                    <Route path="/men_bottom/:id" element={<ProductDetails />}></Route>
+                    <Route path="/men_arrival/:id" element={<ProductDetails />}></Route>
+                    <Route path="/men_outerwear/:id" element={<ProductDetails />}></Route>
+                    <Route path="/men_suiting/:id" element={<ProductDetails />}></Route>
+                    <Route path="/women_top/:id" element={<ProductDetails />}></Route>
+                    <Route path="/women_bottom/:id" element={<ProductDetails />}></Route>
+                    <Route path="/women_arrival/:id" element={<ProductDetails />}></Route>
+                    <Route path="/women_outerwear/:id" element={<ProductDetails />}></Route>
+                    <Route path="/women_suiting/:id" element={<ProductDetails />}></Route>
                     <Route path="/cart" element={<Carts />}></Route>
                     <Route path="/checkout" element={<Checkout />}></Route>
                     <Route path="/createaccount" element={<Createaccount />}></Route>
@@ -33,7 +43,7 @@ function Routers() {
                     <Route path="/userinfo" element={<UserInfo />}></Route>
                 </Routes>
             </context_ex.Provider>
-        </div>
+        </>
     );
 }
 

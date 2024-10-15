@@ -14,9 +14,7 @@ const initialState = {
     cartItems: items,
     totalQuantity: totalQuantity,
     totalAmount: totalAmount,
-    // cartItems: [],
-    // totalQuantity: 0,
-    // totalAmount: 0,
+    appliedCouponCode: "",
 };
 
 const cartSlice = createSlice({
@@ -128,6 +126,31 @@ const cartSlice = createSlice({
             localStorage.removeItem("cartItems");
             localStorage.removeItem("totalQuantity");
             localStorage.removeItem("totalAmount");
+        },
+        discount(state, action) {
+            const couponCode = action.payload;
+            let discountAmount = 0;
+
+            if (couponCode === "SHOPMORE25") {
+                discountAmount = (state.totalAmount * 25) / 100;
+            }
+
+            if (couponCode === "WELCOME15") {
+                discountAmount = (state.totalAmount * 15) / 100;
+            }
+
+            if (couponCode === "FIRSTORDER20") {
+                discountAmount = (state.totalAmount * 20) / 100;
+            }
+
+            if (couponCode === "SAVE10") {
+                discountAmount = (state.totalAmount * 10) / 100;
+            }
+
+            state.appliedCouponCode = couponCode;
+            state.totalAmount -= discountAmount;
+
+            setItem(state.cartItems, state.totalAmount, state.totalQuantity);
         },
     },
 });

@@ -7,7 +7,7 @@ function ProductCard(props) {
     return (
         <div className="card-box ">
             <div className="card-img-box">
-                <Link to={`/${category.toLowerCase()}/${id}`}>
+                <Link to={`/${category}/${id}`}>
                     <img alt="" src={img01}></img>
                 </Link>
                 {line ? <span>{line}</span> : null}

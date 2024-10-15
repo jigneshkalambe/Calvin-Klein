@@ -1,13 +1,12 @@
 import React from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 
-// Define styles
 const styles = StyleSheet.create({
     page: {
         padding: 30,
     },
     section: {
-        marginBottom: 10,
+        marginBottom: 20,
     },
     heading: {
         fontSize: 20,
@@ -49,20 +48,12 @@ const styles = StyleSheet.create({
     },
 });
 
-// Create Document Component
-const Pdf = ({ inputData, cartItems, totalAmount }) => {
-    // Ensure totalAmount is a valid number
+const Pdf = ({ inputData, cartItems, totalAmount, appliedCouponCode }) => {
     const safeTotalAmount = totalAmount || 0;
 
     return (
         <Document>
             <Page style={styles.page}>
-                {/* {(() => {
-                    const now = Date.now();
-                    while (Date.now() - now < 3000) {} // 3-second delay
-                    return null;
-                })()} */}
-                {/* Customer Information */}
                 <View style={styles.section}>
                     <Text style={styles.heading}>Customer Information</Text>
                     <Text style={styles.text}>
@@ -78,7 +69,6 @@ const Pdf = ({ inputData, cartItems, totalAmount }) => {
                     <Text style={styles.text}>Phone Number: {inputData.PhoneNumber}</Text>
                 </View>
 
-                {/* Order Summary */}
                 <View style={styles.section}>
                     <Text style={styles.heading}>Order Summary</Text>
                     <View style={styles.table}>
@@ -97,7 +87,6 @@ const Pdf = ({ inputData, cartItems, totalAmount }) => {
                             </View>
                         </View>
                         {cartItems.map((item, index) => {
-                            // Ensure price and quantity are valid numbers
                             const itemPrice = item.new_price || 0;
                             const itemQuantity = item.quantity || 0;
                             return (
@@ -120,7 +109,13 @@ const Pdf = ({ inputData, cartItems, totalAmount }) => {
                     </View>
                 </View>
 
-                {/* Total Amount */}
+                {appliedCouponCode && (
+                    <View style={styles.section}>
+                        <Text style={styles.heading}>Coupon Applied</Text>
+                        <Text style={styles.text}>Coupon Code: {appliedCouponCode}</Text>
+                    </View>
+                )}
+
                 <View style={styles.section}>
                     <Text style={styles.total}>Subtotal: ${safeTotalAmount.toFixed(2)}</Text>
                     <Text style={styles.total}>Shipping: FREE</Text>

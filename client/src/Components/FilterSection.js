@@ -6,12 +6,13 @@ const FilterSection = (props) => {
     const { setMenData, setWomenData, setKidsData } = props;
     const [fullData, setFullData] = useState(All_Product);
     const [priceLength, setPriceLength] = useState(All_Product);
-    const { component, setComponent } = useContext(context_ex);
+    const { component } = useContext(context_ex);
     const [filter, setFilter] = useState();
+    const [selectedCategory, setSelectedCategory] = useState([]);
 
     useEffect(() => {
         if (component === "Men") {
-            const filtereProduct = All_Product.filter((men) => men.category === "Men");
+            const filtereProduct = All_Product.filter((men) => men.category === "men");
             setPriceLength(filtereProduct);
             setFilter(filtereProduct);
             setFullData(filtereProduct);
@@ -21,14 +22,14 @@ const FilterSection = (props) => {
             setFilter(FilterProduct);
             setFullData(FilterProduct);
         } else {
-            const filtereProduct = All_Product.filter((women) => women.category === "Women");
+            const filtereProduct = All_Product.filter((women) => women.category === "women");
             setPriceLength(filtereProduct);
             setFilter(filtereProduct);
             setFullData(filtereProduct);
         }
     }, [component]);
 
-    var priceLength1, priceLength2, priceLength3, priceLength4;
+    var priceLength1, priceLength2, priceLength3, priceLength4, priceLength5, priceLength6;
 
     priceLength1 = priceLength.sort((a, b) => {
         return a.id - b.id;
@@ -42,11 +43,19 @@ const FilterSection = (props) => {
     priceLength4 = priceLength.filter((Price) => {
         return Price.new_price > 50 && Price.new_price < 200;
     });
+    priceLength5 = priceLength.filter((Price) => {
+        return Price.new_price > 200 && Price.new_price < 500;
+    });
+    priceLength6 = priceLength.filter((Price) => {
+        return Price.new_price > 500 && Price.new_price < 1000;
+    });
 
     const priceLength1_ = priceLength1.length;
     const priceLength2_ = priceLength2.length;
     const priceLength3_ = priceLength3.length;
     const priceLength4_ = priceLength4.length;
+    const priceLength5_ = priceLength5.length;
+    const priceLength6_ = priceLength6.length;
 
     const Price_target_filter = (e) => {
         const Price_id = e.target.id;
@@ -106,6 +115,34 @@ const FilterSection = (props) => {
                 setWomenData(filterPrice3);
             }
         }
+
+        if (Price_id === "price4") {
+            const filterPrice3 = fullData.filter((Price) => {
+                return Price.new_price > 200 && Price.new_price < 500;
+            });
+            setFilter(filterPrice3);
+            if (component === "Men") {
+                setMenData(filterPrice3);
+            } else if (component === "kids") {
+                setKidsData(filterPrice3);
+            } else {
+                setWomenData(filterPrice3);
+            }
+        }
+
+        if (Price_id === "price5") {
+            const filterPrice3 = fullData.filter((Price) => {
+                return Price.new_price > 500 && Price.new_price < 1000;
+            });
+            setFilter(filterPrice3);
+            if (component === "Men") {
+                setMenData(filterPrice3);
+            } else if (component === "kids") {
+                setKidsData(filterPrice3);
+            } else {
+                setWomenData(filterPrice3);
+            }
+        }
     };
 
     const price_Filter = (e) => {
@@ -148,44 +185,82 @@ const FilterSection = (props) => {
         }
     };
 
-    console.log("FILTER", filter);
+    const collectionHandler = (e) => {
+        const collection_id = e.target.id;
+        const isChecked = e.target.checked;
+        let updatedSelectedCategory = [...selectedCategory];
+
+        if (isChecked) {
+            updatedSelectedCategory.push(collection_id);
+        } else {
+            updatedSelectedCategory = updatedSelectedCategory.filter((selectedCategory) => selectedCategory !== collection_id);
+        }
+        setSelectedCategory(updatedSelectedCategory);
+
+        let filterProducts;
+        if (updatedSelectedCategory.length === 0) {
+            filterProducts = All_Product.filter((products) => products.category === component.toLowerCase());
+        } else {
+            filterProducts = All_Product.filter((products) => updatedSelectedCategory.some((cat) => products.category === `${component && component.toLowerCase()}_${cat}`));
+        }
+
+        console.log("FILTERPRODUCTS", filterProducts);
+
+        if (component === "Men") {
+            setMenData(filterProducts);
+            setPriceLength(filterProducts);
+            setFilter(filterProducts);
+            setFullData(filterProducts);
+        } else if (component === "kids") {
+            setKidsData(filterProducts);
+        } else {
+            setWomenData(filterProducts);
+            setPriceLength(filterProducts);
+            setFilter(filterProducts);
+            setFullData(filterProducts);
+        }
+    };
+
+    let CheckBox = (
+        <div className="accordion-item">
+            <h2 className="accordion-header">
+                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">
+                    Category
+                </button>
+            </h2>
+            <div id="flush-collapseOne" className="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div className="accordion-body">
+                    <div className="check-box">
+                        <div>
+                            <input type="checkbox" onClick={collectionHandler} id="top"></input>
+                            <label>Tops</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" onClick={collectionHandler} id="bottom"></input>
+                            <label>Bottoms</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" onClick={collectionHandler} id="arrival"></input>
+                            <label>New Arrivals</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" onClick={collectionHandler} id="outerwear"></input>
+                            <label>Outerwear</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" onClick={collectionHandler} id="suiting"></input>
+                            <label>Suiting</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 
     return (
         <div className="Filter_box">
             <div className="accordion accordion-flush" id="accordionFlushExample">
-                <div className="accordion-item">
-                    <h2 className="accordion-header">
-                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">
-                            Category
-                        </button>
-                    </h2>
-                    <div id="flush-collapseOne" className="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                        <div className="accordion-body">
-                            <div className="check-box">
-                                <div>
-                                    <input type="checkbox" id="category1"></input>
-                                    <label>Tops</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="category2"></input>
-                                    <label>Bottoms</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="category3"></input>
-                                    <label>Denim</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="category4"></input>
-                                    <label>Outerwear</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="category5"></input>
-                                    <label>Suiting</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {component === "kids" ? "" : CheckBox}
                 <div className="accordion-item">
                     <h2 className="accordion-header">
                         <button
@@ -218,6 +293,14 @@ const FilterSection = (props) => {
                                     <div>
                                         <input onClick={Price_target_filter} type="radio" name="radio-ex" id="price3"></input>
                                         <label htmlFor="price3">$50 - $200 ({priceLength4_})</label>
+                                    </div>
+                                    <div>
+                                        <input onClick={Price_target_filter} type="radio" name="radio-ex" id="price4"></input>
+                                        <label htmlFor="price3">$200 - $500 ({priceLength5_})</label>
+                                    </div>
+                                    <div>
+                                        <input onClick={Price_target_filter} type="radio" name="radio-ex" id="price5"></input>
+                                        <label htmlFor="price3">$500 - $1000 ({priceLength6_})</label>
                                     </div>
                                 </div>
                             </form>

@@ -21,6 +21,7 @@
     border: none;
     background-color: transparent;
     text-align: start;
+    padding: 0;
 }
 
 .User_SideBar > div > button:hover {
@@ -37,7 +38,7 @@
     color: #696969;
     font-size: 16px;
     font-weight: 500;
-    padding: 1px 6px;
+    padding: 0;
 }
 
 .User_SideBar > div > a:hover {
@@ -75,7 +76,8 @@
     color: #696969;
 }
 
-.OverviewBox h4 {
+.OverviewBox h4,
+.UserInfo h4 {
     color: black;
     font-size: 16px;
     margin-bottom: 15px;

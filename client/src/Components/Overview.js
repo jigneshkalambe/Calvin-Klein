@@ -22,18 +22,18 @@ const Overview = ({ firstName, lastName, email, number, gender }) => {
                 <div>
                     <h4>Sign In Information</h4>
                     <div className="row">
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 col-md-4 col-4">
                             <p>Email</p>
                         </div>
-                        <div className="col-lg-9">
+                        <div className="col-lg-9 col-md-8 col-8">
                             <p>{email ? email : "loading..."}</p>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 col-md-4 col-4">
                             <p>Password</p>
                         </div>
-                        <div className="col-lg-9">
+                        <div className="col-lg-9 col-md-8 col-8">
                             <span>****** </span>
                             <Link onClick={renderComponent}>Change</Link>
                         </div>
@@ -42,10 +42,10 @@ const Overview = ({ firstName, lastName, email, number, gender }) => {
                 <div>
                     <h4>About me</h4>
                     <div className="row">
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 col-md-4 col-4">
                             <p>Name</p>
                         </div>
-                        <div className="col-lg-9">
+                        <div className="col-lg-9 col-md-8 col-8">
                             <p>
                                 {firstName && lastName ? (
                                     <>
@@ -58,16 +58,16 @@ const Overview = ({ firstName, lastName, email, number, gender }) => {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 col-md-4 col-5">
                             <p>Phone Number</p>
                         </div>
-                        <div className="col-lg-9">{number ? number : <Link onClick={renderComponent}>Add Phone Number</Link>}</div>
+                        <div className="col-lg-9 col-md-8 col-7">{number ? number : <Link onClick={renderComponent}>Add Phone Number</Link>}</div>
                     </div>
                     <div className="row">
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 col-md-4 col-4">
                             <p>Gender</p>
                         </div>
-                        <div className="col-lg-9">{gender ? gender : <Link onClick={renderComponent}>Add Gender</Link>}</div>
+                        <div className="col-lg-9 col-md-8 col-8">{gender ? gender : <Link onClick={renderComponent}>Add Gender</Link>}</div>
                     </div>
                 </div>
             </div>

@@ -9,7 +9,7 @@ function App() {
             setLoader(false);
         }, [2000]);
     });
-    return <div>{loader ? <Loader /> : <Layout />}</div>;
+    return <>{loader ? <Loader /> : <Layout />}</>;
 }
 
 export default App;
