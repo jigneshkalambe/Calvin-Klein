@@ -99,7 +99,7 @@ const Checkout = () => {
 
         if (Object.keys(validationError).length === 0) {
             try {
-                const res = await axios.post(`${process.env.API_URL}/v1/checkout`, inputData);
+                const res = await axios.post(`${process.env.REACT_APP_API_URL}/v1/checkout`, inputData);
                 // console.log(res);
                 if (res.status === 200) {
                     setGeneratePDF(true);

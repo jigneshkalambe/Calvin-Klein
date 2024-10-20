@@ -10,7 +10,7 @@ const CartItems = (props) => {
     useEffect(() => {
         const fetchCart = async () => {
             try {
-                await axios.get(`${process.env.API_URL}/v1/account`).then((res) => {
+                await axios.get(`${process.env.REACT_APP_API_URL}/v1/account`).then((res) => {
                     // console.log(res, "cartItems");
                     const accounts = res.data.Accounts;
                     const currentAccount = accounts.find((account) => account._id === accId);
@@ -54,7 +54,7 @@ const CartItems = (props) => {
 
         try {
             const response = await axios
-                .post(`${process.env.API_URL}/v1/data`, {
+                .post(`${process.env.REACT_APP_API_URL}/v1/data`, {
                     accId,
                     id,
                     desc,
@@ -86,7 +86,7 @@ const CartItems = (props) => {
             return;
         }
         await axios
-            .post(`${process.env.API_URL}/v1/data/remove`, { id, accId })
+            .post(`${process.env.REACT_APP_API_URL}/v1/data/remove`, { id, accId })
             .then((res) => {
                 // console.log("frontProducts", res);
             })
@@ -97,7 +97,7 @@ const CartItems = (props) => {
     const deleteItem = async () => {
         dispatch(cartAction.deleteProducts({ id }));
         await axios
-            .post(`${process.env.API_URL}/v1/data/delete`, { id, accId })
+            .post(`${process.env.REACT_APP_API_URL}/v1/data/delete`, { id, accId })
             .then((res) => {
                 // console.log(res);
             })

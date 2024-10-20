@@ -18,7 +18,7 @@ const Account = () => {
 
     const accName = async () => {
         await axios
-            .get(`${process.env.API_URL}/v1/account`)
+            .get(`${process.env.REACT_APP_API_URL}/v1/account`)
             .then((res) => {
                 // console.log(res.data.Accounts);
                 const accounts = res.data.Accounts;
