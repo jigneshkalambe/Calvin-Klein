@@ -51,14 +51,14 @@ function Header() {
     const submitData = async (e) => {
         e.preventDefault();
         await axios
-            .post(`http://localhost:5000/v1/login`, loginData)
+            .post(`${process.env.API_URL}/v1/login`, loginData)
             .then((res) => {
                 // console.log(res);
                 localStorage.setItem("userAccId", res.data.User._id);
                 if (res.status === 200) {
                     const fetchCart = async () => {
                         try {
-                            await axios.get(`http://localhost:5000/v1/account`).then((res) => {
+                            await axios.get(`${process.env.API_URL}/v1/account`).then((res) => {
                                 // console.log(res, "cartItems");
                                 const accounts = res.data.Accounts;
                                 const userId = localStorage.getItem("userAccId");
@@ -105,7 +105,7 @@ function Header() {
             } else {
                 // console.log("No stored cart items found, fetching from API...");
                 await axios
-                    .get(`http://localhost:5000/v1/account`)
+                    .get(`${process.env.API_URL}/v1/account`)
                     .then((res) => {
                         // console.log(res, "Response");
                         // console.log("Accounts array", res.data.Accounts);

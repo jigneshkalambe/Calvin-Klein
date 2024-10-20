@@ -16,7 +16,7 @@ const Carts = () => {
     const deleteItem = async (id) => {
         dispatch(cartAction.deleteProducts({ id }));
         await axios
-            .post(`http://localhost:5000/v1/data/delete`, { id, accId })
+            .post(`${process.env.API_URL}/v1/data/delete`, { id, accId })
             .then((res) => {
                 // console.log(res);
             })

@@ -59,7 +59,7 @@ const ProductDetails = () => {
         // console.log(accId);
         try {
             const response = await axios
-                .post(`http://localhost:5000/v1/data`, {
+                .post(`${process.env.API_URL}/v1/data`, {
                     accId,
                     id,
                     desc,

@@ -37,7 +37,7 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
     const updateHandler = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`http://localhost:5000/v1/account/updateAccount`, updateData).then((res) => {
+            await axios.post(`${process.env.API_URL}/v1/account/updateAccount`, updateData).then((res) => {
                 // console.log("updateAccount", res);
                 if (res.status === 200) {
                     Swal.fire({
@@ -66,7 +66,7 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
     const passUpdateHandler = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`http://localhost:5000/v1/account/passUpdate`, passData).then((res) => {
+            await axios.post(`${process.env.API_URL}/v1/account/passUpdate`, passData).then((res) => {
                 // console.log(res);
                 if (res.status === 200) {
                     Swal.fire({
