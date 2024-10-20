@@ -6,7 +6,7 @@ const app = express();
 require("dotenv").config();
 
 const PORT = process.env.PORT;
-app.use(cors());
+app.use(cors({ origin: "https://calvin-klein-clone.vercel.app" }));
 
 // mongoose
 //     .connect(`mongodb://localhost:27017/calvin_klein`)
