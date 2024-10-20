@@ -121,11 +121,13 @@
     margin: 0px 0px 30px;
 }
 
-.first-a a {
+.first-a button {
     display: block;
     color: white;
     margin: 15px 0px;
     text-decoration: none;
+    border: none;
+    background-color: transparent;
 }
 
 .first-a a:hover {

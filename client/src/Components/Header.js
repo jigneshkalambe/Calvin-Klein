@@ -10,7 +10,7 @@ import All_Product from "../Web_Data/Data";
 
 function Header() {
     const userId = localStorage.getItem("userAccId");
-    const [eyeIcon, setEyeIcon] = useState("text");
+    const [eyeIcon, setEyeIcon] = useState("password");
     const [accData, setAccData] = useState(false);
     const [loginData, setLoginData] = useState({
         email: "",
@@ -53,23 +53,23 @@ function Header() {
         await axios
             .post(`http://localhost:5000/v1/login`, loginData)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 localStorage.setItem("userAccId", res.data.User._id);
                 if (res.status === 200) {
                     const fetchCart = async () => {
                         try {
                             await axios.get(`http://localhost:5000/v1/account`).then((res) => {
-                                console.log(res, "cartItems");
+                                // console.log(res, "cartItems");
                                 const accounts = res.data.Accounts;
                                 const userId = localStorage.getItem("userAccId");
                                 const currentAccount = accounts.find((account) => account._id === userId);
-                                console.log("CurrentAccInCartItem", currentAccount);
+                                // console.log("CurrentAccInCartItem", currentAccount);
                                 if (currentAccount && currentAccount.products) {
                                     const cartItems = currentAccount.products;
-                                    console.log("Products in current account:", cartItems);
+                                    // console.log("Products in current account:", cartItems);
                                     dispatch(cartAction.initializeCart(cartItems));
                                 } else {
-                                    console.error("No products found for the current account");
+                                    // console.error("No products found for the current account");
                                 }
                             });
                         } catch (err) {
@@ -81,9 +81,6 @@ function Header() {
                         title: "Login Success",
                         text: "You have been logged in successfully",
                         icon: "success",
-                    }).then(() => {
-                        // navigate("/");
-                        // window.location.reload();
                     });
                 }
             })
@@ -99,27 +96,27 @@ function Header() {
 
     useEffect(() => {
         const accDataFetch = async () => {
-            console.log("accDataFetch Fn worked");
+            // console.log("accDataFetch Fn worked");
 
             const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
             if (storedCartItems) {
                 dispatch(cartAction.initializeCart(storedCartItems));
-                console.log("got stored items from api");
+                // console.log("got stored items from api");
             } else {
-                console.log("No stored cart items found, fetching from API...");
+                // console.log("No stored cart items found, fetching from API...");
                 await axios
                     .get(`http://localhost:5000/v1/account`)
                     .then((res) => {
-                        console.log(res, "Response");
-                        console.log("Accounts array", res.data.Accounts);
+                        // console.log(res, "Response");
+                        // console.log("Accounts array", res.data.Accounts);
                         const accounts = res.data.Accounts;
-                        console.log("userIDFromLocal", userId);
+                        // console.log("userIDFromLocal", userId);
                         const currentUserId = accounts.find((account) => account._id === userId);
 
                         if (currentUserId && currentUserId.products) {
                             dispatch(cartAction.initializeCart(currentUserId.products));
                         }
-                        console.log("Current User", currentUserId);
+                        // console.log("Current User", currentUserId);
                     })
                     .catch((err) => {
                         console.log(err);
@@ -134,6 +131,25 @@ function Header() {
             setAccData(false);
         }
     }, [userId, dispatch]);
+
+    const pathLoader = (path) => {
+        switch (path) {
+            case "men":
+                navigate("/men");
+                window.location.reload();
+                break;
+            case "women":
+                navigate("/women");
+                window.location.reload();
+                break;
+            case "kids":
+                navigate("/kids");
+                window.location.reload();
+                break;
+            default:
+                console.log("Unrecognised path");
+        }
+    };
 
     return (
         <div className="space-1">
@@ -185,13 +201,13 @@ function Header() {
                         </div>
                         <ul id="offcanvas2-a">
                             <li>
-                                <Link to={`/women`}>Women</Link>
+                                <Link onClick={() => pathLoader("women")}>Women</Link>
                             </li>
                             <li>
-                                <Link to={`/men`}>Men</Link>
+                                <Link onClick={() => pathLoader("men")}>Men</Link>
                             </li>
                             <li>
-                                <Link to={`/kids`}>Kids</Link>
+                                <Link onClick={() => pathLoader("kids")}>Kids</Link>
                             </li>
                         </ul>
                     </div>
@@ -255,7 +271,7 @@ function Header() {
                 </div>
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4">
                     <Link to="/">
-                        <img src="Assets/img/Logo.svg" className="logo" alt="" />
+                        <img src="/Assets/img/Logo.svg" className="logo" alt="" />
                     </Link>
                 </div>
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4">
@@ -263,7 +279,7 @@ function Header() {
                         <Link to="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">
                             <i className="bx bx-search"></i>
                         </Link>
-                        
+
                         <div className="offcanvas  offcanvas-search offcanvas-end" data-bs-scroll="true" tabIndex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
                             <div className="offcanvas-header">
                                 <div className="input-group">
@@ -282,9 +298,9 @@ function Header() {
                                 <p>Popular Categories</p>
 
                                 <div className="first-a">
-                                    <Link to="/men">Men</Link>
-                                    <Link to="/women">Women</Link>
-                                    <Link to="/kids">Kids</Link>
+                                    <button onClick={() => pathLoader("men")}>Men</button>
+                                    <button onClick={() => pathLoader("women")}>Women</button>
+                                    <button onClick={() => pathLoader("kids")}>Kids</button>
                                 </div>
 
                                 <p>Products</p>
@@ -294,7 +310,7 @@ function Header() {
                                         ? headerProducts?.map((val, ind) => {
                                               return (
                                                   <div className="col-6" key={ind}>
-                                                      <div className="search-box ">
+                                                      <div className="search-box">
                                                           <div className="search-img-box">
                                                               <Link to={`/${val.category}/${val.id}`}>
                                                                   <img alt="" src={val.img01}></img>

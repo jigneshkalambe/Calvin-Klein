@@ -12,12 +12,11 @@
 }
 
 .lil_Main_box {
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: center;
     overflow: auto;
     border-radius: 10px;
 }
@@ -27,16 +26,15 @@
     border-radius: 10px;
     border: none;
     overflow: hidden;
+    outline: none;
 }
 
 .lil_box img {
     width: 100%;
     height: 100%;
     display: block;
-    border-radius: 10px;
     scale: 1;
     transition: all ease 0.3s;
-    border: none;
 }
 
 .lil_box img:hover {
@@ -126,7 +124,8 @@
     .lil_Main_box {
         flex-direction: row;
         margin-top: 20px;
-        align-items: center;
+        align-items: flex-start;
+        justify-content: flex-start;
     }
 }
 
@@ -153,6 +152,8 @@
     }
 
     .lil_Main_box {
+        width: 100%;
+        height: 100%;
         flex-direction: column;
         margin-top: 0px;
         align-items: center;

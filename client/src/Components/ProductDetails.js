@@ -74,7 +74,7 @@ const ProductDetails = () => {
                     old_price,
                 })
                 .then((res) => {
-                    console.log(res);
+                    // console.log(res);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -100,7 +100,7 @@ const ProductDetails = () => {
                         <div className="product_row g-3">
                             <div className="col-lg-3 col-md-3 col-sm-3 col-12">
                                 <div className="lil_Main_box">
-                                    <div className="lil_box">
+                                    {/* <div className="lil_box">
                                         <img alt="" onClick={() => setDefaultImg(img01)} src={img01}></img>
                                     </div>
                                     <div className="lil_box">
@@ -111,7 +111,27 @@ const ProductDetails = () => {
                                     </div>
                                     <div className="lil_box">
                                         <img alt="" onClick={() => setDefaultImg(img04)} src={img04}></img>
-                                    </div>
+                                    </div> */}
+                                    {img01 && (
+                                        <div className="lil_box">
+                                            <img alt="" onClick={() => setDefaultImg(img01)} src={img01}></img>
+                                        </div>
+                                    )}
+                                    {img02 && (
+                                        <div className="lil_box">
+                                            <img alt="" onClick={() => setDefaultImg(img02)} src={img02}></img>
+                                        </div>
+                                    )}
+                                    {img03 && (
+                                        <div className="lil_box">
+                                            <img alt="" onClick={() => setDefaultImg(img03)} src={img03}></img>
+                                        </div>
+                                    )}
+                                    {img04 && (
+                                        <div className="lil_box">
+                                            <img alt="" onClick={() => setDefaultImg(img04)} src={img04}></img>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                             <div className="col-lg-9 col-md-9 col-sm-9 col-12">

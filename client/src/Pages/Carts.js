@@ -7,7 +7,7 @@ import axios from "axios";
 import Helmet from "../Components/Helmet";
 import Coupons from "../Components/Coupons";
 const Carts = () => {
-    const userId = localStorage.getItem("userAccId");
+    const accId = localStorage.getItem("userAccId");
     const products = useSelector((state) => state.cart.cartItems);
     const [couponCode, setCouponCode] = useState("");
     const dispatch = useDispatch();
@@ -16,9 +16,9 @@ const Carts = () => {
     const deleteItem = async (id) => {
         dispatch(cartAction.deleteProducts({ id }));
         await axios
-            .post(`http://localhost:5000/v1/data/delete`, { id, userId })
+            .post(`http://localhost:5000/v1/data/delete`, { id, accId })
             .then((res) => {
-                console.log(res);
+                // console.log(res);
             })
             .catch((err) => console.log(err));
     };

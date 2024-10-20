@@ -57,7 +57,7 @@ const Createaccount = () => {
         await axios
             .post(`http://localhost:5000/v1/account/createAccount`, CreateFromData)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 localStorage.setItem("userAccId", res.data.Users._id);
                 Swal.fire({
                     title: "Account Created",

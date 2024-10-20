@@ -70,9 +70,6 @@ const productsRemove = async (req, res) => {
     try {
         const { id, accId } = req.body;
 
-        // Log the incoming request data
-        // console.log("Received request to remove product with data:", { id, accId });
-
         if (!id) {
             throw new Error("Missing required parameters: id");
         }

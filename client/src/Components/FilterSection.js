@@ -11,22 +11,19 @@ const FilterSection = (props) => {
     const [selectedCategory, setSelectedCategory] = useState([]);
 
     useEffect(() => {
+        let filtere_Product;
+
         if (component === "Men") {
-            const filtereProduct = All_Product.filter((men) => men.category === "men");
-            setPriceLength(filtereProduct);
-            setFilter(filtereProduct);
-            setFullData(filtereProduct);
+            filtere_Product = All_Product.filter((products) => products.category === "men");
         } else if (component === "kids") {
-            const FilterProduct = All_Product.filter((products) => products.category === "kids");
-            setPriceLength(FilterProduct);
-            setFilter(FilterProduct);
-            setFullData(FilterProduct);
+            filtere_Product = All_Product.filter((products) => products.category === "kids");
         } else {
-            const filtereProduct = All_Product.filter((women) => women.category === "women");
-            setPriceLength(filtereProduct);
-            setFilter(filtereProduct);
-            setFullData(filtereProduct);
+            filtere_Product = All_Product.filter((products) => products.category === "women");
         }
+
+        setPriceLength(filtere_Product);
+        setFilter(filtere_Product);
+        setFullData(filtere_Product);
     }, [component]);
 
     var priceLength1, priceLength2, priceLength3, priceLength4, priceLength5, priceLength6;
@@ -203,8 +200,6 @@ const FilterSection = (props) => {
         } else {
             filterProducts = All_Product.filter((products) => updatedSelectedCategory.some((cat) => products.category === `${component && component.toLowerCase()}_${cat}`));
         }
-
-        console.log("FILTERPRODUCTS", filterProducts);
 
         if (component === "Men") {
             setMenData(filterProducts);

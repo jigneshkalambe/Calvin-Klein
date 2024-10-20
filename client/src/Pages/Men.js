@@ -58,7 +58,7 @@ const Men = () => {
     return (
         <Helmet title="Men">
             <ScrollBtn></ScrollBtn>
-            <div className="Men-space-1 ">
+            <div className="Men-space-1">
                 <Breadcrumb title="Men"></Breadcrumb>
                 <div className="Men_sec1">
                     <h4>Men's Apparel</h4>

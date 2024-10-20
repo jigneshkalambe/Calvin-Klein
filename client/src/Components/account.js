@@ -20,10 +20,10 @@ const Account = () => {
         await axios
             .get(`http://localhost:5000/v1/account`)
             .then((res) => {
-                console.log(res.data.Accounts);
+                // console.log(res.data.Accounts);
                 const accounts = res.data.Accounts;
                 const currentAccount = accounts.find((accounts) => accounts._id === userId);
-                console.log("currentAccFromAccount", currentAccount);
+                // console.log("currentAccFromAccount", currentAccount);
                 if (currentAccount) {
                     setFirstName(currentAccount.firstName);
                     setLastName(currentAccount.lastName);
@@ -49,7 +49,6 @@ const Account = () => {
         localStorage.removeItem("userAccId");
         dispatch(cartAction.clearCart());
         navigate("/");
-        window.location.reload();
     };
 
     useEffect(() => {

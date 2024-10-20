@@ -11,14 +11,14 @@ const CartItems = (props) => {
         const fetchCart = async () => {
             try {
                 await axios.get(`http://localhost:5000/v1/account`).then((res) => {
-                    console.log(res, "cartItems");
+                    // console.log(res, "cartItems");
                     const accounts = res.data.Accounts;
                     const currentAccount = accounts.find((account) => account._id === accId);
-                    console.log("CurrentAccInCartItem", currentAccount);
+                    // console.log("CurrentAccInCartItem", currentAccount);
 
                     if (currentAccount && currentAccount.products) {
                         const cartItems = currentAccount.products;
-                        console.log("Products in current account:", cartItems); // Check if all items are logged
+                        // console.log("Products in current account:", cartItems); // Check if all items are logged
                         dispatch(cartAction.initializeCart(cartItems));
                     } else {
                         console.error("No products found for the current account");
@@ -74,7 +74,7 @@ const CartItems = (props) => {
                 .catch((err) => {
                     console.log(err);
                 });
-            console.log(response);
+            // console.log(response);
         } catch (err) {
             console.log(err);
         }
@@ -88,7 +88,7 @@ const CartItems = (props) => {
         await axios
             .post(`http://localhost:5000/v1/data/remove`, { id, accId })
             .then((res) => {
-                console.log("frontProducts", res);
+                // console.log("frontProducts", res);
             })
             .catch((err) => console.log(err));
         dispatch(cartAction.removeProducts({ id }));
@@ -99,7 +99,7 @@ const CartItems = (props) => {
         await axios
             .post(`http://localhost:5000/v1/data/delete`, { id, accId })
             .then((res) => {
-                console.log(res);
+                // console.log(res);
             })
             .catch((err) => console.log(err));
     };

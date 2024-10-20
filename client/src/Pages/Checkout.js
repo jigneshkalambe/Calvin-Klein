@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Scrollbtn from "../Components/ScrollBtn";
 import axios from "axios";
@@ -30,16 +30,28 @@ const Checkout = () => {
         Email: "",
         PhoneNumber: "",
     });
-
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 576);
     const totalAmount = useSelector((state) => state.cart.totalAmount);
     const cartItems = useSelector((state) => state.cart.cartItems);
     const appliedCouponCode = useSelector((state) => state.cart.appliedCouponCode);
-    console.log("checkout", cartItems);
+    // console.log("checkout", cartItems);
 
     const getValue = (e) => {
         setInputData({ ...inputData, [e.target.id]: e.target.value });
         setErr({ ...err, [e.target.id]: "" });
     };
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 576);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     const checkOutValidtion = async (e) => {
         e.preventDefault();
@@ -88,12 +100,12 @@ const Checkout = () => {
         if (Object.keys(validationError).length === 0) {
             try {
                 const res = await axios.post(`http://localhost:5000/v1/checkout`, inputData);
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     setGeneratePDF(true);
                     Swal.fire({
                         title: "Success!",
-                        text: "Your order was placed successfully. Download your receipt below.",
+                        text: isMobile ? "Your order was placed successfully. Download your receipt below." : "Your order was placed successfully. Download your receipt",
                         icon: "success",
                     });
                 }

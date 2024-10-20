@@ -82,7 +82,7 @@ const Women = (props) => {
                 <div className="row">
                     <div className="col-lg-3">
                         <p className="ms-3">{totalData_Women} items</p>
-                        <FilterSection womenData={Women_products} setWomenData={setWomen_products}></FilterSection>
+                        <FilterSection setWomenData={setWomen_products} womenData={Women_products}></FilterSection>
                     </div>
                     <div className="col-lg-9">
                         <div className="row g-3">

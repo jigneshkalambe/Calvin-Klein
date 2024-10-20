@@ -1,6 +1,7 @@
 const Account = require("../model/CreateAccount-model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const createAccount = async (req, res) => {
     try {
@@ -28,7 +29,7 @@ const createAccount = async (req, res) => {
         const Users = await newUser.save();
 
         const payload = { userID: Users._id, email: Users.email };
-        const token = jwt.sign(payload, "SECRET");
+        const token = jwt.sign(payload, process.env.SECRET_KEY);
 
         if (!Users) {
             throw new Error("Users info didnt get");
@@ -60,12 +61,8 @@ const AccountLists = async (req, res) => {
 const AccountUpdate = async (req, res) => {
     try {
         const { firstName, lastName, email, number, gender } = req.body;
-        // const nameExits = await Account.findOne({ firstName, lastName });
-        // if (nameExits) {
-        //     return res.status(400).json({ message: "Name Already Exits" });
-        // }
+
         const exitsAccount = await Account.findOne({ email });
-        console.log("ExitsAccount", exitsAccount);
 
         if (firstName) exitsAccount.firstName = firstName;
         if (lastName) exitsAccount.lastName = lastName;

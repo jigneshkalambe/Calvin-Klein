@@ -7,7 +7,7 @@ function App() {
     useEffect(() => {
         setTimeout(() => {
             setLoader(false);
-        }, [2000]);
+        }, [1500]);
     });
     return <>{loader ? <Loader /> : <Layout />}</>;
 }

@@ -23,8 +23,8 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
         currentPassword: "",
         newPassword: "",
     });
-    const [CurrentIcon, setCurrentIcon] = useState("text");
-    const [eyeIcon, setEyeIcon] = useState("text");
+    const [CurrentIcon, setCurrentIcon] = useState("password");
+    const [eyeIcon, setEyeIcon] = useState("password");
 
     const backtoOverview = () => {
         return (window.location.href = "/account");
@@ -38,7 +38,7 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
         e.preventDefault();
         try {
             await axios.post(`http://localhost:5000/v1/account/updateAccount`, updateData).then((res) => {
-                console.log("updateAccount", res);
+                // console.log("updateAccount", res);
                 if (res.status === 200) {
                     Swal.fire({
                         title: "Success",
@@ -67,7 +67,7 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
         e.preventDefault();
         try {
             await axios.post(`http://localhost:5000/v1/account/passUpdate`, passData).then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
                     Swal.fire({
                         title: "Success",
@@ -173,23 +173,23 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
                     <form onSubmit={updateHandler}>
                         <div className="d-flex gap-4 mb-3">
                             <div className="form-floating w-100">
-                                <input type="text" className="form-control" onChange={getData} id="firstName" defaultValue={userInfo.firstName} placeholder="firstName" />
+                                <input type="text" className="form-control" autoComplete="off" onChange={getData} id="firstName" defaultValue={userInfo.firstName} placeholder="firstName" />
                                 <label htmlFor="firstName">First Name *</label>
                             </div>
                             <div className="form-floating w-100">
-                                <input type="text" className="form-control" onChange={getData} id="lastName" defaultValue={userInfo.lastName} placeholder="lastName" />
+                                <input type="text" className="form-control" autoComplete="off" onChange={getData} id="lastName" defaultValue={userInfo.lastName} placeholder="lastName" />
                                 <label htmlFor="lastName">Last Name *</label>
                             </div>
                         </div>
                         <div className="d-flex mb-3">
                             <div className="form-floating w-100">
-                                <input type="text" defaultValue={userInfo.number} className="form-control" onChange={getData} id="number" placeholder="number" />
+                                <input type="text" defaultValue={userInfo.number} autoComplete="off" className="form-control" onChange={getData} id="number" placeholder="number" />
                                 <label htmlFor="number">Phone Number (Optional)</label>
                             </div>
                         </div>
                         <div className="d-flex mb-3">
                             <div className="form-floating w-100">
-                                <input type="text" defaultValue={userInfo.gender} className="form-control" onChange={getData} id="gender" placeholder="gender" />
+                                <input type="text" defaultValue={userInfo.gender} autoComplete="off" className="form-control" onChange={getData} id="gender" placeholder="gender" />
                                 <label htmlFor="gender">gender (Optional)</label>
                             </div>
                         </div>
