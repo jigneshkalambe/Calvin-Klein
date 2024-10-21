@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Scrollbtn from "../Components/ScrollBtn";
 import axios from "axios";
 import Pdf from "../Components/Pdf";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
+import { cartAction } from "../Store/Slice/CartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
     const [generatePDF, setGeneratePDF] = useState(false);
@@ -34,7 +36,8 @@ const Checkout = () => {
     const totalAmount = useSelector((state) => state.cart.totalAmount);
     const cartItems = useSelector((state) => state.cart.cartItems);
     const appliedCouponCode = useSelector((state) => state.cart.appliedCouponCode);
-    // console.log("checkout", cartItems);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const getValue = (e) => {
         setInputData({ ...inputData, [e.target.id]: e.target.value });
@@ -124,6 +127,20 @@ const Checkout = () => {
                 icon: "warning",
             });
         }
+    };
+
+    const pdfBtnHandler = () => {
+        Swal.fire({
+            title: "Thank You for Your Purchase!",
+            text: "Your order has been successfully placed.",
+            icon: "success",
+        });
+
+        setTimeout(() => {
+            setGeneratePDF(false);
+            navigate("/");
+            dispatch(cartAction.clearCart());
+        }, 3000);
     };
 
     return (
@@ -327,12 +344,7 @@ const Checkout = () => {
                                     className="downloadLink"
                                     document={<Pdf inputData={inputData} cartItems={cartItems} totalAmount={totalAmount} appliedCouponCode={appliedCouponCode} />}
                                     fileName="order_receipt.pdf"
-                                    onClick={() => {
-                                        Swal.fire({
-                                            title: "Thank You for Your Purchase!",
-                                            text: "Your order has been successfully placed.",
-                                        });
-                                    }}
+                                    onClick={pdfBtnHandler}
                                 >
                                     {({ loading }) => (loading ? "Generating PDF..." : "Download Receipt")}
                                 </PDFDownloadLink>

@@ -114,11 +114,7 @@ const cartSlice = createSlice({
             setItem(state.cartItems, state.totalAmount, state.totalQuantity);
             return state;
         },
-        // setCart(state, action) {
-        //     state.cartItems = action.payload.cartItems;
-        //     state.totalQuantity = action.payload.cartItems.reduce((total, item) => total + item.quantity, 0);
-        //     state.totalAmount = action.payload.cartItems.reduce((total, item) => total + item.quantity * item.new_price, 0);
-        // },
+
         clearCart(state, action) {
             state.cartItems = [];
             state.totalQuantity = 0;

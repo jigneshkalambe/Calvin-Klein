@@ -146,6 +146,11 @@ function Header() {
                 navigate("/kids");
                 window.location.reload();
                 break;
+
+            case "cart":
+                navigate("/cart");
+                window.location.reload();
+                break;
             default:
                 console.log("Unrecognised path");
         }
@@ -451,7 +456,7 @@ function Header() {
                                             <p className="text-white m-0">${totalAmount.toFixed()}</p>
                                         </div>
                                         <div>
-                                            <Link to={`/cart`}> Review + Checkout</Link>
+                                            <Link onClick={() => pathLoader("cart")}> Review + Checkout</Link>
                                         </div>
                                         <div>
                                             <p className="m-0 text-light text-center">Shipping & Taxes Calculated at Checkout</p>
