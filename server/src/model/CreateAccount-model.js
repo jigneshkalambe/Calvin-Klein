@@ -36,6 +36,17 @@ const Accounts_Schema = mongoose.Schema({
             ref: "Item",
         },
     ],
+    prevOrders: [
+        {
+            orderDate: { type: Date, default: Date.now },
+            products: [
+                {
+                    type: mongoose.Types.ObjectId,
+                    ref: "Item",
+                },
+            ],
+        },
+    ],
 });
 
 const Account = mongoose.model("Account", Accounts_Schema);

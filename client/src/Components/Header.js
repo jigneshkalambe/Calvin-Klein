@@ -340,7 +340,7 @@ function Header() {
                                           }).map((val, ind) => {
                                               return (
                                                   <div className="col-6" key={ind}>
-                                                      <div className="search-box ">
+                                                      <div className="search-box">
                                                           <div className="search-img-box">
                                                               <Link to={`/${val.category}/${val.id}`}>
                                                                   <img alt="" src={val.img01}></img>

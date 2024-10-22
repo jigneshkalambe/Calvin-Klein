@@ -47,7 +47,7 @@ const createAccount = async (req, res) => {
 
 const AccountLists = async (req, res) => {
     try {
-        const Accounts = await Account.find().populate("products");
+        const Accounts = await Account.find().populate("products").populate("prevOrders.products");
 
         if (!Accounts) {
             throw new Error("No Accounts found");

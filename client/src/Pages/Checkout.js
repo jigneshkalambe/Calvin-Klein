@@ -128,13 +128,21 @@ const Checkout = () => {
             });
         }
     };
+    const accId = localStorage.getItem("userAccId");
 
-    const pdfBtnHandler = () => {
+    const pdfBtnHandler = async () => {
         Swal.fire({
             title: "Thank You for Your Purchase!",
             text: "Your order has been successfully placed.",
             icon: "success",
         });
+
+        await axios
+            .post(`${process.env.REACT_APP_API_URL}/v1/data/prevOrders`, { accId })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => console.log(err));
 
         setTimeout(() => {
             setGeneratePDF(false);

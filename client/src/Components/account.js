@@ -5,8 +5,10 @@ import Overview from "./Overview";
 import UserInfo from "./UserInfo";
 import { useDispatch } from "react-redux";
 import { cartAction } from "../Store/Slice/CartSlice";
+import OrderHistory from "./OrderHistory";
 const Account = () => {
     const [component, setComponent] = useState("overview");
+    const [historyProducts, setHistoryProducts] = useState();
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
     const [email, setEmail] = useState();
@@ -23,13 +25,14 @@ const Account = () => {
                 // console.log(res.data.Accounts);
                 const accounts = res.data.Accounts;
                 const currentAccount = accounts.find((accounts) => accounts._id === userId);
-                // console.log("currentAccFromAccount", currentAccount);
+                console.log("currentAccFromAccount", currentAccount);
                 if (currentAccount) {
                     setFirstName(currentAccount.firstName);
                     setLastName(currentAccount.lastName);
                     setEmail(currentAccount.email);
                     setNumber(currentAccount.number);
                     setGender(currentAccount.gender);
+                    setHistoryProducts(currentAccount.prevOrders);
                 }
             })
             .catch((err) => {
@@ -40,6 +43,8 @@ const Account = () => {
     const componentRender = (name) => {
         if (name === "overview") {
             return <Overview firstName={firstName} lastName={lastName} email={email} number={number} gender={gender}></Overview>;
+        } else if (name === "OrderHistory") {
+            return <OrderHistory historyProducts={historyProducts} setHistoryProducts={setHistoryProducts}></OrderHistory>;
         } else {
             return <UserInfo firstName={firstName} lastName={lastName} email={email} number={number} gender={gender}></UserInfo>;
         }
@@ -53,7 +58,7 @@ const Account = () => {
 
     useEffect(() => {
         accName();
-    });
+    }, []);
 
     return (
         <>
@@ -66,6 +71,7 @@ const Account = () => {
                                 <button onClick={() => setComponent("overview")}>Overview</button>
                                 <button onClick={() => setComponent("userinfo")}>Personal Information</button>
                                 <Link to={`/cart`}>Cart</Link>
+                                <button onClick={() => setComponent("OrderHistory")}>OrderHistory</button>
                             </div>
                         </div>
                     </div>

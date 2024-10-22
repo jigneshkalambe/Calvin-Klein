@@ -129,4 +129,31 @@ const productsDelete = async (req, res) => {
     }
 };
 
-module.exports = { productLists, productsAdd, productsRemove, productsDelete };
+const prevOrdersUpload = async (req, res) => {
+    const { accId } = req.body;
+    try {
+        const userAccount = await Account.findById(accId).populate("products");
+        if (!userAccount) {
+            throw new Error("Account not found");
+        }
+
+        if (userAccount.products.length === 0) {
+            throw new Error("No products in the cart to move to previous orders");
+        }
+
+        userAccount.prevOrders.push({
+            products: userAccount.products.map((val) => {
+                return val._id;
+            }),
+        });
+
+        userAccount.products = [];
+        await userAccount.save();
+
+        res.status(200).json({ message: "Order successfully moved to previous orders" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { productLists, productsAdd, productsRemove, productsDelete, prevOrdersUpload };
