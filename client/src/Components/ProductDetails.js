@@ -56,7 +56,6 @@ const ProductDetails = () => {
             })
         );
         let accId = localStorage.getItem("userAccId");
-        // console.log(accId);
         try {
             const response = await axios
                 .post(`${process.env.REACT_APP_API_URL}/v1/data`, {

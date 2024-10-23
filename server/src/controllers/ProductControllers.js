@@ -83,15 +83,14 @@ const productsRemove = async (req, res) => {
         if (!userAcc) {
             throw new Error("Account not found");
         }
+        // console.log("User account:", userAcc);
 
-        const item = await userAcc.products.find((product) => product.id === id);
+        const item = await userAcc.products.find((product) => product.id == id);
 
+        // console.log("Item to remove:", item);
         if (!item) {
             throw new Error("Item not found");
         }
-
-        // console.log("User account:", userAcc);
-        // console.log("Item to remove:", item);
 
         if (item.quantity === 1) {
             userAcc.products = userAcc.products.filter((product) => product.id !== id);
@@ -99,6 +98,7 @@ const productsRemove = async (req, res) => {
             item.quantity--;
             item.totalPrice = Number(item.totalPrice) - Number(item.new_price);
         }
+
         await item.save();
         await userAcc.save();
         res.status(200).json({ message: "Item processed successfully" });
@@ -117,11 +117,14 @@ const productsDelete = async (req, res) => {
             throw new Error("acc not found");
         }
 
-        const product = await userAccount.products.find((product) => product.id === id);
+        const product = await userAccount.products.find((product) => product.id == id);
 
         if (product) {
-            userAccount.products = userAccount.products.filter((product) => product.id !== id);
+            product.quantity = 0;
+            userAccount.products = userAccount.products.filter((products) => products.id !== product.id);
         }
+
+        await product.save();
         await userAccount.save();
     } catch (error) {
         console.error(error.message);

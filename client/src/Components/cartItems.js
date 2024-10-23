@@ -7,29 +7,27 @@ const CartItems = (props) => {
     const dispatch = useDispatch();
     const accId = localStorage.getItem("userAccId");
 
-    useEffect(() => {
-        const fetchCart = async () => {
-            try {
-                await axios.get(`${process.env.REACT_APP_API_URL}/v1/account`).then((res) => {
-                    // console.log(res, "cartItems");
-                    const accounts = res.data.Accounts;
-                    const currentAccount = accounts.find((account) => account._id === accId);
-                    // console.log("CurrentAccInCartItem", currentAccount);
-
-                    if (currentAccount && currentAccount.products) {
-                        const cartItems = currentAccount.products;
-                        // console.log("Products in current account:", cartItems); // Check if all items are logged
-                        dispatch(cartAction.initializeCart(cartItems));
-                    } else {
-                        console.error("No products found for the current account");
-                    }
-                });
-            } catch (err) {
-                console.error("Failed to fetch cart items:", err);
-            }
-        };
-        fetchCart();
-    }, [dispatch]);
+    // useEffect(() => {
+    // const fetchCart = async () => {
+    //     try {
+    //         await axios.get(`${process.env.REACT_APP_API_URL}/v1/account`).then((res) => {
+    //             // console.log(res, "cartItems");
+    //             const accounts = res.data.Accounts;
+    //             const currentAccount = accounts.find((account) => account._id === accId);
+    //             // console.log("CurrentAccInCartItem", currentAccount);
+    //             if (currentAccount && currentAccount.products) {
+    //                 const cartItems = currentAccount.products;
+    //                 dispatch(cartAction.initializeCart(cartItems));
+    //             } else {
+    //                 console.error("No products found for the current account");
+    //             }
+    //         });
+    //     } catch (err) {
+    //         console.error("Failed to fetch cart items:", err);
+    //     }
+    // };
+    // fetchCart();
+    // }, [accId, dispatch]);
 
     const addItem = async () => {
         if (!id) {
@@ -85,16 +83,20 @@ const CartItems = (props) => {
             console.error("product is missing or accId is missing");
             return;
         }
+        dispatch(cartAction.removeProducts({ id }));
         await axios
             .post(`${process.env.REACT_APP_API_URL}/v1/data/remove`, { id, accId })
             .then((res) => {
                 // console.log("frontProducts", res);
             })
             .catch((err) => console.log(err));
-        dispatch(cartAction.removeProducts({ id }));
     };
 
     const deleteItem = async () => {
+        if (!id || !accId) {
+            console.error("product is missing or accId is missing");
+            return;
+        }
         dispatch(cartAction.deleteProducts({ id }));
         await axios
             .post(`${process.env.REACT_APP_API_URL}/v1/data/delete`, { id, accId })

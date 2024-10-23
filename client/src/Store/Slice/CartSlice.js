@@ -61,7 +61,7 @@ const cartSlice = createSlice({
             //     });
             // }
 
-            state.totalQuantity += 1;
+            // state.totalQuantity += 1;
             state.totalAmount += newItems.new_price;
             // state.totalAmount = state.cartItems.reduce((total, item) => total + Number(item.new_price) * Number(item.quantity), 0);
             // setItem(
