@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import UserInfo from "./UserInfo";
+import useGsap from "../hooks/useGsap";
 
 const Overview = ({ firstName, lastName, email, number, gender }) => {
+    useGsap();
     const [component, setComponent] = useState(false);
     const renderComponent = () => {
         setComponent(true);
@@ -14,7 +16,7 @@ const Overview = ({ firstName, lastName, email, number, gender }) => {
 
     return (
         <>
-            <div className="OverviewBox">
+            <div className="OverviewBox gsap-bottom-to-top">
                 <div className="d-flex align-items-center justify-content-between mb-4">
                     <h2>Personal Information</h2>
                     <Link onClick={renderComponent}>Edit</Link>

@@ -7,8 +7,10 @@ import ScrollBtn from "./ScrollBtn";
 import axios from "axios";
 import Swal from "sweetalert2";
 import ProductCard from "./ProductCard";
+import useGsap from "../hooks/useGsap";
 
 const ProductDetails = () => {
+    useGsap();
     const { id } = useParams();
     const FilterProduct = All_Product.find((product) => product.id == id);
     const { desc, img01, img02, img03, img04, category, line, title, new_price, discount, old_price } = FilterProduct;
@@ -90,6 +92,8 @@ const ProductDetails = () => {
         setRelatedProducts(slicedProducts);
     }, [category]);
 
+    const images = [img01, img02, img03, img04];
+
     return (
         <>
             <ScrollBtn></ScrollBtn>
@@ -111,37 +115,25 @@ const ProductDetails = () => {
                                     <div className="lil_box">
                                         <img alt="" onClick={() => setDefaultImg(img04)} src={img04}></img>
                                     </div> */}
-                                    {img01 && (
-                                        <div className="lil_box">
-                                            <img alt="" onClick={() => setDefaultImg(img01)} src={img01}></img>
-                                        </div>
-                                    )}
-                                    {img02 && (
-                                        <div className="lil_box">
-                                            <img alt="" onClick={() => setDefaultImg(img02)} src={img02}></img>
-                                        </div>
-                                    )}
-                                    {img03 && (
-                                        <div className="lil_box">
-                                            <img alt="" onClick={() => setDefaultImg(img03)} src={img03}></img>
-                                        </div>
-                                    )}
-                                    {img04 && (
-                                        <div className="lil_box">
-                                            <img alt="" onClick={() => setDefaultImg(img04)} src={img04}></img>
-                                        </div>
+                                    {images.map(
+                                        (img, index) =>
+                                            img && (
+                                                <div key={index} className="lil_box gsap-stagger">
+                                                    <img alt="" onClick={() => setDefaultImg(img)} src={img}></img>
+                                                </div>
+                                            )
                                     )}
                                 </div>
                             </div>
                             <div className="col-lg-9 col-md-9 col-sm-9 col-12">
-                                <div className="Product_img_box">
+                                <div className="Product_img_box gsap-bottom-to-top">
                                     <img alt="" src={defaultImg}></img>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                        <div className="Product_Box">
+                        <div className="Product_Box gsap-bottom-to-top">
                             {line && <span>{line}</span>}
                             <h4>{title}</h4>
                             <div className="d-flex gap-2 align-items-center">
@@ -166,7 +158,7 @@ const ProductDetails = () => {
                     {relatedProducts?.map((val, ind) => {
                         return (
                             <div className="col-lg-3 col-md-6 col-sm-6 col-12" key={ind}>
-                                <ProductCard items={val} key={ind} />
+                                <ProductCard className="gsap-bottom-to-top" items={val} key={ind} />
                             </div>
                         );
                     })}

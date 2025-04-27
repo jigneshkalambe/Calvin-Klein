@@ -323,14 +323,6 @@
     position: relative;
 }
 
-.cart-icon span {
-    position: absolute;
-    top: -15px;
-    right: -8px;
-    color: black;
-    font-size: 17px;
-}
-
 .offcanvasCart > .offcanvas-header {
     display: flex;
     justify-content: space-between;

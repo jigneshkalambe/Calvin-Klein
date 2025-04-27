@@ -2,8 +2,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import useGsap from "../hooks/useGsap";
 
 const UserInfo = ({ firstName, lastName, email, number, gender }) => {
+    useGsap();
     const [updateData, setUpdateData] = useState({
         firstName: firstName || "",
         lastName: lastName || "",
@@ -92,7 +94,7 @@ const UserInfo = ({ firstName, lastName, email, number, gender }) => {
 
     return (
         <>
-            <div className="UserInfo">
+            <div className="UserInfo gsap-bottom-to-top">
                 <div className="d-flex mb-4">
                     <h2>Personal Information</h2>
                 </div>

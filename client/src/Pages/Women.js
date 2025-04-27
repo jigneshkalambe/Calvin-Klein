@@ -5,8 +5,10 @@ import Data from "../Web_Data/Data";
 import ProductCard from "../Components/ProductCard";
 import FilterSection from "../Components/FilterSection";
 import context_ex from "../Components/Maincontext";
+import useGsap from "../hooks/useGsap";
 
 const Women = (props) => {
+    useGsap();
     const [Women_products, setWomen_products] = useState([]);
     const { component, setComponent } = useContext(context_ex);
     const [collectionName, setCollectionName] = useState("women");
@@ -44,6 +46,14 @@ const Women = (props) => {
 
     const totalData_Women = Women_products.length;
 
+    const womenCategories = [
+        { key: "women_top", label: "Tops", img: "Assets/img/women_top.webp" },
+        { key: "women_bottom", label: "Bottoms", img: "Assets/img/women_bottom.webp" },
+        { key: "women_arrival", label: "New Arrival", img: "Assets/img/women_denim.webp" },
+        { key: "women_outerwear", label: "Outerwear", img: "Assets/img/women_outerwear.webp" },
+        { key: "women_suiting", label: "Suiting", img: "Assets/img/women_suiting.webp" },
+    ];
+
     return (
         <Helmet title="Women">
             <div className="Men-space-1 ">
@@ -51,30 +61,12 @@ const Women = (props) => {
                 <div className="Men_sec1">
                     <h4>Women's Apparel</h4>
                     <div className="d-flex gap-2 scroll">
-                        <div className="Men_sec1_imgBox" onClick={() => collectionHandler("women_top")}>
-                            <img className="Men_sec1_img" alt="" src="Assets/img/women_top.webp"></img>
-                            <h5>Tops</h5>
-                        </div>
-
-                        <div className="Men_sec1_imgBox" onClick={() => collectionHandler("women_bottom")}>
-                            <img className="Men_sec1_img" alt="" src="Assets/img/women_bottom.webp"></img>
-                            <h5>Bottoms</h5>
-                        </div>
-
-                        <div className="Men_sec1_imgBox" onClick={() => collectionHandler("women_arrival")}>
-                            <img className="Men_sec1_img" alt="" src="Assets/img/women_denim.webp"></img>
-                            <h5>New Arrival</h5>
-                        </div>
-
-                        <div className="Men_sec1_imgBox" onClick={() => collectionHandler("women_outerwear")}>
-                            <img className="Men_sec1_img" alt="" src="Assets/img/women_outerwear.webp"></img>
-                            <h5>Outerwear</h5>
-                        </div>
-
-                        <div className="Men_sec1_imgBox" onClick={() => collectionHandler("women_suiting")}>
-                            <img className="Men_sec1_img" alt="" src="Assets/img/women_suiting.webp"></img>
-                            <h5>Suiting</h5>
-                        </div>
+                        {womenCategories.map(({ key, label, img }) => (
+                            <div className="Men_sec1_imgBox" key={key} onClick={() => collectionHandler(key)}>
+                                <img className="Men_sec1_img" alt={label} src={img} />
+                                <h5>{label}</h5>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -89,7 +81,7 @@ const Women = (props) => {
                             {Women_products.map((val, index) => {
                                 return (
                                     <div className="col-lg-4 col-md-4 col-sm-6 col-12" key={index}>
-                                        <ProductCard items={val}></ProductCard>
+                                        <ProductCard className={"gsap-bottom-to-top"} items={val}></ProductCard>
                                     </div>
                                 );
                             })}

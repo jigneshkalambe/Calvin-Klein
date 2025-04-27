@@ -22,10 +22,10 @@ const Account = () => {
         await axios
             .get(`${process.env.REACT_APP_API_URL}/v1/account`)
             .then((res) => {
-                // console.log(res.data.Accounts);
+                console.log(res.data.Accounts);
                 const accounts = res.data.Accounts;
                 const currentAccount = accounts.find((accounts) => accounts._id === userId);
-                console.log("currentAccFromAccount", currentAccount);
+                // console.log("currentAccFromAccount", currentAccount);
                 if (currentAccount) {
                     setFirstName(currentAccount.firstName);
                     setLastName(currentAccount.lastName);

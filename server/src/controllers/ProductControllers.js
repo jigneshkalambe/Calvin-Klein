@@ -159,4 +159,92 @@ const prevOrdersUpload = async (req, res) => {
     }
 };
 
-module.exports = { productLists, productsAdd, productsRemove, productsDelete, prevOrdersUpload };
+const AddWishlistProduct = async (req, res) => {
+    try {
+        const { id, desc, img01, img02, img03, img04, line, title, new_price, discount, old_price, accId, category } = req.body;
+        let account = await Account.findById(accId);
+        if (!account) {
+            // console.log("Account not found");
+            return res.status(404).json({ success: false, message: "Account not found" });
+        }
+        // console.log("Account found:", account);
+
+        if (account.wishlist.find((product) => product.id === id)) {
+            return res.status(400).json({ success: false, message: "Product already in wishlist" });
+        }
+
+        // if (account.wishlistProductsList.find((product) => product.productId === id)) {
+
+        // }
+
+        account.wishlist.push({
+            id: id,
+            desc: desc,
+            img01: img01,
+            img02: img02,
+            img03: img03,
+            img04: img04,
+            line: line,
+            title: title,
+            new_price: new_price,
+            discount: discount,
+            old_price: old_price,
+            category: category,
+        });
+
+        account.wishlistProducts.push({
+            productId: id,
+            isAddedToWishlist: true,
+        });
+
+        await account.save();
+        res.json({ success: true, message: "Product added to wishlist", data: account.wishlist });
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+const wishlistProductsList = async (req, res) => {
+    try {
+        const { accId } = req.body;
+        const account = await Account.findById(accId);
+        if (!account) {
+            return res.status(404).json({ message: "Account not found" });
+        }
+        res.json({ data: account.wishlist });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const wishlistProductsRemove = async (req, res) => {
+    try {
+        const { accId, id } = req.body;
+        const account = await Account.findById(accId);
+        if (!account) {
+            return res.status(404).json({ message: "Account not found" });
+        }
+        account.wishlist = account.wishlist.filter((product) => product.id !== id);
+        await account.save();
+        res.json({ message: "Product removed from wishlist", data: account.wishlist });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const clearAllWishlist = async (req, res) => {
+    try {
+        const { accId } = req.body;
+        const account = await Account.findById(accId);
+        if (!account) {
+            return res.status(404).json({ message: "Account not found" });
+        }
+        account.wishlist = [];
+        await account.save();
+        res.json({ message: "Wishlist cleared", success: true });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = { productLists, productsAdd, productsRemove, productsDelete, prevOrdersUpload, AddWishlistProduct, wishlistProductsList, wishlistProductsRemove, clearAllWishlist };

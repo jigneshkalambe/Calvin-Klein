@@ -5,8 +5,10 @@ import All_Product from "../Web_Data/Data";
 import FilterSection from "../Components/FilterSection";
 import ProductCard from "../Components/ProductCard";
 import context_ex from "../Components/Maincontext";
+import useGsap from "../hooks/useGsap";
 
 const Kids = () => {
+    useGsap();
     const [kids_products, setkids_Products] = useState([]);
     const { component, setComponent } = useContext(context_ex);
     useEffect(() => {
@@ -30,7 +32,7 @@ const Kids = () => {
                             {kids_products.map((val, index) => {
                                 return (
                                     <div className="col-lg-4 col-md-4 col-sm-6 col-12" key={index}>
-                                        <ProductCard items={val}></ProductCard>
+                                        <ProductCard className={"gsap-bottom-to-top"} items={val}></ProductCard>
                                     </div>
                                 );
                             })}

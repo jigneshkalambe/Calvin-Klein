@@ -12,6 +12,8 @@ import Createaccount from "../Pages/Createaccount";
 import Account from "../Components/account";
 import Overview from "../Components/Overview";
 import UserInfo from "../Components/UserInfo";
+import Wishlist from "../Components/Wishlist";
+import PageNotFound from "../Components/PageNotFound";
 function Routers() {
     const [component, setComponent] = useState();
     return (
@@ -41,6 +43,8 @@ function Routers() {
                     <Route path="/account" element={<Account />}></Route>
                     <Route path="/overview" element={<Overview />}></Route>
                     <Route path="/userinfo" element={<UserInfo />}></Route>
+                    <Route path="/wishlist" element={<Wishlist />}></Route>
+                    <Route path="*" element={<PageNotFound />}></Route>
                 </Routes>
             </context_ex.Provider>
         </>

@@ -6,7 +6,9 @@ import ScrollBtn from "../Components/ScrollBtn";
 import axios from "axios";
 import Helmet from "../Components/Helmet";
 import Coupons from "../Components/Coupons";
+import useGsap from "../hooks/useGsap";
 const Carts = () => {
+    useGsap();
     const accId = localStorage.getItem("userAccId");
     const products = useSelector((state) => state.cart.cartItems);
     const [couponCode, setCouponCode] = useState("");
@@ -66,7 +68,7 @@ const Carts = () => {
                                 <tbody className="align-middle text-center table-group-divider">
                                     {products?.map((val, ind) => {
                                         return (
-                                            <tr key={ind}>
+                                            <tr key={ind} className="gsap-stagger">
                                                 <th className="cart_table_th">{ind + 1}</th>
                                                 <th className="d-flex justify-content-center ">
                                                     <img width={100} alt="" src={val.img01}></img>
@@ -86,7 +88,7 @@ const Carts = () => {
                             </table>
                         </div>
                         <div className="col-lg-3 col-md-12 position-relative ">
-                            <div className="cartP_totalbox ps-lg-4 ps-0">
+                            <div className="cartP_totalbox ps-lg-4 ps-0 gsap-bottom-to-top">
                                 <h2>Order Summary</h2>
                                 <div>
                                     <div>

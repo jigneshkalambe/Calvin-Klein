@@ -47,6 +47,28 @@ const Accounts_Schema = mongoose.Schema({
             ],
         },
     ],
+    wishlist: [
+        {
+            id: { type: Number, required: true },
+            title: { type: String, required: false },
+            old_price: { type: Number, required: false },
+            new_price: { type: Number, required: false },
+            category: { type: String, required: false },
+            discount: { type: Number, required: false },
+            line: { type: String, required: false },
+            desc: { type: String, required: false },
+            img01: { type: String, required: false },
+            img02: { type: String, required: false },
+            img03: { type: String, required: false },
+            img04: { type: String, required: false },
+        },
+    ],
+    wishlistProducts: [
+        {
+            productId: { type: Number, required: true },
+            isAddedToWishlist: { type: Boolean, default: false, required: false },
+        },
+    ],
 });
 
 const Account = mongoose.model("Account", Accounts_Schema);

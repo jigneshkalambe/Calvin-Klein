@@ -6,13 +6,13 @@ const app = express();
 require("dotenv").config();
 
 const PORT = process.env.PORT;
-app.use(cors({ origin: "https://calvin-klein-clone.vercel.app" }));
+app.use(cors({ origin: ["https://calvin-klein-clone.vercel.app"] }));
 // app.use(cors());
 
 // mongoose
 //     .connect(`mongodb://localhost:27017/calvin_klein`)
 //     .then((res) => {
-//         console.log("db is connected");
+//         console.log("db is connected to local");
 //     })
 //     .catch((err) => {
 //         console.log(err);

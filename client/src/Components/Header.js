@@ -7,8 +7,10 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { cartAction } from "../Store/Slice/CartSlice";
 import All_Product from "../Web_Data/Data";
+import useGsap from "../hooks/useGsap";
 
 function Header() {
+    useGsap();
     const userId = localStorage.getItem("userAccId");
     const [eyeIcon, setEyeIcon] = useState("password");
     const [accData, setAccData] = useState(false);
@@ -156,6 +158,13 @@ function Header() {
         }
     };
 
+    useEffect(() => {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipTriggerList.forEach((tooltip) => {
+            new window.bootstrap.Tooltip(tooltip);
+        });
+    }, []);
+
     return (
         <div className="space-1">
             <ScrollBtn></ScrollBtn>
@@ -281,10 +290,14 @@ function Header() {
                 </div>
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4">
                     <div className="icon-box">
-                        <Link to="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">
-                            <i className="bx bx-search"></i>
+                        <span data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Search">
+                            <Link to="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">
+                                <i className="bx bx-search"></i>
+                            </Link>
+                        </span>
+                        <Link to="/wishlist" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Wishlist">
+                            <i className="bx bx-heart"></i>
                         </Link>
-
                         <div className="offcanvas  offcanvas-search offcanvas-end" data-bs-scroll="true" tabIndex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
                             <div className="offcanvas-header">
                                 <div className="input-group">
@@ -315,7 +328,7 @@ function Header() {
                                         ? headerProducts?.map((val, ind) => {
                                               return (
                                                   <div className="col-6" key={ind}>
-                                                      <div className="search-box">
+                                                      <div className="search-box gsap-bottom-to-top">
                                                           <div className="search-img-box">
                                                               <Link to={`/${val.category}/${val.id}`}>
                                                                   <img alt="" src={val.img01}></img>
@@ -340,7 +353,7 @@ function Header() {
                                           }).map((val, ind) => {
                                               return (
                                                   <div className="col-6" key={ind}>
-                                                      <div className="search-box">
+                                                      <div className="search-box gsap-bottom-to-top">
                                                           <div className="search-img-box">
                                                               <Link to={`/${val.category}/${val.id}`}>
                                                                   <img alt="" src={val.img01}></img>
@@ -432,7 +445,9 @@ function Header() {
                             </form>
                         </div>
                         <div className="cart-icon">
-                            <i data-bs-toggle="offcanvas" data-bs-target="#offcanvasDark" className="bx bx-shopping-bag"></i>
+                            <span data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Shopping Bag">
+                                <i data-bs-toggle="offcanvas" data-bs-target="#offcanvasDark" className="bx bx-shopping-bag"></i>
+                            </span>
                             <div className="offcanvas  offcanvasCart offcanvas-end " id="offcanvasDark">
                                 <div className="offcanvas-header">
                                     <h2>Shopping Bag</h2>
