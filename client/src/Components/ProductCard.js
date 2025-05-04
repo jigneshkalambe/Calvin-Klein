@@ -7,11 +7,7 @@ import { Heart } from "lucide-react";
 function ProductCard(props) {
     const { img01, img02, img03, img04, old_price, new_price, title, line, id, discount, category, desc } = props.items;
 
-    const { className, isWishListProduct } = props;
-
-    useEffect(() => {
-        console.log("ProductCard isWishListProduct", isWishListProduct);
-    }, [isWishListProduct]);
+    const { className, isWishListProduct, setReloadAPI } = props;
 
     // const isAddedToWishlist = isWishListProduct.some((items) => items.id === id);
 
@@ -19,21 +15,32 @@ function ProductCard(props) {
 
     const wishlistHandler = async () => {
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/v1/data/AddWishlistProduct`, {
-                accId,
-                id,
-                desc,
-                img01,
-                img02,
-                img03,
-                img04,
-                line,
-                title,
-                new_price,
-                discount,
-                old_price,
-                category,
-            });
+            const url = isWishListProduct ? `${process.env.REACT_APP_API_URL}/v1/data/DeleteWishlistProduct` : `${process.env.REACT_APP_API_URL}/v1/data/AddWishlistProduct`;
+
+            const payload = isWishListProduct
+                ? { accId, id }
+                : {
+                      accId,
+                      id,
+                      desc,
+                      img01,
+                      img02,
+                      img03,
+                      img04,
+                      line,
+                      title,
+                      new_price,
+                      discount,
+                      old_price,
+                      category,
+                  };
+
+            const res = await axios.post(url, payload);
+
+            setReloadAPI(true);
+            setTimeout(() => {
+                setReloadAPI(false);
+            }, 1000);
             console.log("Product added to wishlist:", res);
         } catch (error) {
             // console.error("Failed to add product to wishlist:", error);
@@ -58,17 +65,17 @@ function ProductCard(props) {
                     <Link to={`/${category}/${id}`}>
                         <img alt="" src={img01}></img>
                     </Link>
-                    <Heart
-                        data-bs-toggle="tooltip"
-                        data-bs-title={isWishListProduct ? "Remove from wishlist" : "Add to wishlist"}
-                        style={heartStyle}
-                        fill={isWishListProduct ? "red" : "none"}
-                        color={isWishListProduct ? "red" : "black"}
-                        onClick={wishlistHandler}
-                        size={35}
-                    />
                 </Link>
                 {line ? <span>{line}</span> : null}
+                <Heart
+                    data-bs-toggle="tooltip"
+                    data-bs-title={isWishListProduct ? "Remove from wishlist" : "Add to wishlist"}
+                    style={heartStyle}
+                    fill={isWishListProduct ? "red" : "none"}
+                    color={isWishListProduct ? "red" : "black"}
+                    onClick={wishlistHandler}
+                    size={35}
+                />
             </div>
             <div className="card-body">
                 <Link className="title">

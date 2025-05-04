@@ -7,6 +7,7 @@ import FilterSection from "../Components/FilterSection";
 import context_ex from "../Components/Maincontext";
 import ScrollBtn from "../Components/ScrollBtn";
 import useGsap from "../hooks/useGsap";
+import AccountDetailsContext from "../Components/AccountDetailsContext";
 
 const Men = () => {
     useGsap();
@@ -14,6 +15,8 @@ const Men = () => {
     const [Men_page, setMen_page] = useState("men");
     const { component, setComponent } = useContext(context_ex);
     const [collectionName, setCollectionName] = useState("men");
+    const { isWishListProduct, setReloadAPI } = useContext(AccountDetailsContext);
+
     useEffect(() => {
         const filtere_Product = Data.filter((filter) => filter.category === "men");
         setMen_products(filtere_Product);
@@ -90,9 +93,10 @@ const Men = () => {
                     <div className="col-lg-9">
                         <div className="row g-3">
                             {Men_products.map((val, index) => {
+                                const isAddedToWishlist = Array.isArray(isWishListProduct) && isWishListProduct.some((product) => product.productId === val.id);
                                 return (
                                     <div className="col-lg-4 col-md-4 col-sm-6 col-12" key={index}>
-                                        <ProductCard className={"gsap-bottom-to-top"} items={val}></ProductCard>
+                                        <ProductCard setReloadAPI={setReloadAPI} isWishListProduct={isAddedToWishlist} className={"gsap-bottom-to-top"} items={val}></ProductCard>
                                     </div>
                                 );
                             })}

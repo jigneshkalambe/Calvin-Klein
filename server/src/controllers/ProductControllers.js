@@ -225,6 +225,7 @@ const wishlistProductsRemove = async (req, res) => {
             return res.status(404).json({ message: "Account not found" });
         }
         account.wishlist = account.wishlist.filter((product) => product.id !== id);
+        account.wishlistProducts = account.wishlistProducts.filter((product) => product.productId !== id);
         await account.save();
         res.json({ message: "Product removed from wishlist", data: account.wishlist });
     } catch (error) {
@@ -240,6 +241,7 @@ const clearAllWishlist = async (req, res) => {
             return res.status(404).json({ message: "Account not found" });
         }
         account.wishlist = [];
+        account.wishlistProducts = [];
         await account.save();
         res.json({ message: "Wishlist cleared", success: true });
     } catch (error) {

@@ -12,7 +12,7 @@ import AccountDetailsContext from "../Components/AccountDetailsContext";
 function Home() {
     useGsap();
 
-    const { isWishListProduct } = useContext(AccountDetailsContext);
+    const { isWishListProduct, setReloadAPI } = useContext(AccountDetailsContext);
 
     const [menProducts, setMenProducts] = useState(Data);
     const [womenProducts, setWomenProducts] = useState(Data);
@@ -109,7 +109,7 @@ function Home() {
                                     const isAddedToWishlist = Array.isArray(isWishListProduct) && isWishListProduct.some((product) => product.productId === val.id);
                                     return (
                                         <div key={ind} className="px-2 mb-4">
-                                            <ProductCard className={"gsap-bottom-to-top"} isWishListProduct={isAddedToWishlist} items={val} />
+                                            <ProductCard setReloadAPI={setReloadAPI} className={"gsap-bottom-to-top"} isWishListProduct={isAddedToWishlist} items={val} />
                                         </div>
                                     );
                                 })}
@@ -126,7 +126,7 @@ function Home() {
                                     const isAddedToWishlist = Array.isArray(isWishListProduct) && isWishListProduct.some((product) => product.productId === val.id);
                                     return (
                                         <div key={ind} className="px-2 mb-4">
-                                            <ProductCard className={"gsap-bottom-to-top"} isWishListProduct={isAddedToWishlist} items={val} />
+                                            <ProductCard setReloadAPI={setReloadAPI} className={"gsap-bottom-to-top"} isWishListProduct={isAddedToWishlist} items={val} />
                                         </div>
                                     );
                                 })}

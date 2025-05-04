@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import All_Product from "../Web_Data/Data";
 import { useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import ProductCard from "./ProductCard";
 import useGsap from "../hooks/useGsap";
+import AccountDetailsContext from "./AccountDetailsContext";
 
 const ProductDetails = () => {
     useGsap();
@@ -17,6 +18,7 @@ const ProductDetails = () => {
     const [defaultImg, setDefaultImg] = useState(img01);
     const [relatedProducts, setRelatedProducts] = useState([]);
     const dispatch = useDispatch();
+    const { isWishListProduct, setReloadAPI } = useContext(AccountDetailsContext);
 
     useEffect(() => {
         window.scrollTo({
@@ -103,18 +105,6 @@ const ProductDetails = () => {
                         <div className="product_row g-3">
                             <div className="col-lg-3 col-md-3 col-sm-3 col-12">
                                 <div className="lil_Main_box">
-                                    {/* <div className="lil_box">
-                                        <img alt="" onClick={() => setDefaultImg(img01)} src={img01}></img>
-                                    </div>
-                                    <div className="lil_box">
-                                        <img alt="" onClick={() => setDefaultImg(img02)} src={img02}></img>
-                                    </div>
-                                    <div className="lil_box">
-                                        <img alt="" onClick={() => setDefaultImg(img03)} src={img03}></img>
-                                    </div>
-                                    <div className="lil_box">
-                                        <img alt="" onClick={() => setDefaultImg(img04)} src={img04}></img>
-                                    </div> */}
                                     {images.map(
                                         (img, index) =>
                                             img && (
@@ -156,9 +146,10 @@ const ProductDetails = () => {
                 </div>
                 <div className="row g-3">
                     {relatedProducts?.map((val, ind) => {
+                        const isAddedToWishlist = Array.isArray(isWishListProduct) && isWishListProduct.some((product) => product.productId === val.id);
                         return (
                             <div className="col-lg-3 col-md-6 col-sm-6 col-12" key={ind}>
-                                <ProductCard className="gsap-bottom-to-top" items={val} key={ind} />
+                                <ProductCard setReloadAPI={setReloadAPI} isWishListProduct={isAddedToWishlist} className="gsap-bottom-to-top" items={val} key={ind} />
                             </div>
                         );
                     })}

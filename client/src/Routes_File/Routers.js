@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../Pages/Home";
-import Men from "../Pages/Men";
-import Women from "../Pages/Women";
+import Men from "../Pages/MaleProducts";
+import Women from "../Pages/FemaleProducts";
 import context_ex from "../Components/Maincontext";
 import ProductDetails from "../Components/ProductDetails";
-import Kids from "../Pages/Kids";
+import Kids from "../Pages/KidsProducts";
 import Carts from "../Pages/Carts";
 import Checkout from "../Pages/Checkout";
 import Createaccount from "../Pages/Createaccount";
